@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/title_bg"
+    android:paddingRight="8.0dip">
+     <ImageButton
+            android:id="@id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/fjlb_return_01"
+            android:scaleType="center" 
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8.0dip"/>
+    <TextView android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/cxstockin_the_user"
+            android:layout_centerInParent="true"
+            android:textSize="20sp"
+            android:id="@id/title"
+            android:textColor="#ffffffff"/>
+       <ImageButton
+            android:id="@id/home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@null"
+            android:src="@drawable/fjlb_home_01"
+            android:scaleType="center" 
+            android:layout_centerVertical="true"/>
+</RelativeLayout>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <RelativeLayout
+        android:id="@+id/item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/select_white"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:id="@+id/tv_fsno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="申购单号"
+            android:textSize="20dp" />
+
+
+        <TextView
+            android:id="@+id/tv_fname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_fsno"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="财产名称"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/tv_fmodel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_fname"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="规格型号"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/tv_suppliername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_fmodel"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="供应商:"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/tv_fprice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_suppliername"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="财产单价"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/tv_fempname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_fprice"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="保管员工"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/tv_fempnumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_fempname"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="员工工号"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/tv_fdeptname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_fempnumber"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="保管部门"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/tv_faddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_fdeptname"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="保管地点"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/tv_fimage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_faddress"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="财产实图"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/tv_fnumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_fimage"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="财产编号"
+            android:textSize="20dp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/item"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/select_white">
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/btn_ok"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:padding="10dp"
+            fancy:fb_borderColor="#FFFFFF"
+            fancy:fb_borderWidth="2dp"
+            fancy:fb_defaultColor="#bbff00"
+            fancy:fb_focusColor="#8cc9f8"
+            fancy:fb_iconPosition="top"
+            fancy:fb_radius="10dp"
+            fancy:fb_text="打印条码"
+            fancy:fb_textColor="#FFFFFF"
+            fancy:fb_textSize="20dp" />
+    </RelativeLayout>
+</RelativeLayout>

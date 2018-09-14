@@ -1,0 +1,161 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:id="@+id/enter_position"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="5.0dp"
+        android:orientation="vertical"
+        android:paddingBottom="0dp">
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:gravity="left|center_vertical"
+            android:singleLine="true"
+            android:text="    生产汇报"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:background="#3F51B5"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                android:layout_gravity="center"
+                android:gravity="center">
+                <RadioGroup
+                    android:id="@+id/gendergroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/stockin"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:text="生产汇报"
+                        android:textSize="13sp" />
+
+
+                </RadioGroup>
+
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="5.64"-->
+            <!--android:gravity="right|center_vertical"-->
+            <!--android:singleLine="true"-->
+            <!--android:text="外箱条码: "-->
+            <!--android:textSize="15sp" />-->
+
+            <!--<EditText-->
+            <!--android:id="@+id/et_workcard_no"-->
+            <!--android:layout_width="237dp"-->
+            <!--android:layout_height="35dp"-->
+            <!--android:hint="@string/barcode"-->
+            <!--android:singleLine="true"-->
+            <!--android:textSize="15sp" />-->
+            <EditText
+                android:id="@+id/et_workcard_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/screport_barcode"
+                android:singleLine="true"
+                android:textSize="15sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <!--android:layout_width="match_parent wrap_content"-->
+    <!--android:layout_height="match_parent"-->
+    <!-- 如果 扫描结果被 EditText 捕获后，其它地方将无法获取 扫描结果 -->
+
+    <com.goldemperor.ScanCode.CxStockIn.widget.DelSlideListView
+        android:id="@+id/listv"
+        android:layout_width="fill_parent"
+        android:layout_height="310dp"
+        android:layout_weight="0.51"
+        android:cacheColorHint="#00000000"
+        android:drawSelectorOnTop="false"
+        android:fadingEdgeLength="0.0sp"
+        android:listSelector="@null" >
+    </com.goldemperor.ScanCode.CxStockIn.widget.DelSlideListView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/txtcount"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="5.64"
+            android:gravity="left|center_vertical"
+            android:singleLine="true"
+            android:text="记录数：0"
+            android:textSize="15sp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:padding="5dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btnget"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="更新数据"
+            android:layout_weight="1"
+            />
+        <Button
+            android:id="@+id/btnadd"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="新增"
+            android:layout_weight="1"
+            />
+
+
+        <Button
+            android:id="@+id/btnclear"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="清空"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/btnsubmit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="提交"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/btndelete"
+            android:layout_width="74dp"
+            android:layout_height="match_parent"
+            android:text="删除"
+            android:visibility="gone" android:background="@android:drawable/btn_default"></Button>
+    </LinearLayout>
+</LinearLayout>

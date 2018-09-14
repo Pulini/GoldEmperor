@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/select_white">
+
+    <com.goldemperor.Widget.ScrollListenerHorizontalScrollView
+        android:id="@+id/SV_ProcessSend_Item"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/item"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+       >
+
+            <TextView
+                android:id="@+id/TV_FSingleDispatchedProcessQty"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_Organization"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:textSize="20dp" />
+            <TextView
+                android:id="@+id/TV_MONumber"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_Department"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:textSize="20dp" />
+            <TextView
+                android:id="@+id/TV_FPlanStartDate"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:textSize="20dp" />
+            <TextView
+                android:id="@+id/TV_FPlanFinishDate"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:textSize="20dp" />
+            <TextView
+                android:id="@+id/TV_FBillNO"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:textSize="20dp" />
+            <TextView
+                android:id="@+id/TV_FMtono"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:textSize="20dp" />
+            <TextView
+                android:id="@+id/TV_ProductNumber"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:textSize="20dp" />
+            <TextView
+                android:id="@+id/TV_ProductName"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:textSize="20dp" />
+            <TextView
+                android:id="@+id/TV_PartName"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:textSize="20dp" />
+            <TextView
+                android:id="@+id/TV_ItemFNumber"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:textSize="20dp" />
+            <TextView
+                android:id="@+id/TV_ItemName"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:textSize="20dp" />
+            <TextView
+                android:id="@+id/TV_FProcessNumber"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:textSize="20dp" />
+            <TextView
+                android:id="@+id/TV_FProcessNumber1"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:textSize="20dp" />
+            <TextView
+                android:id="@+id/TV_FSize"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:textSize="20dp" />
+            <TextView
+                android:id="@+id/TV_FProcessQty"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:textSize="20dp" />
+            <TextView
+                android:id="@+id/TV_FReqPoOrderQty"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:textSize="20dp" />
+            <TextView
+                android:id="@+id/TV_FDispatchedProcessQty"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:textSize="20dp" />
+            <TextView
+                android:id="@+id/TV_FFinishQty"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:textSize="20dp" />
+            <TextView
+                android:id="@+id/TV_FReMainDispatchedProcessQty"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:textSize="20dp" />
+            <TextView
+                android:id="@+id/TV_FReMainReportQty"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:textSize="20dp" />
+
+
+        </LinearLayout>
+    </com.goldemperor.Widget.ScrollListenerHorizontalScrollView>
+</RelativeLayout>

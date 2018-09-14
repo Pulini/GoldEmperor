@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        id="@+id/tab_require"
+        icon="@drawable/require"
+        title="发起申请" />
+    <tab
+        id="@+id/tab_wait"
+        icon="@drawable/wait"
+        title="等待稽查" />
+    <tab
+        id="@+id/tab_done"
+        icon="@drawable/checkmarkok"
+        title="已签收" />
+    <tab
+        id="@+id/tab_exceptional"
+        icon="@drawable/info"
+        title="异常单号" />
+</tabs>

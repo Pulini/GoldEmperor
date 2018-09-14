@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="800dp"
+        android:layout_height="match_parent"
+        android:background="#ffffff" />
+
+    <LinearLayout
+        android:id="@+id/right"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/recycler_view"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="不合格原因"
+            android:textSize="25dp" />
+
+        <TextView
+            android:id="@+id/tv_reason"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="不合格原因"
+            android:textColor="#ff0000"
+            android:textSize="25dp" />
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:layout_width="200dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="100dp"
+            android:layout_gravity="center"
+            android:id="@+id/btn_confirm"
+            fancy:fb_borderColor="#FFFFFF"
+            fancy:fb_borderWidth="2dp"
+            fancy:fb_defaultColor="#ffbb00"
+            fancy:fb_focusColor="#8cc9f8"
+            fancy:fb_iconPosition="top"
+            fancy:fb_radius="10dp"
+            fancy:fb_text="确定"
+            fancy:fb_textColor="#FFFFFF"
+            fancy:fb_textSize="30dp"/>
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:layout_width="200dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:id="@+id/btn_cancel"
+            fancy:fb_borderColor="#FFFFFF"
+            fancy:fb_borderWidth="2dp"
+            fancy:fb_defaultColor="#00ffff"
+            fancy:fb_focusColor="#8cc9f8"
+            fancy:fb_iconPosition="top"
+            fancy:fb_radius="10dp"
+            fancy:fb_text="清空"
+            fancy:fb_textColor="#FFFFFF"
+            fancy:fb_textSize="30dp"/>
+    </LinearLayout>
+</RelativeLayout>

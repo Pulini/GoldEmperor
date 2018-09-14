@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+    Copyright 2017 Yan Zhenjie
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/select_white">
+
+
+    <TextView
+        android:id="@+id/tv_foperatorname"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="采购员:计佳"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/tv_fdate"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/tv_foperatorname"
+        android:text="日期:2017-11-25"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/tv_fnumber"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_fdate"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="询价单号:00001"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/tv_fitemname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_fnumber"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="物料名称:"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/tv_suppliername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_fitemname"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="供应商:"
+        android:textSize="15dp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_suppliername"
+        android:layout_marginTop="10dp"
+        android:background="#ffccbb">
+
+        <TextView
+            android:id="@+id/tv_fneedauxqty"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:text="数量:"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_fauxpricefor"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_fneedauxqty"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:text="单价:"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_famountfor"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_fauxpricefor"
+            android:layout_below="@+id/tv_fneedauxqty"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="金额:"
+            android:textSize="15dp" />
+
+    </RelativeLayout>
+</RelativeLayout>

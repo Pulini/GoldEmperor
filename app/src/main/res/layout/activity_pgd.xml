@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    xmlns:material="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <HorizontalScrollView
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/searchEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:hint="输入跟踪号查询"
+                android:textSize="20dp" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/btn_search"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:padding="10dp"
+                fancy:fb_borderColor="#FFFFFF"
+                fancy:fb_borderWidth="1dp"
+                fancy:fb_defaultColor="#ff5f69"
+                fancy:fb_focusColor="#ff838b"
+                fancy:fb_radius="10dp"
+                fancy:fb_text="查询"
+                fancy:fb_textColor="#FFFFFF" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/btn_today"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:padding="10dp"
+                fancy:fb_borderColor="#FFFFFF"
+                fancy:fb_borderWidth="1dp"
+                fancy:fb_defaultColor="#dd4b39"
+                fancy:fb_focusColor="#ff838b"
+                fancy:fb_radius="10dp"
+                fancy:fb_text="今日"
+                fancy:fb_textColor="#FFFFFF" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/btn_week"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:padding="10dp"
+                fancy:fb_borderColor="#FFFFFF"
+                fancy:fb_borderWidth="1dp"
+                fancy:fb_defaultColor="#3b5998"
+                fancy:fb_focusColor="#5577bd"
+                fancy:fb_radius="10dp"
+                fancy:fb_text="本周"
+                fancy:fb_textColor="#FFFFFF" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/btn_month"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:padding="10dp"
+                fancy:fb_borderColor="#FFFFFF"
+                fancy:fb_borderWidth="1dp"
+                fancy:fb_defaultColor="#ff5998"
+                fancy:fb_focusColor="#5577bd"
+                fancy:fb_radius="10dp"
+                fancy:fb_text="本月"
+                fancy:fb_textColor="#FFFFFF" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/btn_lastMonth"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:padding="10dp"
+                fancy:fb_borderColor="#FFFFFF"
+                fancy:fb_borderWidth="1dp"
+                fancy:fb_defaultColor="#3b5998"
+                fancy:fb_focusColor="#5577bd"
+                fancy:fb_radius="10dp"
+                fancy:fb_text="上月"
+                fancy:fb_textColor="#FFFFFF" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/btn_calendar"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:padding="10dp"
+                fancy:fb_borderColor="#FFFFFF"
+                fancy:fb_borderWidth="1dp"
+                fancy:fb_defaultColor="#3b5998"
+                fancy:fb_focusColor="#5577bd"
+                fancy:fb_radius="10dp"
+                fancy:fb_text="打开日历"
+                fancy:fb_textColor="#FFFFFF" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/btn_noReport"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:padding="10dp"
+                fancy:fb_borderColor="#FFFFFF"
+                fancy:fb_borderWidth="1dp"
+                fancy:fb_defaultColor="#ccaa00"
+                fancy:fb_focusColor="#5577bd"
+                fancy:fb_radius="10dp"
+                fancy:fb_text="计工未完成"
+                fancy:fb_textColor="#FFFFFF" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/btn_weiwai"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:padding="10dp"
+                fancy:fb_borderColor="#FFFFFF"
+                fancy:fb_borderWidth="1dp"
+                fancy:fb_defaultColor="#008000"
+                fancy:fb_focusColor="#5577bd"
+                fancy:fb_radius="10dp"
+                fancy:fb_text="委外(未选)"
+                fancy:fb_textColor="#FFFFFF" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/btn_isClose"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:padding="10dp"
+                fancy:fb_borderColor="#FFFFFF"
+                fancy:fb_borderWidth="1dp"
+                fancy:fb_defaultColor="#FF0000"
+                fancy:fb_focusColor="#5577bd"
+                fancy:fb_radius="10dp"
+                fancy:fb_text="不显示已关闭单子(已选)"
+                fancy:fb_textColor="#FFFFFF" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <TextView
+        android:id="@+id/tv_showDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top"
+        android:layout_marginLeft="20dp"
+        android:layout_weight="1"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="显示日期:"
+        android:textColor="#3b5998"
+        android:textSize="20dp" />
+
+    <com.goldemperor.Widget.ScrollListenerHorizontalScrollView
+        android:id="@+id/ScrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_showDate"
+        android:background="#C0FF3E"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="5">
+
+
+            <TextView
+                android:id="@+id/tv_followNumber"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:text="计划跟踪号"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tv_style"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="工厂型体"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tv_mapnumber"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="客人货号"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tv_orderCount"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="订单总量"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tv_number"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:text="派工单号"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="派工日期"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tv_gylx"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="工艺路线"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tv_materialcode"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:text="物料代码"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tv_materialname"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="物料名称"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tv_unit"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:text="单位"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tv_size35"
+                android:layout_width="500dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="尺码"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tv_count"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="合计"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tv_reportednumber"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="已汇报数量"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tv_reportednotnumber"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="已汇报未计工数"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tv_reportednotInnumber"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="已汇报未入库数"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tv_alreadynumber"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="已入库数"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tv_nonumber"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="未入库数"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tv_group"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="组别"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tv_planstarttime"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="计划开工日期"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tv_planendtime"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="计划完工日期"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tv_status"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="派工单状态"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+        </LinearLayout>
+    </com.goldemperor.Widget.ScrollListenerHorizontalScrollView>
+
+    <TextView
+        android:id="@+id/tv_tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ScrollView"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="数据载入中"
+        android:textSize="20dp" />
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tv_tip">
+
+        <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tv_countInfo"
+            android:background="#ffffff" />
+</com.scwang.smartrefresh.layout.SmartRefreshLayout>
+</RelativeLayout>

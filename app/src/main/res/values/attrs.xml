@@ -1,0 +1,198 @@
+<resources>
+    <declare-styleable name="SmoothCheckBox">
+        <attr name="duration" format="integer"/>
+        <attr name="stroke_width" format="dimension"/>
+        <attr name="color_tick" format="color"/>
+        <attr name="color_checked" format="color"/>
+        <attr name="color_unchecked" format="color"/>
+        <attr name="color_unchecked_stroke" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="BBox">
+        <attr name="check_style">
+            <enum name="fork" value="0" />
+            <enum name="hook" value="1" />
+        </attr>
+        <attr name="color_before" format="color" />
+        <attr name="color_after" format="color" />
+        <attr name="color_text" format="color" />
+        <attr name="check_text" format="string" />
+        <attr name="check_size" format="dimension" />
+        <attr name="show_border" format="boolean"/>
+        <attr name="is_circle_border" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="NiceSpinner">
+        <attr name="arrowTint" format="color" />
+        <attr name="hideArrow" format="boolean" />
+        <attr name="arrowDrawable" format="reference|color"/>
+        <attr name="dropDownListPaddingBottom" format="dimension"/>
+        <attr name="backgroundSelector" format="integer"/>
+        <attr name="textTint" format="color"/>
+    </declare-styleable>
+
+
+
+    <!-- BaseBanner -->
+
+    <!-- Banner高宽比,范围0-1,默认0.5(for LoopViewPager)-->
+    <attr name="bb_scale" format="float"/>
+
+    <!--for LoopViewPager start-->
+    <!-- 是否支持循环,默认true-->
+    <attr name="bb_isLoopEnable" format="boolean"/>
+    <!-- 滚动延时,默认5秒-->
+    <attr name="bb_delay" format="integer"/>
+    <!-- 滚动间隔,默认5秒-->
+    <attr name="bb_period" format="integer"/>
+    <!-- 是否支持自动滚动,默认true-->
+    <attr name="bb_isAutoScrollEnable" format="boolean"/>
+    <!--for LoopViewPager end-->
+
+    <!-- 设置底部背景条颜色,默认透明 -->
+    <attr name="bb_barColor" format="color"/>
+    <!-- 设置当滚动到最后一个item时是否显示底部背景条 -->
+    <attr name="bb_isBarShowWhenLast" format="boolean"/>
+    <!-- 设置底部背景条padding,单位dp -->
+    <attr name="bb_barPaddingLeft" format="dimension"/>
+    <attr name="bb_barPaddingTop" format="dimension"/>
+    <attr name="bb_barPaddingRight" format="dimension"/>
+    <attr name="bb_barPaddingBottom" format="dimension"/>
+    <!-- 设置标题文字颜色,默认"#ffffff" -->
+    <attr name="bb_textColor" format="color"/>
+    <!-- 设置标题文字大小,单位sp,默认14sp -->
+    <attr name="bb_textSize" format="dimension"/>
+    <!-- 设置是否显示标题,默认true  -->
+    <attr name="bb_isTitleShow" format="boolean"/>
+    <!-- 设置是否显示显示器,默认true  -->
+    <attr name="bb_isIndicatorShow" format="boolean"/>
+    <!-- 设置显示器位置.默认Gravity.CENTER.Gravity.CENTER时文字不显示-->
+    <attr name="bb_indicatorGravity">
+        <enum name="CENTER" value="17"/>
+        <enum name="LEFT" value="3"/>
+        <enum name="RIGHT" value="5"/>
+    </attr>
+
+    <!-- BaseIndicatorBanner -->
+    <!-- 设置显示器样式 -->
+    <attr name="bb_indicatorStyle">
+        <enum name="DRAWABLE_RESOURCE" value="0"/>
+        <enum name="CORNER_RECTANGLE" value="1"/>
+    </attr>
+    <!-- 设置显示器宽度,单位dp,默认6dp -->
+    <attr name="bb_indicatorWidth" format="dimension"/>
+    <!-- 设置显示器高度,单位dp,默认6dp -->
+    <attr name="bb_indicatorHeight" format="dimension"/>
+    <!-- 设置显示器间距,单位dp,默认6dp -->
+    <attr name="bb_indicatorGap" format="dimension"/>
+
+    <!-- 设置显示器选中颜色,默认"#ffffff" -->
+    <attr name="bb_indicatorSelectColor" format="color"/>
+    <!-- 设置显示器未选中颜色,默认"#88ffffff"  -->
+    <attr name="bb_indicatorUnselectColor" format="color"/>
+    <!-- 设置显示器圆角弧度,单位dp,默认3dp -->
+    <attr name="bb_indicatorCornerRadius" format="dimension"/>
+
+    <!-- 设置显示器选中drawable资源 -->
+    <attr name="bb_indicatorSelectRes" format="reference"/>
+    <!-- 设置显示器未选中drawable资源 -->
+    <attr name="bb_indicatorUnselectRes" format="reference"/>
+
+    <declare-styleable name="QRCodeView">
+        <!-- 扫描框距离toolbar底部的距离，默认值为90dp -->
+        <attr name="qrcv_topOffset" format="dimension|reference" />
+        <!-- 扫描框边角线的宽度，默认值为3dp -->
+        <attr name="qrcv_cornerSize" format="dimension|reference" />
+        <!-- 扫描框边角线的长度，默认值为20dp -->
+        <attr name="qrcv_cornerLength" format="dimension|reference" />
+        <!-- 扫描框边角线的颜色，默认值为@android:color/white -->
+        <attr name="qrcv_cornerColor" format="color|reference" />
+        <!-- 扫描框的宽度，默认值为200dp -->
+        <attr name="qrcv_rectWidth" format="dimension|reference" />
+        <!-- 条码扫样式描框的高度，默认值为140dp -->
+        <attr name="qrcv_barcodeRectHeight" format="dimension|reference" />
+        <!-- 除去扫描框，其余部分阴影颜色，默认值为#33FFFFFF -->
+        <attr name="qrcv_maskColor" format="color|reference" />
+        <!-- 扫描线的宽度，默认值为1dp -->
+        <attr name="qrcv_scanLineSize" format="dimension|reference" />
+        <!-- 扫描线的颜色，默认值为@android:color/white -->
+        <attr name="qrcv_scanLineColor" format="color|reference" />
+        <!-- 扫描线距离上下或者左右边框的间距，默认值为0dp -->
+        <attr name="qrcv_scanLineMargin" format="dimension|reference" />
+        <!-- 是否显示默认的图片扫描线，默认值为false -->
+        <attr name="qrcv_isShowDefaultScanLineDrawable" format="boolean" />
+        <!-- 扫描线的图片资源，默认值为null -->
+        <attr name="qrcv_customScanLineDrawable" format="reference" />
+        <!-- 扫描边框的宽度，默认值为1dp -->
+        <attr name="qrcv_borderSize" format="dimension|reference" />
+        <!-- 扫描边框的颜色，默认值为@android:color/white -->
+        <attr name="qrcv_borderColor" format="color|reference" />
+        <!-- 扫描线从顶部移动到底部的动画时间，默认值为1000 -->
+        <attr name="qrcv_animTime" format="integer" />
+        <!-- 扫描框是否垂直居中，该属性为true时会忽略qrcv_topOffset属性，默认值为false -->
+        <attr name="qrcv_isCenterVertical" format="boolean" />
+        <!-- Toolbar的高度，当有设置qrcv_isCenterVertical属性时，通过该属性来修正有Toolbar时导致扫描框垂直居中的偏差，默认值为0dp -->
+        <attr name="qrcv_toolbarHeight" format="dimension|reference" />
+        <!-- 是否是扫条形码，默认值为false -->
+        <attr name="qrcv_isBarcode" format="boolean" />
+        <!-- 扫描二维码时的提示文案，默认值为null -->
+        <attr name="qrcv_qrCodeTipText" format="string|reference" />
+        <!-- 扫描条码时的提示文案，默认值为null -->
+        <attr name="qrcv_barCodeTipText" format="string|reference" />
+        <!-- 提示文案字体大小，默认值为14sp -->
+        <attr name="qrcv_tipTextSize" format="dimension|reference" />
+        <!-- 提示文案颜色，默认值为@android:color/white -->
+        <attr name="qrcv_tipTextColor" format="color|reference" />
+        <!-- 提示文案是否在扫描框的底部，默认值为false -->
+        <attr name="qrcv_isTipTextBelowRect" format="boolean" />
+        <!-- 提示文案与扫描框之间的间距，默认值为20dp -->
+        <attr name="qrcv_tipTextMargin" format="dimension|reference" />
+        <!-- 是否把提示文案作为单行显示，默认值为false -->
+        <attr name="qrcv_isShowTipTextAsSingleLine" format="boolean" />
+        <!-- 是否显示提示文案的背景，默认值为false -->
+        <attr name="qrcv_isShowTipBackground" format="boolean" />
+        <!-- 提示文案的背景色，默认值为#22000000 -->
+        <attr name="qrcv_tipBackgroundColor" format="color|reference" />
+        <!-- 扫描线是否来回移动，默认值为true -->
+        <attr name="qrcv_isScanLineReverse" format="boolean" />
+        <!-- 是否显示默认的网格图片扫描线，默认值为false -->
+        <attr name="qrcv_isShowDefaultGridScanLineDrawable" format="boolean" />
+        <!-- 扫描线的网格图片资源，默认值为null -->
+        <attr name="qrcv_customGridScanLineDrawable" format="reference" />
+        <!-- 是否只识别扫描框区域的二维码，默认值为false -->
+        <attr name="qrcv_isOnlyDecodeScanBoxArea" format="boolean" />
+    </declare-styleable>
+
+
+
+    <declare-styleable name="BaseBanner">
+        <attr name="bb_scale"/>
+        <attr name="bb_isLoopEnable"/>
+        <attr name="bb_delay"/>
+        <attr name="bb_period"/>
+        <attr name="bb_isAutoScrollEnable"/>
+        <attr name="bb_barColor"/>
+        <attr name="bb_isBarShowWhenLast"/>
+        <attr name="bb_barPaddingLeft"/>
+        <attr name="bb_barPaddingTop"/>
+        <attr name="bb_barPaddingRight"/>
+        <attr name="bb_barPaddingBottom"/>
+        <attr name="bb_textColor"/>
+        <attr name="bb_textSize"/>
+        <attr name="bb_isTitleShow"/>
+        <attr name="bb_isIndicatorShow"/>
+        <attr name="bb_indicatorGravity"/>
+    </declare-styleable>
+
+    <declare-styleable name="BaseIndicatorBanner">
+        <attr name="bb_indicatorStyle"/>
+        <attr name="bb_indicatorWidth"/>
+        <attr name="bb_indicatorHeight"/>
+        <attr name="bb_indicatorGap"/>
+        <attr name="bb_indicatorSelectColor"/>
+        <attr name="bb_indicatorUnselectColor"/>
+        <attr name="bb_indicatorCornerRadius"/>
+        <attr name="bb_indicatorSelectRes"/>
+        <attr name="bb_indicatorUnselectRes"/>
+    </declare-styleable>
+</resources>

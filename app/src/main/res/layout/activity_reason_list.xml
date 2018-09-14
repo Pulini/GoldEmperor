@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+    Copyright 2017 Yan Zhenjie
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/select_white">
+
+        <LinearLayout
+            android:id="@+id/item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            >
+
+            <TextView
+                android:id="@+id/tv_number"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:text="1"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tv_reason"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:text="原因"
+                android:textSize="20dp" />
+
+            <CheckBox
+                android:id="@+id/ckb_serious"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="严重"
+                android:scaleY="1.2"
+                android:scaleX="1.2"
+                />
+
+            <CheckBox
+                android:id="@+id/ckb_slight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="轻微"
+                android:scaleY="1.2"
+                android:scaleX="1.2"/>
+        </LinearLayout>
+</RelativeLayout>

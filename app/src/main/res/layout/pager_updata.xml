@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fadingEdge="vertical"
+    android:background="#ffffff"
+    android:scrollbars="none">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        tools:context="com.goldemperor.StockCheck.com.goldemperor.Main.MainActivity">
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            />
+        <ImageView
+            android:id="@+id/image1Btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/recycler_view"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/img_add" />
+
+        <TextView
+            android:id="@+id/image1info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/image1Btn"
+            android:layout_marginTop="10dp"
+            android:background="#FFFFFF"
+            android:gravity="center"
+            android:text="请上传照片(需清晰识别车牌号,供应商名称，物料品名，数量)"
+            android:textSize="15sp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"/>
+
+
+        <TextView
+            android:id="@+id/info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/image1info"
+            android:layout_marginTop="30dp"
+            android:background="#FFFFFF"
+            android:text="稽查结果"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/edit_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/info"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:hint="请填写稽查结果"
+            android:textColorHint="@color/material_light_blue"
+            android:textCursorDrawable="@drawable/text_cursor_cyan"
+            android:textSize="20sp" />
+        <TextView
+            android:id="@+id/auditor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_info"
+            android:layout_marginTop="30dp"
+            android:background="#FFFFFF"
+            android:text="稽查人员"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/edit_auditor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/auditor"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:hint="请填写稽查人员"
+            android:textColorHint="@color/material_light_blue"
+            android:textCursorDrawable="@drawable/text_cursor_cyan"
+            android:textSize="20sp" />
+
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/submit"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/edit_auditor"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text="提交"
+            android:layout_marginBottom="30dp"
+            app:bootstrapBrand="success"
+            app:bootstrapSize="lg"
+            app:buttonMode="regular"
+            app:roundedCorners="true"
+            app:showOutline="false" />
+
+    </RelativeLayout>
+</ScrollView>

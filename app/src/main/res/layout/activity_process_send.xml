@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <HorizontalScrollView
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/ET_FMtono"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:hint="输入计划跟踪号"
+                android:text="J1720035"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/ET_FItemName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:hint="输入产品编号"
+                android:text=""
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/ET_ProcessNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:hint="输入工序编码"
+                android:text=""
+                android:textSize="20dp" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/btn_search"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:padding="10dp"
+                fancy:fb_borderColor="#FFFFFF"
+                fancy:fb_borderWidth="1dp"
+                fancy:fb_defaultColor="#ff5f69"
+                fancy:fb_focusColor="#ff838b"
+                fancy:fb_radius="10dp"
+                fancy:fb_text="查询"
+                fancy:fb_textColor="#FFFFFF" />
+
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!--<TextView-->
+    <!--android:id="@+id/tv_showDate"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@+id/top"-->
+    <!--android:layout_marginLeft="20dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:paddingBottom="10dp"-->
+    <!--android:paddingTop="10dp"-->
+    <!--android:text="显示日期:"-->
+    <!--android:textColor="#3b5998"-->
+    <!--android:textSize="20dp" />-->
+
+    <com.goldemperor.Widget.ScrollListenerHorizontalScrollView
+        android:id="@+id/SV_ProcessSend"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top"
+        android:background="#C0FF3E"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="5">
+
+
+            <TextView
+                android:id="@+id/TV_FSingleDispatchedProcessQty"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:text="已直推派工数量"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_Organization"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:text="生产组织"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_MONumber"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="生产订单编号"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_Department"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="生产车间"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_FPlanStartDate"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="计划开工日期"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+
+            <TextView
+                android:id="@+id/TV_FPlanFinishDate"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="计划完工日期"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_FBillNO"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="工序计划单号"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_FMtono"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="计划跟踪号"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_ProductNumber"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="产品编码"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_ProductName"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="产品名称"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_PartName"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="部件"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_ItemFNumber"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="物料编码"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_ItemName"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="物料名称"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_FProcessNumber"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="工序编码"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_FProcessNumber1"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="工序名称"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_FSize"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="尺码"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_FProcessQty"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="工序数量"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_FReqPoOrderQty"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="已委外工序数量"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_FDispatchedProcessQty"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="已派工数量"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_FFinishQty"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="已汇报数量"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_FReMainDispatchedProcessQty"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="未派未委外数量"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_FReMainReportQty"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="未汇报数量"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+
+        </LinearLayout>
+    </com.goldemperor.Widget.ScrollListenerHorizontalScrollView>
+
+    <TextView
+        android:id="@+id/tv_tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/SV_ProcessSend"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="数据载入中"
+        android:textSize="20dp"
+        android:visibility="gone" />
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/TRL_ProcessSend"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tv_tip">
+
+        <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
+            android:id="@+id/SMV_ProcessSend_Data"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tv_countInfo"
+            android:background="#ffffff" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+</RelativeLayout>

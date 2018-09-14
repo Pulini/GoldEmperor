@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#9f0102"
+    tools:context="com.goldemperor.MainActivity.MainActivity"
+    >
+    <ImageView
+        android:id="@+id/jindiLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/jinditext"
+        android:src="@drawable/jindilogo"
+        />
+
+    <TextView
+        android:id="@+id/jinditext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="金帝MES"
+        android:textColor="#FFFFFF"
+        android:textSize="25dp" />
+</RelativeLayout>

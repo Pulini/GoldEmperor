@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="my_view" />
+    <item type="id" name="comm_title">false</item>
+    <item type="id" name="back">false</item>
+    <item type="id" name="home">false</item>
+    <item type="id" name="title">false</item>
+    <item name="bgaqrcode_camera_preview" type="id" />
+</resources>

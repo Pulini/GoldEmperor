@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <RelativeLayout
+        android:id="@+id/item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/select_white">
+
+
+        <TextView
+            android:id="@+id/tv_foperatorname"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="采购员:计佳"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_fdate"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/tv_foperatorname"
+            android:text="日期:2017-11-25"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_fnumber"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_fdate"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="询价单号:00001"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_fitemname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_fnumber"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="物料名称:"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_suppliername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_fitemname"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="供应商:"
+            android:textSize="15dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_suppliername"
+            android:layout_marginTop="10dp"
+            android:background="#ffccbb">
+
+            <TextView
+                android:id="@+id/tv_fneedauxqty"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:text="数量:"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/tv_fauxpricefor"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_fneedauxqty"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:text="单价:"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/tv_famountfor"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_fneedauxqty"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/tv_fauxpricefor"
+                android:text="金额:"
+                android:textSize="15dp" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/item"
+        android:layout_marginBottom="50dp"
+        android:background="#ffffff" />
+
+    <RelativeLayout
+        android:id="@+id/bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/select_white">
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/btn_ok"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            fancy:fb_borderColor="#FFFFFF"
+            fancy:fb_borderWidth="2dp"
+            fancy:fb_defaultColor="#bbff00"
+            fancy:fb_focusColor="#8cc9f8"
+            fancy:fb_iconPosition="top"
+            fancy:fb_radius="10dp"
+            fancy:fb_text="审批"
+            fancy:fb_textColor="#FFFFFF"
+            fancy:fb_textSize="20dp" />
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/btn_cancel"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="30dp"
+            android:layout_toRightOf="@+id/btn_ok"
+            fancy:fb_borderColor="#FFFFFF"
+            fancy:fb_borderWidth="2dp"
+            fancy:fb_defaultColor="#ff0000"
+            fancy:fb_focusColor="#8cc9f8"
+            fancy:fb_iconPosition="top"
+            fancy:fb_radius="10dp"
+            fancy:fb_text="取消审批"
+            fancy:fb_textColor="#FFFFFF"
+            fancy:fb_textSize="20dp" />
+    </RelativeLayout>
+</RelativeLayout>

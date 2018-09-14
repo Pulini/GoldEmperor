@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/ET_Numbers"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:hint="请输入指令单号" />
+
+            <com.goldemperor.Widget.NiceSpinner.NiceSpinner
+                android:id="@+id/NS_SelectType"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:text="选择制程类型"
+                fancy:textTint="#333333" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/FB_Query"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                fancy:fb_borderColor="#FFFFFF"
+                fancy:fb_borderWidth="2dp"
+                fancy:fb_defaultColor="#4888FF"
+                fancy:fb_focusColor="#8cc9f8"
+                fancy:fb_iconPosition="top"
+                fancy:fb_radius="10dp"
+                fancy:fb_text="查询"
+                fancy:fb_textColor="#FFFFFF"
+                fancy:fb_textSize="15dp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#aaaaaa" />
+
+        <com.github.barteksc.pdfviewer.PDFView
+            android:id="@+id/PDFV_ShowPDF"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LL_Reading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/PB_reading"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/TV_Msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="正在读取PDF文件..."
+            android:textColor="#333333"
+            android:textSize="15sp" />
+    </LinearLayout>
+</RelativeLayout>

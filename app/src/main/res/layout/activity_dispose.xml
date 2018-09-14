@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fadingEdge="vertical"
+    android:background="#ffffff"
+    android:scrollbars="none">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        tools:context="com.goldemperor.StockCheck.com.goldemperor.Main.MainActivity">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            />
+
+        <TextView
+            android:id="@+id/info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/recycler_view"
+            android:layout_marginTop="30dp"
+            android:background="#FFFFFF"
+            android:text="稽查结果:等待稽查"
+            android:textSize="18sp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"/>
+
+        <TextView
+            android:id="@+id/auditor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/info"
+            android:layout_marginTop="30dp"
+            android:background="#FFFFFF"
+            android:text="稽查人员:等待稽查"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/exceptional"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/auditor"
+            android:layout_marginTop="30dp"
+            android:background="#FFFFFF"
+            android:text="异常因素:无"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/resultText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/exceptional"
+            android:layout_marginTop="30dp"
+            android:background="#FFFFFF"
+            android:text="处理结果"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/edit_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/resultText"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:hint="请填写处理结果"
+            android:textColorHint="@color/material_light_blue"
+            android:textCursorDrawable="@drawable/text_cursor_cyan"
+            android:textSize="20sp" />
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/submitResult"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/edit_result"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text="提交处理"
+            android:layout_marginBottom="30dp"
+            app:bootstrapBrand="success"
+            app:bootstrapSize="lg"
+            app:buttonMode="regular"
+            app:roundedCorners="true"
+            app:showOutline="false" />
+
+    </RelativeLayout>
+</ScrollView>

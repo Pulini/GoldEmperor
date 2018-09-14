@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+    Copyright 2017 Yan Zhenjie
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/select_white">
+    <RadioButton
+        android:id="@+id/RadioButton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        />
+
+    <TextView
+        android:id="@+id/tv_fcontact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/RadioButton1"
+        android:layout_marginLeft="20dp"
+        android:text="联系方式"
+        android:textSize="15dp" />
+
+
+    <TextView
+        android:id="@+id/tv_fproperty"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_fcontact"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="是否检测"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/tv_FReportPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_fproperty"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="报价"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/tv_FPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/tv_FReportPrice"
+        android:layout_below="@+id/tv_fproperty"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="议价"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/tv_FAuxPriceFor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/tv_FPrice"
+        android:layout_below="@+id/tv_fproperty"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="含检测价"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/tv_FEndDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_FReportPrice"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="报价有效止"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/tv_FNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_FEndDate"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="备注"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/tv_FNote"
+        android:layout_marginTop="10dp"
+        android:background="#ffccbb"
+        android:text=""
+        android:textSize="15dp" />
+</RelativeLayout>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/select_white">
+
+    <com.goldemperor.Widget.ScrollListenerHorizontalScrollView
+        android:id="@+id/SV_ProcessSend_Item"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/item"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+            android:id="@+id/TV_WorkshopLocation"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:textColor="#000000"
+            android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_Group"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_Cadres"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_TargetProductionToday"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_ProductionToday"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+
+            <TextView
+                android:id="@+id/TV_CompletionRate"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_MonthlyCumulativeTargetProduction"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_MonthlyCumulativeOutput"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_MonthCompletionRate"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_ActualNumber"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+
+        </LinearLayout>
+    </com.goldemperor.Widget.ScrollListenerHorizontalScrollView>
+</RelativeLayout>

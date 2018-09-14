@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#F5DEB3" >
+
+    <TextView
+        android:id="@+id/noCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="未审批"
+        android:textColor="#ffffffff"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="20dp"
+        android:textSize="20dp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/readyCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="已审批"
+        android:textColor="#ffffffff"
+        android:layout_toRightOf="@+id/noCheck"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="20dp"
+        android:textSize="20dp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/today"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="今天"
+        android:textColor="#ffffffff"
+        android:layout_below="@+id/readyCheck"
+        android:layout_marginTop="70dp"
+        android:layout_marginLeft="20dp"
+        android:textSize="20dp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/week"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="近一周"
+        android:textColor="#ffffffff"
+        android:layout_below="@+id/readyCheck"
+        android:layout_toRightOf="@+id/today"
+        android:layout_marginTop="70dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="50dp"
+        android:textSize="20dp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="近一月"
+        android:textColor="#ffffffff"
+        android:layout_below="@+id/readyCheck"
+        android:layout_toRightOf="@+id/week"
+        android:layout_marginTop="70dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="50dp"
+        android:textSize="20dp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/openCalendar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="打开日历"
+        android:textColor="#ffffffff"
+        android:layout_below="@+id/readyCheck"
+        android:layout_toRightOf="@+id/month"
+        android:layout_marginTop="70dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="50dp"
+        android:textSize="20dp"
+        android:gravity="center"/>
+</RelativeLayout>

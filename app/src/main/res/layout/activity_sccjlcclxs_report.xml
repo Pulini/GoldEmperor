@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/TV_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="50dp"
+            android:textColor="#333333"
+            android:textSize="18sp" />
+
+        <com.beardedhen.androidbootstrap.BootstrapDropDown
+            android:id="@+id/BDD_Workshop"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="120dp"
+            app:bootstrapBrand="warning"
+            app:bootstrapExpandDirection="down"
+            app:bootstrapSize="lg"
+            app:bootstrapText="厂名"
+            app:dropdownResource="@array/bootstrap_dropdown"
+            app:roundedCorners="true" />
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/btn_select_time"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:padding="10dp"
+            fancy:fb_borderColor="#FFFFFF"
+            fancy:fb_borderWidth="1dp"
+            fancy:fb_defaultColor="#dd4b39"
+            fancy:fb_focusColor="#ff838b"
+            fancy:fb_radius="10dp"
+            fancy:fb_text="选择日期"
+            fancy:fb_textColor="#FFFFFF" />
+
+
+    </RelativeLayout>
+
+    <com.goldemperor.Widget.ScrollListenerHorizontalScrollView
+        android:id="@+id/SV_DayWork"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#C0FF3E"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="5">
+
+
+            <TextView
+                android:id="@+id/TV_WorkshopLocation"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:text="车间地点"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_Group"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="组别"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_Cadres"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="带线干部"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_TargetProductionToday"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="今日目标产量"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_ProductionToday"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="今日产量"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+
+            <TextView
+                android:id="@+id/TV_CompletionRate"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="完成率"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_MonthlyCumulativeTargetProduction"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:text="月累计目标产量"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_MonthlyCumulativeOutput"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="月累计产量"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_MonthCompletionRate"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="月完成率"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TV_ActualNumber"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:text="实际人数"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+
+
+        </LinearLayout>
+    </com.goldemperor.Widget.ScrollListenerHorizontalScrollView>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/TRL_DayWork"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tv_tip">
+
+
+        <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
+            android:id="@+id/SMV_DayWork_Data"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tv_countInfo"
+            android:background="#ffffff" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+</LinearLayout>

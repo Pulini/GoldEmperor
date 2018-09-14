@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LL_BKG"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="left|center"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/TV_FBillNO"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="单号"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/TV_FBillDate"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="日期"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/TV_FOrganizeName"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:text="报产量组织名称"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/TV_FDeptName"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="报产量组别"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/TV_FScmoNO"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="派工单号"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/TV_FProcessFlowName"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="制程"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/TV_FItemNo"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="货号"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/TV_FProcessNumber"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="工序编号"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/TV_FProcessName"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="工序名称"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/TV_FQty"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="数量"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/TV_FPrice"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="单价"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/TV_FAmount"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="金额"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/TV_FSmallBillSubsidy"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="小单补贴"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/TV_FamountSum"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="金额合计"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/TV_FSmallBillSubsidyPCT"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="小单补贴百分比"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#bbbbbb" />
+</LinearLayout>
