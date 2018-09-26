@@ -21,13 +21,18 @@ import android.widget.Toast;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.goldemperor.PgdActivity.NameListResult;
 import com.goldemperor.Utils.LOG;
+import com.goldemperor.Widget.lemonhello.LemonHello;
+import com.goldemperor.Widget.lemonhello.LemonHelloAction;
+import com.goldemperor.Widget.lemonhello.LemonHelloInfo;
+import com.goldemperor.Widget.lemonhello.LemonHelloView;
+import com.goldemperor.Widget.lemonhello.interfaces.LemonHelloActionDelegate;
 import com.google.gson.Gson;
 import com.goldemperor.MainActivity.Utils;
 import com.goldemperor.R;
 import com.goldemperor.MainActivity.define;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
-import com.tapadoo.alerter.Alerter;
+
 import com.tencent.bugly.crashreport.CrashReport;
 
 import org.xutils.common.Callback;
@@ -189,24 +194,33 @@ public class LoginActivity extends AppCompatActivity {
                 LOG.e("VerNum:"+VerNum);
                 LOG.e("vn:"+vn);
                 if (edit_phone.getText().toString().trim().isEmpty()) {
-                    Alerter.create(act)
-                            .setTitle("提示")
-                            .setText("请输入手机号!")
-                            .setBackgroundColorRes(R.color.colorAlert)
-                            .show();
+
+                    LemonHello.getInformationHello("提示", "请输入手机号!")
+                            .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                                @Override
+                                public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                    helloView.hide();
+                                }
+                            })).show(act);
 
                 } else if (edit_password.getText().toString().isEmpty()) {
-                    Alerter.create(act)
-                            .setTitle("提示")
-                            .setText("请输入密码!")
-                            .setBackgroundColorRes(R.color.colorAlert)
-                            .show();
+
+                    LemonHello.getInformationHello("提示", "请输入密码!")
+                            .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                                @Override
+                                public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                    helloView.hide();
+                                }
+                            })).show(act);
                 } else if (!VerNum.equals(vn) && !VerNum.equals("999999")) {
-                    Alerter.create(act)
-                            .setTitle("提示")
-                            .setText("验证码错误!")
-                            .setBackgroundColorRes(R.color.colorAlert)
-                            .show();
+
+                    LemonHello.getErrorHello("提示", "验证码错误!")
+                            .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                                @Override
+                                public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                    helloView.hide();
+                                }
+                            })).show(act);
                 } else {
                     login.setText("登陆中...");
                     Gson g = new Gson();
@@ -297,11 +311,14 @@ public class LoginActivity extends AppCompatActivity {
                                 // 显示
                                 normalDialog.show();
                             } else {
-                                Alerter.create(act)
-                                        .setTitle("提示")
-                                        .setText("密码错误")
-                                        .setBackgroundColorRes(R.color.colorAlert)
-                                        .show();
+
+                                LemonHello.getErrorHello("提示", "密码错误!")
+                                        .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                                            @Override
+                                            public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                                helloView.hide();
+                                            }
+                                        })).show(act);
                                 login.setText("登录");
                             }
                         }

@@ -49,7 +49,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import mehdi.sakout.fancybuttons.FancyButton;
+import com.goldemperor.Widget.fancybuttons.FancyButton;
 
 import static com.goldemperor.PzActivity.PgdActivity.selectWorkCardPlan;
 

@@ -319,6 +319,8 @@ public class define {
     public static String SubmitScWorkCardBarCode2ProcessOutput = "SubmitScWorkCardBarCode2ProcessOutput";
     public static String JudgeEmpNumber = "JudgeEmpNumber";
     public static String GetProcessFlowInfo = "GetProcessFlowInfo";
+    public static String GetDeptment = "GetDeptment";
+    public static String Submit2PrdDayReportNote = "Submit2PrdDayReportNote";
 
 
 

@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
-import com.github.barteksc.pdfviewer.util.FitPolicy;
+//import com.github.barteksc.pdfviewer.util.FitPolicy;
 import com.goldemperor.R;
 import com.goldemperor.Utils.LOG;
 import com.goldemperor.Utils.PdfUtil;
@@ -107,7 +107,7 @@ public class PdfActivity extends Activity implements OnPageChangeListener {
                                                     .enableAnnotationRendering(true)
                                                     .scrollHandle(new DefaultScrollHandle(mActivity))
                                                     .spacing(10)
-                                                    .pageFitPolicy(FitPolicy.BOTH)
+//                                                    .pageFitPolicy(FitPolicy.BOTH)
                                                     .load();
                                         }
                                         @Override

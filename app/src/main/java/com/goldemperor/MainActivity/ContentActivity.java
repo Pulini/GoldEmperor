@@ -46,9 +46,15 @@ import com.goldemperor.Utils.WebServiceUtils;
 import com.goldemperor.ScanCode.WarehouseAllocation.WarehouseAllocationActivity;
 import com.goldemperor.Widget.SuperDialog;
 import com.goldemperor.Widget.banner.anim.select.ZoomInEnter;
+import com.goldemperor.Widget.fancybuttons.FancyButton;
+import com.goldemperor.Widget.lemonhello.LemonHello;
+import com.goldemperor.Widget.lemonhello.LemonHelloAction;
+import com.goldemperor.Widget.lemonhello.LemonHelloInfo;
+import com.goldemperor.Widget.lemonhello.LemonHelloView;
+import com.goldemperor.Widget.lemonhello.interfaces.LemonHelloActionDelegate;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.tapadoo.alerter.Alerter;
+
 //import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.common.Callback;
@@ -67,7 +73,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import mehdi.sakout.fancybuttons.FancyButton;
+
 
 import static com.goldemperor.ScanCode.CxStockIn.CxStockInActivity.IsNeedCheckVersion;
 
@@ -113,6 +119,7 @@ public class ContentActivity extends AppCompatActivity {
     private FancyButton btn_WorkStatistics;
     private FancyButton btn_ProcessReportInstock;
     private FancyButton btn_ProcessInformation;
+    private FancyButton btn_UnFinished;
 
     private Button waiBtn;
 
@@ -263,6 +270,9 @@ public class ContentActivity extends AppCompatActivity {
 
         btn_ProcessInformation = (FancyButton) findViewById(R.id.btn_ProcessInformation);
         btn_ProcessInformation.setIconResource(R.drawable.btn_order);
+
+        btn_UnFinished = (FancyButton) findViewById(R.id.btn_UnFinished);
+        btn_UnFinished.setIconResource(R.drawable.btn_order);
 
 //        btn_SizeBarCode = (FancyButton) findViewById(R.id.btn_SizeBarCode);
 //        btn_SizeBarCode.setIconResource(R.drawable.btn_order);
@@ -509,6 +519,14 @@ public class ContentActivity extends AppCompatActivity {
             }
         });
 
+        btn_UnFinished.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(mContext, UnfinishedReportActivity.class);
+                mContext.startActivity(i);
+            }
+        });
+
         netStatus = (TextView) findViewById(R.id.netStatus);
         netStatus.setText("当前网络:外网");
         define.isWaiNet = true;
@@ -522,6 +540,10 @@ public class ContentActivity extends AppCompatActivity {
         waiBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(define.Net1.equals(define.IP799999)){
+                    dataEditor.putString(define.SharedPassword,define.NONE);
+                    dataEditor.commit();
+                }
                 define.isWaiNet = true;
                 define.Net1 = define.IP1718341;
                 define.Net2 = define.IP1718012;
@@ -552,6 +574,10 @@ public class ContentActivity extends AppCompatActivity {
         ceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!define.Net1.equals(define.IP799999)){
+                    dataEditor.putString(define.SharedPassword,define.NONE);
+                    dataEditor.commit();
+                }
                 define.isWaiNet = false;
 
                 define.Net1 = define.IP799999;
@@ -561,7 +587,6 @@ public class ContentActivity extends AppCompatActivity {
                 define.Net4 = define.IP798083;
 
                 define.isCeNet = true;
-
                 UpdataAPK();
                 netStatus.setText("当前网络:测试库");
             }
@@ -690,11 +715,14 @@ public class ContentActivity extends AppCompatActivity {
             public void onSuccess(final String result) {
                 LOG.e("权限=" + result);
                 if (result.contains("false")) {
-                    Alerter.create(act)
-                            .setTitle("提示")
-                            .setText("你没有权限,请联系管理员开通权限")
-                            .setBackgroundColorRes(R.color.colorAlert)
-                            .show();
+
+                    LemonHello.getErrorHello("提示", "你没有权限,请联系管理员开通权限")
+                            .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                                @Override
+                                public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                    helloView.hide();
+                                }
+                            })).show(act);
                 } else if (result.contains("true")) {
                     if (controlID.equals("1050101")) {
                         startActivity(new Intent(mContext, com.goldemperor.ScanCode.CxStockIn.CxStockInActivity.class));
@@ -713,11 +741,14 @@ public class ContentActivity extends AppCompatActivity {
                         startActivity(new Intent(mContext, ProcessInformationActivity.class));
                     }
                 } else {
-                    Alerter.create(act)
-                            .setTitle("提示")
-                            .setText("服务器返回失败")
-                            .setBackgroundColorRes(R.color.colorAlert)
-                            .show();
+
+                    LemonHello.getErrorHello("提示", "服务器返回失败")
+                            .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                                @Override
+                                public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                    helloView.hide();
+                                }
+                            })).show(act);
 
                 }
             }
@@ -727,11 +758,14 @@ public class ContentActivity extends AppCompatActivity {
             public void onError(Throwable ex, boolean isOnCallback) {
 
                 Log.e("jindi", ex.toString());
-                Alerter.create(act)
-                        .setTitle("提示")
-                        .setText("网络错误")
-                        .setBackgroundColorRes(R.color.colorAlert)
-                        .show();
+
+                LemonHello.getErrorHello("提示", "网络错误")
+                        .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                            @Override
+                            public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                helloView.hide();
+                            }
+                        })).show(act);
 
             }
 

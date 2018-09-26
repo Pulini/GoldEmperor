@@ -18,12 +18,16 @@ import android.widget.TextView;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.goldemperor.MainActivity.GsonFactory;
+import com.goldemperor.Widget.lemonhello.LemonHello;
+import com.goldemperor.Widget.lemonhello.LemonHelloAction;
+import com.goldemperor.Widget.lemonhello.LemonHelloInfo;
+import com.goldemperor.Widget.lemonhello.LemonHelloView;
+import com.goldemperor.Widget.lemonhello.interfaces.LemonHelloActionDelegate;
+import com.goldemperor.Widget.lovelydialog.LovelyTextInputDialog;
 import com.google.gson.Gson;
 import com.goldemperor.StockCheck.sql.stock_check;
 import com.goldemperor.R;
 import com.goldemperor.MainActivity.define;
-import com.tapadoo.alerter.Alerter;
-import com.yarolegovich.lovelydialog.LovelyTextInputDialog;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -135,11 +139,15 @@ public class LookActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (info.getText().toString().contains("等待稽查")) {
-                    Alerter.create(act)
-                            .setTitle("提示")
-                            .setText("无法签收,本单号尚未上传稽查照片")
-                            .setBackgroundColorRes(R.color.colorAlert)
-                            .show();
+
+                    LemonHello.getErrorHello("提示", "无法签收,本单号尚未上传稽查照片")
+                            .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                                @Override
+                                public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                    helloView.hide();
+                                }
+                            }))
+                            .show(act);
                 } else {
                     RequestParams params = new RequestParams(define.Done);
                     params.addQueryStringParameter("id", bundle.getString("id"));
@@ -188,12 +196,15 @@ public class LookActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (info.getText().toString().contains("等待稽查")) {
+                    LemonHello.getErrorHello("提示", "无法报告异常,本单号尚未上传稽查照片")
+                            .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                                @Override
+                                public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                    helloView.hide();
+                                }
+                            }))
+                            .show(act);
 
-                    Alerter.create(act)
-                            .setTitle("提示")
-                            .setText("无法报告异常,本单号尚未上传稽查照片")
-                            .setBackgroundColorRes(R.color.colorAlert)
-                            .show();
                 } else {
 
                     new LovelyTextInputDialog(mContext, R.style.EditTextTintTheme)

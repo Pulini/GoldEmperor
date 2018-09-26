@@ -27,7 +27,7 @@ import com.goldemperor.MainActivity.define;
 import com.goldemperor.PgdActivity.MaterialActivity;
 import com.goldemperor.R;
 import com.google.gson.Gson;
-import com.tapadoo.alerter.Alerter;
+
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
 
 import org.xutils.common.Callback;

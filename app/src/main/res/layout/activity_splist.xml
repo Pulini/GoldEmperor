@@ -119,7 +119,7 @@
         android:layout_centerHorizontal="true"
         android:background="@drawable/select_white">
 
-        <mehdi.sakout.fancybuttons.FancyButton
+        <com.goldemperor.Widget.fancybuttons.FancyButton
             android:id="@+id/btn_ok"
             android:layout_width="100dp"
             android:layout_height="50dp"
@@ -133,7 +133,7 @@
             fancy:fb_textColor="#FFFFFF"
             fancy:fb_textSize="20dp" />
 
-        <mehdi.sakout.fancybuttons.FancyButton
+        <com.goldemperor.Widget.fancybuttons.FancyButton
             android:id="@+id/btn_cancel"
             android:layout_width="100dp"
             android:layout_height="50dp"

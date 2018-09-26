@@ -40,12 +40,17 @@ import com.goldemperor.MainActivity.TakePhotoHelper;
 import com.goldemperor.MainActivity.Utils;
 import com.goldemperor.MainActivity.define;
 import com.goldemperor.Widget.SuperDialog;
+import com.goldemperor.Widget.lemonhello.LemonHello;
+import com.goldemperor.Widget.lemonhello.LemonHelloAction;
+import com.goldemperor.Widget.lemonhello.LemonHelloInfo;
+import com.goldemperor.Widget.lemonhello.LemonHelloView;
+import com.goldemperor.Widget.lemonhello.interfaces.LemonHelloActionDelegate;
 import com.goldemperor.Widget.takephoto.app.TakePhotoFragment;
 import com.goldemperor.Widget.takephoto.model.TResult;
 import com.google.gson.Gson;
 
 
-import com.tapadoo.alerter.Alerter;
+
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -190,19 +195,27 @@ public class UpdataView extends TakePhotoFragment {
 
                 dataEditor.commit();
                 if (mUpdataImageList.size()==0) {
-                    Alerter.create(act)
-                            .setTitle("提示")
-                            .setText("请至少上传一张图片")
-                            .setBackgroundColorRes(R.color.colorAlert)
-                            .show();
+
+                    LemonHello.getWarningHello("提示", "请至少上传一张图片")
+                            .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                                @Override
+                                public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                    helloView.hide();
+                                }
+                            }))
+                            .show(act);
                 }
                 else if (edit_info.getText().toString().isEmpty()) {
 
-                    Alerter.create(act)
-                            .setTitle("提示")
-                            .setText("请输入情况说明")
-                            .setBackgroundColorRes(R.color.colorAlert)
-                            .show();
+
+                    LemonHello.getWarningHello("提示", "请输入情况说明")
+                            .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                                @Override
+                                public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                    helloView.hide();
+                                }
+                            }))
+                            .show(act);
                 } else {
                     String checkId="0";
                     RequestParams params = new RequestParams(define.SubmitCheck);
@@ -247,11 +260,15 @@ public class UpdataView extends TakePhotoFragment {
                         @Override
                         public void onError(Throwable ex, boolean isOnCallback) {
                             Log.e("jindi",ex.toString());
-                            Alerter.create(act)
-                                    .setTitle("提示")
-                                    .setText("网络错误，单号提交失败")
-                                    .setBackgroundColorRes(R.color.colorAlert)
-                                    .show();
+
+                            LemonHello.getErrorHello("提示", "网络错误，单号提交失败")
+                                    .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                                        @Override
+                                        public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                            helloView.hide();
+                                        }
+                                    }))
+                                    .show(act);
                         }
 
                         //主动调用取消请求的回调方法
@@ -331,11 +348,16 @@ public class UpdataView extends TakePhotoFragment {
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 Log.e("jindi",ex.toString());
-                Alerter.create(act)
-                        .setTitle("提示")
-                        .setText("网络错误，单号提交失败")
-                        .setBackgroundColorRes(R.color.colorAlert)
-                        .show();
+
+
+                LemonHello.getErrorHello("提示", "网络错误，单号提交失败")
+                        .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                            @Override
+                            public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                helloView.hide();
+                            }
+                        }))
+                        .show(act);
             }
 
             //主动调用取消请求的回调方法

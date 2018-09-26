@@ -9,8 +9,13 @@ import com.goldemperor.GylxActivity.GylxActivity;
 import com.goldemperor.MainActivity.MyApplication;
 import com.goldemperor.MainActivity.define;
 import com.goldemperor.R;
+import com.goldemperor.Widget.lemonhello.LemonHello;
+import com.goldemperor.Widget.lemonhello.LemonHelloAction;
+import com.goldemperor.Widget.lemonhello.LemonHelloInfo;
+import com.goldemperor.Widget.lemonhello.LemonHelloView;
+import com.goldemperor.Widget.lemonhello.interfaces.LemonHelloActionDelegate;
 import com.goldemperor.model.ProcessSendModel;
-import com.tapadoo.alerter.Alerter;
+
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xutils.common.Callback;
@@ -81,11 +86,15 @@ public interface OnCheckPermissionsListener{
                 } else if (result.contains("true")) {
                     PR.PermissionsResult(true);
                 } else {
-                    Alerter.create(act)
-                            .setTitle("提示")
-                            .setText("服务器返回失败")
-                            .setBackgroundColorRes(R.color.colorAlert)
-                            .show();
+
+                    LemonHello.getErrorHello("提示", "服务器返回失败")
+                            .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                                @Override
+                                public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                    helloView.hide();
+                                }
+                            }))
+                            .show(act);
                 }
             }
 
@@ -93,11 +102,15 @@ public interface OnCheckPermissionsListener{
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
 //                PR.PermissionsResult(false);
-                Alerter.create(act)
-                        .setTitle("提示")
-                        .setText("网络错误")
-                        .setBackgroundColorRes(R.color.colorAlert)
-                        .show();
+
+                LemonHello.getErrorHello("提示", "网络错误")
+                        .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                            @Override
+                            public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                helloView.hide();
+                            }
+                        }))
+                        .show(act);
 
             }
 

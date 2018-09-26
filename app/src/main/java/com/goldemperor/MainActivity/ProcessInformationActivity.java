@@ -18,7 +18,7 @@ import android.widget.Toast;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
-import com.github.barteksc.pdfviewer.util.FitPolicy;
+//import com.github.barteksc.pdfviewer.util.FitPolicy;
 import com.goldemperor.PgdActivity.ProcessWorkCardPlanEntry;
 import com.goldemperor.R;
 import com.goldemperor.StaffWorkStatistics.StaffWorkStatisticsActivity;
@@ -26,6 +26,7 @@ import com.goldemperor.Utils.LOG;
 import com.goldemperor.Utils.PdfUtil;
 import com.goldemperor.Utils.WebServiceUtils;
 import com.goldemperor.Widget.NiceSpinner.NiceSpinner;
+import com.goldemperor.Widget.fancybuttons.FancyButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -42,7 +43,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import mehdi.sakout.fancybuttons.FancyButton;
 
 /**
  * File Name : ProcessInformationActivity
@@ -212,7 +212,7 @@ public class ProcessInformationActivity extends Activity implements OnPageChange
                                                     .enableAnnotationRendering(true)
                                                     .scrollHandle(new DefaultScrollHandle(mActivity))
                                                     .spacing(10)
-                                                    .pageFitPolicy(FitPolicy.BOTH)
+//                                                    .pageFitPolicy(FitPolicy.BOTH)
                                                     .load();
                                         }
 

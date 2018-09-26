@@ -25,7 +25,7 @@
             android:hint="输入跟踪号查询"
             android:textSize="20dp" />
 
-        <mehdi.sakout.fancybuttons.FancyButton
+        <com.goldemperor.Widget.fancybuttons.FancyButton
             android:id="@+id/btn_search"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
             fancy:fb_text="查询"
             fancy:fb_textColor="#FFFFFF" />
 
-        <mehdi.sakout.fancybuttons.FancyButton
+        <com.goldemperor.Widget.fancybuttons.FancyButton
             android:id="@+id/btn_today"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
             fancy:fb_text="今日"
             fancy:fb_textColor="#FFFFFF" />
 
-        <mehdi.sakout.fancybuttons.FancyButton
+        <com.goldemperor.Widget.fancybuttons.FancyButton
             android:id="@+id/btn_week"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
             fancy:fb_text="本周"
             fancy:fb_textColor="#FFFFFF" />
 
-        <mehdi.sakout.fancybuttons.FancyButton
+        <com.goldemperor.Widget.fancybuttons.FancyButton
             android:id="@+id/btn_month"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
             fancy:fb_text="本月"
             fancy:fb_textColor="#FFFFFF" />
 
-        <mehdi.sakout.fancybuttons.FancyButton
+        <com.goldemperor.Widget.fancybuttons.FancyButton
             android:id="@+id/btn_lastMonth"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
             fancy:fb_text="上月"
             fancy:fb_textColor="#FFFFFF" />
 
-        <mehdi.sakout.fancybuttons.FancyButton
+        <com.goldemperor.Widget.fancybuttons.FancyButton
             android:id="@+id/btn_calendar"
             android:layout_width="160dp"
             android:layout_height="wrap_content"

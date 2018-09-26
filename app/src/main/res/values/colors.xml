@@ -185,4 +185,7 @@
 
     <color name="popup">#F5DEB3</color>
     <color name="light_gray">#fff5f5f5</color>
+
+
+    <color name="ld_textInputError">#F44336</color>
 </resources>

@@ -37,12 +37,18 @@ import com.goldemperor.Utils.LOG;
 import com.goldemperor.Utils.WebServiceUtils;
 import com.goldemperor.Widget.ScrollListenerHorizontalScrollView;
 import com.goldemperor.Widget.SublimePickerFragment;
+import com.goldemperor.Widget.fancybuttons.FancyButton;
+import com.goldemperor.Widget.lemonhello.LemonHello;
+import com.goldemperor.Widget.lemonhello.LemonHelloAction;
+import com.goldemperor.Widget.lemonhello.LemonHelloInfo;
+import com.goldemperor.Widget.lemonhello.LemonHelloView;
+import com.goldemperor.Widget.lemonhello.interfaces.LemonHelloActionDelegate;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-import com.tapadoo.alerter.Alerter;
+
 
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge;
@@ -70,7 +76,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import mehdi.sakout.fancybuttons.FancyButton;
+
 
 
 /**
@@ -208,7 +214,7 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
                     btn_isClose.setBackgroundColor(getResources().getColor(R.color.blue));
                 } else {
                     isClose = true;
-                    btn_isClose.setText("不显示已关闭单子(已选)");
+                     btn_isClose.setText("不显示已关闭单子(已选)");
                     btn_isClose.setBackgroundColor(getResources().getColor(R.color.red));
                 }
                 tv_tip.setVisibility(View.VISIBLE);
@@ -974,12 +980,15 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
 
                 } else {
                     readyPush = false;
-                    Alerter.create(act)
-                            .setTitle("提示")
-                            .setText("派工单下推失败")
-                            .setBackgroundColorRes(R.color.colorAlert)
-                            .show();
 
+                    LemonHello.getErrorHello("提示", "派工单下推失败")
+                            .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                                @Override
+                                public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                    helloView.hide();
+                                }
+                            }))
+                            .show(act);
                 }
             }
 

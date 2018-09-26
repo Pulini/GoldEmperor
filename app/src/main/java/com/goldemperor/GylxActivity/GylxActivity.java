@@ -31,8 +31,14 @@ import com.goldemperor.PgdActivity.RouteEntry;
 import com.goldemperor.PgdActivity.RouteResult;
 import com.goldemperor.R;
 import com.goldemperor.Utils.LOG;
+import com.goldemperor.Widget.fancybuttons.FancyButton;
+import com.goldemperor.Widget.lemonhello.LemonHello;
+import com.goldemperor.Widget.lemonhello.LemonHelloAction;
+import com.goldemperor.Widget.lemonhello.LemonHelloInfo;
+import com.goldemperor.Widget.lemonhello.LemonHelloView;
+import com.goldemperor.Widget.lemonhello.interfaces.LemonHelloActionDelegate;
 import com.google.gson.Gson;
-import com.tapadoo.alerter.Alerter;
+
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator;
@@ -52,7 +58,7 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import mehdi.sakout.fancybuttons.FancyButton;
+
 
 /**
  * Created by Nova on 2018/2/28.
@@ -535,11 +541,14 @@ public class GylxActivity extends AppCompatActivity {
             @Override
             public void onSuccess(final String result) {
                 if (result.contains("false")) {
-                    Alerter.create(act)
-                            .setTitle("提示")
-                            .setText("你没有权限,请联系管理员开通权限")
-                            .setBackgroundColorRes(R.color.colorAlert)
-                            .show();
+
+                    LemonHello.getErrorHello("提示", "你没有权限,请联系管理员开通权限")
+                            .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                                @Override
+                                public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                    helloView.hide();
+                                }
+                            })).show(act);
                 } else if (result.contains("true")) {
                     if (controlID.equals("401040303")) {
                         DeletePrdRouteEntryByFID(adapterPosition, RouteResultList.get(adapterPosition).getFid());
@@ -556,11 +565,15 @@ public class GylxActivity extends AppCompatActivity {
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 Log.e("jindi", ex.toString());
-                Alerter.create(act)
-                        .setTitle("提示")
-                        .setText("网络错误")
-                        .setBackgroundColorRes(R.color.colorAlert)
-                        .show();
+
+                LemonHello.getErrorHello("提示", "网络错误")
+                        .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                            @Override
+                            public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                helloView.hide();
+                            }
+                        }))
+                        .show(act);
 
             }
 

@@ -29,8 +29,7 @@
                 android:layout_marginLeft="50dp"
                 android:textColor="#333333"
                 android:textSize="18sp" />
-
-            <mehdi.sakout.fancybuttons.FancyButton
+            <com.goldemperor.Widget.fancybuttons.FancyButton
                 android:id="@+id/btn_select_time"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
@@ -69,7 +68,7 @@
 
     </LinearLayout>
 
-    <com.github.chrisbanes.photoview.PhotoView
+    <com.goldemperor.Widget.photoview.PhotoView
         android:id="@+id/PV_Show"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

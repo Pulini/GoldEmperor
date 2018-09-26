@@ -47,8 +47,7 @@
                 android:hint="输入工序编码"
                 android:text=""
                 android:textSize="20dp" />
-
-            <mehdi.sakout.fancybuttons.FancyButton
+            <com.goldemperor.Widget.fancybuttons.FancyButton
                 android:id="@+id/btn_search"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"

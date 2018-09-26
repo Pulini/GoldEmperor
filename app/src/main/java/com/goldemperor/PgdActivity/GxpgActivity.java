@@ -36,10 +36,16 @@ import com.goldemperor.R;
 import com.goldemperor.Utils.LOG;
 import com.goldemperor.Utils.WebServiceUtils;
 import com.goldemperor.Widget.ScrollListenerHorizontalScrollView;
+import com.goldemperor.Widget.fancybuttons.FancyButton;
+import com.goldemperor.Widget.lemonhello.LemonHello;
+import com.goldemperor.Widget.lemonhello.LemonHelloAction;
+import com.goldemperor.Widget.lemonhello.LemonHelloInfo;
+import com.goldemperor.Widget.lemonhello.LemonHelloView;
+import com.goldemperor.Widget.lemonhello.interfaces.LemonHelloActionDelegate;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
-import com.tapadoo.alerter.Alerter;
+
 
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge;
@@ -77,7 +83,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
-import mehdi.sakout.fancybuttons.FancyButton;
+
 
 import static com.goldemperor.PgdActivity.GxpgAdapter.gxpgActivity;
 import static com.goldemperor.PgdActivity.PgdActivity.selectWorkCardPlan;
@@ -1762,11 +1768,15 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
                     e.printStackTrace();
                 }
                 if (result.contains("OK") || result.contains("success")) {
-                    Alerter.create(act)
-                            .setTitle("提示")
-                            .setText("提交成功")
-                            .setBackgroundColorRes(R.color.colorAlert)
-                            .show();
+
+                    LemonHello.getSuccessHello("提示", "提交成功")
+                            .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                                @Override
+                                public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                    helloView.hide();
+                                }
+                            }))
+                            .show(act);
                     for (int i = 0; i < sc_ProcessWorkCardEntryList.size(); i++) {
                         reportNumberList.set(i,(int)sc_ProcessWorkCardEntryList.get(i).getFqty());
                     }
@@ -1775,11 +1785,15 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
                     selectWorkCardPlan.setPlanStatus("已排");
                     hasCloseGx = false;
                 } else {
-                    Alerter.create(act)
-                            .setTitle("提示")
-                            .setText("提交失败")
-                            .setBackgroundColorRes(R.color.colorAlert)
-                            .show();
+
+                    LemonHello.getErrorHello("提示", "提交失败")
+                            .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                                @Override
+                                public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                    helloView.hide();
+                                }
+                            }))
+                            .show(act);
 
                 }
             }
@@ -1790,11 +1804,15 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
                 Log.e("jindi", "saveData:" + ex.getMessage());
                 tv_tip.setVisibility(View.VISIBLE);
                 tv_tip.setText("提交失败,请联系管理员");
-                Alerter.create(act)
-                        .setTitle("提示")
-                        .setText("提交失败,请联系管理员")
-                        .setBackgroundColorRes(R.color.colorAlert)
-                        .show();
+
+                LemonHello.getErrorHello("提示", "提交失败,请联系管理员")
+                        .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                            @Override
+                            public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                helloView.hide();
+                            }
+                        }))
+                        .show(act);
             }
 
             //主动调用取消请求的回调方法
@@ -1866,11 +1884,15 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
                                 String ReturnType = jb.getString("ReturnType");
                                 String ReturnMsg = jb.getString("ReturnMsg");
                                 GetProcessWorkCardInfoByWorkCardID(selectWorkCardPlan.getFinterid());
-                                Alerter.create(act)
-                                        .setTitle("提示")
-                                        .setText(ReturnMsg)
-                                        .setBackgroundColorRes(R.color.colorAlert)
-                                        .show();
+
+                                LemonHello.getInformationHello("提示", ReturnMsg)
+                                        .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                                            @Override
+                                            public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                                helloView.hide();
+                                            }
+                                        }))
+                                        .show(act);
 //                                if (ReturnType.equals("success")) {
 //                                } else {
 //                                }

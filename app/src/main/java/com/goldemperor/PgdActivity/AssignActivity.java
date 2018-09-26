@@ -16,6 +16,7 @@ import com.goldemperor.MainActivity.ListViewDecoration;
 import com.goldemperor.MainActivity.OnItemClickListener;
 import com.goldemperor.MainActivity.define;
 import com.goldemperor.R;
+import com.goldemperor.Widget.fancybuttons.FancyButton;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
 
 import org.xutils.DbManager;
@@ -28,9 +29,7 @@ import org.xutils.x;
 import java.util.ArrayList;
 import java.util.List;
 
-import mehdi.sakout.fancybuttons.FancyButton;
 
-import static com.goldemperor.PgdActivity.PgdActivity.selectWorkCardPlan;
 
 
 /**
@@ -88,6 +87,9 @@ public class AssignActivity extends AppCompatActivity {
 
         try {
             gxpgPlanList = dbManager.selector(GxpgPlan.class).where("style", " = ", planBody).findAll();
+            if(gxpgPlanList==null){
+                gxpgPlanList=new ArrayList<>();
+            }
             for (GxpgPlan gxpgPlan : gxpgPlanList) {
                 Log.e("Pan","占比:"+gxpgPlan.getPer());
             }

@@ -15,8 +15,8 @@ import android.widget.Toast;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
-//import com.github.chrisbanes.photoview.PhotoView;
-import com.github.chrisbanes.photoview.PhotoView;
+
+
 import com.goldemperor.DayWorkCardReport.adapter.SCCJLCCLXS_ReportDetailedAdapter;
 import com.goldemperor.DayWorkCardReport.model.SCCJLCCLXS_ReportDetailedModel;
 import com.goldemperor.MainActivity.ListViewDecoration;
@@ -24,6 +24,8 @@ import com.goldemperor.MainActivity.define;
 import com.goldemperor.R;
 import com.goldemperor.Utils.LOG;
 import com.goldemperor.Utils.WebServiceUtils;
+import com.goldemperor.Widget.fancybuttons.FancyButton;
+import com.goldemperor.Widget.photoview.PhotoView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -46,7 +48,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import mehdi.sakout.fancybuttons.FancyButton;
+
 
 /**
  * File Name : SCCJLCCLXS_ReportDetailedActivity

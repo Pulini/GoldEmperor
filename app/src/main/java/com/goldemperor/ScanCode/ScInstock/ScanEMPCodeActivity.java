@@ -28,7 +28,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.HashMap;
 
-import mehdi.sakout.fancybuttons.FancyButton;
+import com.goldemperor.Widget.fancybuttons.FancyButton;
 
 /**
  * File Name : ScanEMPCodeActivity

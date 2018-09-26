@@ -17,8 +17,13 @@ import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.goldemperor.MainActivity.define;
 import com.goldemperor.R;
 import com.goldemperor.Widget.core.QRCodeView;
+import com.goldemperor.Widget.lemonhello.LemonHello;
+import com.goldemperor.Widget.lemonhello.LemonHelloAction;
+import com.goldemperor.Widget.lemonhello.LemonHelloInfo;
+import com.goldemperor.Widget.lemonhello.LemonHelloView;
+import com.goldemperor.Widget.lemonhello.interfaces.LemonHelloActionDelegate;
 import com.goldemperor.Widget.zbar.ZBarView;
-import com.tapadoo.alerter.Alerter;
+
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -95,11 +100,15 @@ public class GxReportScan extends AppCompatActivity implements QRCodeView.Delega
 
     @Override
     public void onScanQRCodeSuccess(String result) {
-        Alerter.create(mActivity)
-                .setTitle("提示")
-                .setText("扫描成功"+result)
-                .setBackgroundColorRes(R.color.colorAlert)
-                .show();
+        LemonHello.getSuccessHello("提示", "扫描成功")
+                .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                    @Override
+                    public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                        helloView.hide();
+                    }
+                }))
+                .show(mActivity);
+
 
         vibrate();
         boolean flag = true;
@@ -193,11 +202,15 @@ public class GxReportScan extends AppCompatActivity implements QRCodeView.Delega
                 //请求异常后的回调方法
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
-                    Alerter.create(mActivity)
-                            .setTitle("提示")
-                            .setText("网络错误")
-                            .setBackgroundColorRes(R.color.colorAlert)
-                            .show();
+
+                    LemonHello.getErrorHello("提示", "网络错误")
+                            .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                                @Override
+                                public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                    helloView.hide();
+                                }
+                            }))
+                            .show(mActivity);
                 }
 
                 //主动调用取消请求的回调方法

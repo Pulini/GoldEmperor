@@ -15,6 +15,11 @@ import android.util.Log;
 import android.view.View;
 
 import com.goldemperor.R;
+import com.goldemperor.Widget.lemonhello.LemonHello;
+import com.goldemperor.Widget.lemonhello.LemonHelloAction;
+import com.goldemperor.Widget.lemonhello.LemonHelloInfo;
+import com.goldemperor.Widget.lemonhello.LemonHelloView;
+import com.goldemperor.Widget.lemonhello.interfaces.LemonHelloActionDelegate;
 import com.google.gson.Gson;
 import com.goldemperor.LoginActivity.Request;
 import com.goldemperor.LoginActivity.RequestBody;
@@ -29,7 +34,7 @@ import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.material_design_iconic_typeface_library.MaterialDesignIconic;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
-import com.tapadoo.alerter.Alerter;
+
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -109,11 +114,15 @@ public class StockCheckActivity extends AppCompatActivity implements ViewPager.O
                     if (result.contains("成功")) {
 
                     } else {
-                        Alerter.create(act)
-                                .setTitle("提示")
-                                .setText("请先登录")
-                                .setBackgroundColorRes(R.color.colorAlert)
-                                .show();
+
+                        LemonHello.getInformationHello("提示", "请先登录")
+                                .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                                    @Override
+                                    public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                        helloView.hide();
+                                    }
+                                }))
+                                .show(act);
                     }
                 }
 

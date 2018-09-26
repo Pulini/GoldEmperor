@@ -114,6 +114,7 @@ public class GxpgAdapter extends RecyclerView.Adapter<GxpgAdapter.DefaultViewHol
 
             setData(holder,ls, position);
         }
+
     }
 
 
@@ -306,7 +307,17 @@ public class GxpgAdapter extends RecyclerView.Adapter<GxpgAdapter.DefaultViewHol
             holder. ScrollView.setBackgroundColor(Color.parseColor("#ffffff"));
             holder.tv_noReportednumber.setBackgroundColor(Color.parseColor("#FFF68F"));
         }
-        holder. ScrollView.scrollTo(GxpgActivity.mScrollX, holder.ScrollView.getScrollY());
+        ScrollViewList.add(holder.ScrollView);
+        holder.ScrollView.setOnScrollListener(new ScrollListenerHorizontalScrollView.OnScrollListener() {
+            @Override
+            public void onScroll(int scrollX) {
+                for (int i = 0; i < ScrollViewList.size(); i++) {
+                    ScrollViewList.get(i).scrollTo(scrollX, holder.ScrollView.getScrollY());
+                }
+                gxpgActivity.ScrollView.scrollTo(scrollX, holder.ScrollView.getScrollY());
+            }
+        });
+//        holder. ScrollView.scrollTo(GxpgActivity.mScrollX, holder.ScrollView.getScrollY());
     }
 
 

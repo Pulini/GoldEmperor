@@ -5,7 +5,7 @@
     android:background="@drawable/title_bg"
     android:paddingRight="8.0dip">
      <ImageButton
-            android:id="@id/back"
+            android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"

@@ -21,7 +21,7 @@
         android:layout_alignParentBottom="true">
 
 
-        <mehdi.sakout.fancybuttons.FancyButton
+        <com.goldemperor.Widget.fancybuttons.FancyButton
             android:id="@+id/FB_Back"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
             fancy:fb_textColor="#FFFFFF"
             fancy:fb_textSize="20dp" />
 
-        <mehdi.sakout.fancybuttons.FancyButton
+        <com.goldemperor.Widget.fancybuttons.FancyButton
             android:id="@+id/FB_Submit"
             android:layout_width="120dp"
             android:layout_height="wrap_content"

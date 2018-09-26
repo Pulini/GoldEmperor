@@ -23,8 +23,13 @@ import com.goldemperor.MainActivity.define;
 import com.goldemperor.R;
 
 
+import com.goldemperor.Widget.lemonhello.LemonHello;
+import com.goldemperor.Widget.lemonhello.LemonHelloAction;
+import com.goldemperor.Widget.lemonhello.LemonHelloInfo;
+import com.goldemperor.Widget.lemonhello.LemonHelloView;
+import com.goldemperor.Widget.lemonhello.interfaces.LemonHelloActionDelegate;
 import com.google.gson.Gson;
-import com.tapadoo.alerter.Alerter;
+
 
 import com.yanzhenjie.recyclerview.swipe.SwipeItemClickListener;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
@@ -152,11 +157,15 @@ public class GxReport extends AppCompatActivity implements EasyPermissions.Permi
                 if (QRCodeList.size() != 0) {
                     submitData();
                 } else {
-                    Alerter.create(activity)
-                            .setTitle("提示")
-                            .setText("请扫入条码")
-                            .setBackgroundColorRes(R.color.colorAlert)
-                            .show();
+
+                    LemonHello.getInformationHello("提示", "请扫入条码")
+                            .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                                @Override
+                                public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                    helloView.hide();
+                                }
+                            }))
+                            .show(activity);
                 }
             }
         });
@@ -239,11 +248,16 @@ public class GxReport extends AppCompatActivity implements EasyPermissions.Permi
                 String StockBillNO = result.substring(result.lastIndexOf("StockBillNO"), result.lastIndexOf("\"}")).replace("StockBillNO\":\"", "");
                 submit.setEnabled(true);
                 if (result.contains("success")) {
-                    Alerter.create(activity)
-                            .setTitle("提示")
-                            .setText("提交成功,工序汇报单号:" + StockBillNO)
-                            .setBackgroundColorRes(R.color.colorAlert)
-                            .show();
+
+                    LemonHello.getSuccessHello("提示", "提交成功,工序汇报单号:" + StockBillNO)
+                            .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                                @Override
+                                public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                    helloView.hide();
+                                }
+                            }))
+                            .show(activity);
+
                     QRCodeList.clear();
                     activity.runOnUiThread(new Runnable() {
                         @Override
@@ -253,22 +267,31 @@ public class GxReport extends AppCompatActivity implements EasyPermissions.Permi
                     });
                     setData();
                 } else {
-                    Alerter.create(activity)
-                            .setTitle("提示")
-                            .setText("提交失败:" + StockBillNO)
-                            .setBackgroundColorRes(R.color.colorAlert)
-                            .show();
+
+
+                    LemonHello.getErrorHello("提示", "提交失败:" + StockBillNO)
+                            .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                                @Override
+                                public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                    helloView.hide();
+                                }
+                            }))
+                            .show(activity);
                 }
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 submit.setEnabled(true);
-                Alerter.create(activity)
-                        .setTitle("提示")
-                        .setText("提交失败,网络错误:" + ex.toString())
-                        .setBackgroundColorRes(R.color.colorAlert)
-                        .show();
+
+                LemonHello.getErrorHello("提示", "提交失败,网络错误:" + ex.toString())
+                        .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                            @Override
+                            public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                helloView.hide();
+                            }
+                        }))
+                        .show(activity);
             }
 
             @Override

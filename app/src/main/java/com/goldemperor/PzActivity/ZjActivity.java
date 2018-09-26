@@ -15,8 +15,13 @@ import android.widget.Toast;
 import com.goldemperor.MainActivity.define;
 import com.goldemperor.Public.SystemUtil;
 import com.goldemperor.R;
+import com.goldemperor.Widget.lemonhello.LemonHello;
+import com.goldemperor.Widget.lemonhello.LemonHelloAction;
+import com.goldemperor.Widget.lemonhello.LemonHelloInfo;
+import com.goldemperor.Widget.lemonhello.LemonHelloView;
+import com.goldemperor.Widget.lemonhello.interfaces.LemonHelloActionDelegate;
 import com.google.gson.Gson;
-import com.tapadoo.alerter.Alerter;
+
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -28,7 +33,7 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import mehdi.sakout.fancybuttons.FancyButton;
+import com.goldemperor.Widget.fancybuttons.FancyButton;
 
 import static com.goldemperor.PzActivity.PgdActivity.selectWorkCardPlan;
 import static com.goldemperor.PzActivity.YCListActivity.selectAbnormity;
@@ -186,11 +191,15 @@ public class ZjActivity extends AppCompatActivity {
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 Log.e("jindi", ex.toString());
-                Alerter.create(act)
-                        .setTitle("提示")
-                        .setText("提交失败:" + ex.toString())
-                        .setBackgroundColorRes(R.color.colorAlert)
-                        .show();
+
+                LemonHello.getErrorHello("提示", "提交失败:" + ex.toString())
+                        .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                            @Override
+                            public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                helloView.hide();
+                            }
+                        }))
+                        .show(act);
 
             }
 

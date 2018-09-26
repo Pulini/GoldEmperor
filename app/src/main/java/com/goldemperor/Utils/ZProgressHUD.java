@@ -55,7 +55,7 @@ public class ZProgressHUD extends Dialog {
                 new ColorDrawable(Color.TRANSPARENT));
         this.setCanceledOnTouchOutside(false);
         this.context = context;
-        view = getLayoutInflater().inflate(R.layout.dialog_progress, null);
+        view = getLayoutInflater().inflate(R.layout.dialog_progress2, null);
         tvMessage = (TextView) view.findViewById(R.id.textview_message);
         ivSuccess = (ImageView) view.findViewById(R.id.imageview_success);
         ivFailure = (ImageView) view.findViewById(R.id.imageview_failure);

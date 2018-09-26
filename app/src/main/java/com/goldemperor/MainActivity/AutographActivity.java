@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.goldemperor.R;
 import com.goldemperor.Utils.LOG;
+import com.goldemperor.Widget.fancybuttons.FancyButton;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -30,7 +31,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import id.zelory.compressor.Compressor;
-import mehdi.sakout.fancybuttons.FancyButton;
+
 
 
 /**

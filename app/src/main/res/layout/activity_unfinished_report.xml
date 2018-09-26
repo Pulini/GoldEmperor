@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="#4888FF"
+        android:gravity="center"
+        android:text="每日未完成达标原因"
+        android:textColor="#ffffff" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#eeeeee"
+        android:orientation="horizontal">
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:padding="15dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ListView
+                    android:id="@+id/LV_GroupList"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:background="#ffffff"
+                    android:scrollbars="none" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="所在组别:"
+                        android:textColor="#999999"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/TV_UserGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|right"
+                        android:text=""
+                        android:textColor="#333333"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="员工工号:"
+                        android:textColor="#999999"
+                        android:textSize="18sp" />
+
+                    <EditText
+                        android:id="@+id/ET_UserCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|right"
+                        android:hint="请输入汇报人工号"
+                        android:inputType="number"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="姓名:"
+                        android:textColor="#999999"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/TV_UserName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|right"
+                        android:text=""
+                        android:textColor="#333333"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="职位:"
+                        android:textColor="#999999"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/TV_Duty"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|right"
+                        android:text=""
+                        android:textColor="#333333"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="未完成日期:"
+                        android:textColor="#999999"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/TV_Time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|right"
+                        android:text=""
+                        android:textColor="#333333"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+
+                    <com.goldemperor.Widget.fancybuttons.FancyButton
+                        android:id="@+id/FB_SetTime"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        fancy:fb_borderColor="#FFFFFF"
+                        fancy:fb_borderWidth="2dp"
+                        fancy:fb_defaultColor="#ff8800"
+                        fancy:fb_focusColor="#8cc9f8"
+                        fancy:fb_fontIconSize="25sp"
+                        fancy:fb_iconPosition="top"
+                        fancy:fb_radius="5dp"
+                        fancy:fb_text="修改日期"
+                        fancy:fb_textColor="#FFFFFF" />
+                    <com.goldemperor.Widget.fancybuttons.FancyButton
+                        android:id="@+id/FB_Submit"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        fancy:fb_borderColor="#FFFFFF"
+                        fancy:fb_borderWidth="2dp"
+                        fancy:fb_defaultColor="#4888FF"
+                        fancy:fb_focusColor="#8cc9f8"
+                        fancy:fb_fontIconSize="25sp"
+                        fancy:fb_iconPosition="top"
+                        fancy:fb_radius="5dp"
+                        fancy:fb_text="提交"
+                        fancy:fb_textColor="#FFFFFF" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#888888" />
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:padding="15dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/ET_MSG"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#ffffff"
+                    android:gravity="start"
+                    android:hint="请输入未完成达标原因"
+                    android:minHeight="200dp" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</LinearLayout>

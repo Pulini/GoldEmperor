@@ -57,7 +57,6 @@ public class SetActivity extends AppCompatActivity {
             public void onClick(View v) {
                 dataEditor.putString(define.SharedPassword,define.NONE);
                 dataEditor.commit();
-
                 Intent i = new Intent(mContext, LoginActivity.class);
                 mContext.startActivity(i);
                 mContext.finish();
