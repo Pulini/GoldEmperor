@@ -9,6 +9,8 @@ import android.net.wifi.WifiManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.goldemperor.Utils.LOG;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -187,7 +189,7 @@ public final class Utils {
      *                 <p>文件的复制操作方法
      */
     public static void copyfile(File fromFile, File toFile, Boolean rewrite) {
-
+        LOG.e("复制文件");
         if (!fromFile.exists()) {
             return;
         }
@@ -205,7 +207,7 @@ public final class Utils {
             toFile.delete();
         }
 
-
+        LOG.e("开始复制文件");
         try {
             FileInputStream fosfrom = new FileInputStream(fromFile);
             FileOutputStream fosto = new FileOutputStream(toFile);

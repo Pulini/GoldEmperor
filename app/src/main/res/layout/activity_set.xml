@@ -1,146 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:material="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusable="true"
-    android:focusableInTouchMode="true"
-     >
+    android:focusableInTouchMode="true">
 
-
-    <LinearLayout
-        android:id="@+id/nameData"
+    <TextView
+        android:id="@+id/web"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_centerHorizontal="true"
-        android:weightSum="2">
-
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            android:gravity="center"
-            android:text="姓名:"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/nameContent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:background="#FFFFFF"
-            android:gravity="center"
-            android:textColor="#ff0000"
-            android:text=""
-            android:textSize="25sp" />
-    </LinearLayout>
+        android:background="#FFFFFF"
+        android:gravity="center"
+        android:text="服务器地址:"
+        android:textSize="20sp" />
 
     <LinearLayout
-        android:id="@+id/jobNumberData"
-        android:layout_below="@+id/nameData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_alignLeft="@+id/nameData"
-        android:weightSum="2">
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/jobNumber"
+        <LinearLayout
+            android:id="@+id/nameData"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            android:gravity="center"
-            android:text="工号:"
-            android:textSize="20sp" />
+            android:weightSum="2">
 
-        <TextView
-            android:id="@+id/jobNumberContent"
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:text="姓名:"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/nameContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:text=""
+                android:textColor="#ff0000"
+                android:textSize="25sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/jobNumberData"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:weightSum="2">
 
-            android:background="#FFFFFF"
-            android:gravity="center"
-            android:textColor="#ff0000"
-            android:text=""
-            android:textSize="25sp" />
+            <TextView
+                android:id="@+id/jobNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:text="工号:"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/jobNumberContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:text=""
+                android:textColor="#ff0000"
+                android:textSize="25sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sexData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/sex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:text="性别:"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/sexContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:text=""
+                android:textColor="#ff0000"
+                android:textSize="25sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/positionData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/position"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:text="职位:"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/positionContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:text=""
+                android:textColor="#ff0000"
+                android:textSize="25sp" />
+        </LinearLayout>
+
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/exit"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:text="退出登录"
+            app:bootstrapBrand="success"
+            app:bootstrapSize="lg"
+            app:buttonMode="regular"
+            app:roundedCorners="true"
+            app:showOutline="false" />
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/sexData"
-        android:layout_below="@+id/jobNumberData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_alignLeft="@+id/jobNumberData"
-        android:weightSum="2">
-
-        <TextView
-            android:id="@+id/sex"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            android:gravity="center"
-            android:text="性别:"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/sexContent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:background="#FFFFFF"
-            android:gravity="center"
-            android:textColor="#ff0000"
-            android:text=""
-            android:textSize="25sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/positionData"
-        android:layout_below="@+id/sexData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_alignLeft="@+id/sexData"
-        android:weightSum="2">
-
-        <TextView
-            android:id="@+id/position"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            android:gravity="center"
-            android:text="职位:"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/positionContent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:background="#FFFFFF"
-            android:gravity="center"
-            android:textColor="#ff0000"
-            android:text=""
-            android:textSize="25sp" />
-    </LinearLayout>
-
-
-    <com.beardedhen.androidbootstrap.BootstrapButton
-        android:id="@+id/exit"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/positionData"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:text="退出登录"
-        app:bootstrapBrand="success"
-        app:bootstrapSize="lg"
-        app:buttonMode="regular"
-        app:roundedCorners="true"
-        app:showOutline="false" />
 </RelativeLayout>

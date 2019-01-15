@@ -25,6 +25,7 @@ import com.goldemperor.PgdActivity.RouteEntry;
 import com.goldemperor.PgdActivity.Sc_WorkPlanMaterial;
 import com.goldemperor.R;
 import com.goldemperor.Utils.LOG;
+import com.goldemperor.Utils.SPUtils;
 import com.goldemperor.Utils.WebServiceUtils;
 import com.goldemperor.Widget.ScrollListenerHorizontalScrollView;
 import com.google.gson.Gson;
@@ -68,8 +69,6 @@ public class YCListActivity extends AppCompatActivity implements ScrollListenerH
     private TextView tv_tip;
     public ScrollListenerHorizontalScrollView ScrollView;
     public static YCListAdapter mMenuAdapter;
-    private SharedPreferences dataPref;
-    private SharedPreferences.Editor dataEditor;
 
     private List<String[]> nameList = new ArrayList<String[]>();
     public static int YcCount = 0;
@@ -88,9 +87,7 @@ public class YCListActivity extends AppCompatActivity implements ScrollListenerH
         setContentView(R.layout.activity_yclist);
         //隐藏标题栏
         getSupportActionBar().hide();
-        dataPref = this.getSharedPreferences(define.SharedName, 0);
-        dataEditor = dataPref.edit();
-        MyEmpID = dataPref.getString(define.SharedEmpId, "");
+        MyEmpID = (String)SPUtils.get(define.SharedEmpId, "");
         LOG.e("EMPID=" + MyEmpID);
         tv_tip = (TextView) findViewById(R.id.tv_tip);
         ScrollView = (ScrollListenerHorizontalScrollView) findViewById(R.id.ScrollView);
@@ -105,6 +102,7 @@ public class YCListActivity extends AppCompatActivity implements ScrollListenerH
                 startActivityForResult(i, 0);
             }
         });
+        refreshLayout = (SmartRefreshLayout) findViewById(R.id.refresh_layout);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
@@ -117,7 +115,7 @@ public class YCListActivity extends AppCompatActivity implements ScrollListenerH
         getData();
         getAbnormityData();
         mMenuRecyclerView = (SwipeMenuRecyclerView) findViewById(R.id.recycler_view);
-        mMenuRecyclerView.setLayoutManager(new LinearLayoutManager(this));// 布局管理器。
+        mMenuRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));// 布局管理器。
         // 设置菜单创建器。
         mMenuRecyclerView.setSwipeMenuCreator(swipeMenuCreator);
         // 设置菜单Item点击监听。
@@ -223,7 +221,7 @@ public class YCListActivity extends AppCompatActivity implements ScrollListenerH
         map.put("textString", textString);
         WebServiceUtils.WEBSERVER_NAMESPACE = define.tempuri;// 命名空间
         WebServiceUtils.callWebService(
-                define.Net2 + define.ErpForMesServer,
+                SPUtils.getServerPath() + define.ErpForMesServer,
                 define.ReCheckAbnormity,
                 map,
                 new WebServiceUtils.WebServiceCallBack() {
@@ -301,7 +299,7 @@ public class YCListActivity extends AppCompatActivity implements ScrollListenerH
         map.put("FInterID", finterid);
         WebServiceUtils.WEBSERVER_NAMESPACE = define.tempuri;// 命名空间
         WebServiceUtils.callWebService(
-                define.Net2 + define.ErpForMesServer,
+                SPUtils.getServerPath() + define.ErpForMesServer,
                 define.DeleteByFInterID,
                 map,
                 new WebServiceUtils.WebServiceCallBack() {
@@ -396,7 +394,7 @@ public class YCListActivity extends AppCompatActivity implements ScrollListenerH
         map.put("FInterID", String.valueOf(selectWorkCardPlan.getFinterid()));
         WebServiceUtils.WEBSERVER_NAMESPACE = define.tempuri;// 命名空间
         WebServiceUtils.callWebService(
-                define.Net2 + define.ErpForAndroidStockServer,
+                SPUtils.getServerPath() + define.ErpForAndroidStockServer,
                 define.GetWorkCardAbnormity,
                 map,
                 new WebServiceUtils.WebServiceCallBack() {
@@ -414,7 +412,7 @@ public class YCListActivity extends AppCompatActivity implements ScrollListenerH
                                 String ReturnMsg = jsonObject.getString("ReturnMsg");
                                 if ("success".equals(ReturnType)) {
                                     List<Integer> is = new ArrayList<>();
-                                    int EmpId = Integer.parseInt(dataPref.getString(define.SharedEmpId, ""));
+                                    int EmpId = Integer.parseInt((String)SPUtils.get(define.SharedEmpId, "0"));
                                     LOG.e("EmpId：" + EmpId);
                                     List<Sc_WorkCardAbnormity> list = new Gson().fromJson(ReturnMsg, new TypeToken<List<Sc_WorkCardAbnormity>>() {
                                     }.getType());
@@ -424,8 +422,8 @@ public class YCListActivity extends AppCompatActivity implements ScrollListenerH
                                         for (int i = 0; i < list.size(); i++) {
                                             LOG.e(i + "FEmpID：" + Sc_WorkCardAbnormityList.get(i).getFEmpID());
                                             if (EmpId == Sc_WorkCardAbnormityList.get(i).getFEmpID()) {
-                                                Sc_WorkCardAbnormityList.get(i).setFname(dataPref.getString(define.SharedUser, ""));
-                                                Sc_WorkCardAbnormityList.get(i).setFdeptmentName(dataPref.getString(define.SharedDeptmentName, ""));
+                                                Sc_WorkCardAbnormityList.get(i).setFname((String)SPUtils.get(define.SharedUser, ""));
+                                                Sc_WorkCardAbnormityList.get(i).setFdeptmentName((String)SPUtils.get(define.SharedDeptmentName, ""));
                                                 LOG.e("__1__：" + i);
                                                 is.add(i);
                                                 if (i == list.size() - 1) {
@@ -477,7 +475,7 @@ public class YCListActivity extends AppCompatActivity implements ScrollListenerH
         map.put("FEmpID", String.valueOf(Sc_WorkCardAbnormityList.get(position).getFEmpID()));
         WebServiceUtils.WEBSERVER_NAMESPACE = define.jindishoes;// 命名空间
         WebServiceUtils.callWebService(
-                define.Net2 + define.ERPForWeixinServer,
+                SPUtils.getServerPath() + define.ERPForWeixinServer,
                 define.GetUserID2,
                 map, new WebServiceUtils.WebServiceCallBack() {
                     @Override
@@ -523,52 +521,49 @@ public class YCListActivity extends AppCompatActivity implements ScrollListenerH
             map.put("FName", "针车");
         } else {
             MethodName = define.GetAbnormityByID;
-            map.put("paramString", "39,40,41,42,43");
+            map.put("FNumber", "39,40,41,42,43");
         }
         WebServiceUtils.WEBSERVER_NAMESPACE = define.tempuri;// 命名空间
         WebServiceUtils.callWebService(
-                define.Net2 + define.ErpForMesServer,
+                SPUtils.getServerPath() + define.ErpForMesServer,
                 MethodName,
                 map,
-                new WebServiceUtils.WebServiceCallBack() {
-                    @Override
-                    public void callBack(String result) {
-                        if (result != null) {
-                            try {
-                                result = URLDecoder.decode(result, "UTF-8");
-                                LOG.E("Abnormity=" + result);
+                result -> {
+                    if (result != null) {
+                        try {
+                            result = URLDecoder.decode(result, "UTF-8");
+                            LOG.E("Abnormity=" + result);
 
-                                JSONObject jsonObject = new JSONObject(result);
-                                String ReturnType = jsonObject.getString("ReturnType");
-                                String ReturnMsg = jsonObject.getString("ReturnMsg");
-                                LOG.E("ReturnMsg=" + ReturnMsg);
-                                if ("success".equals(ReturnType)) {
-                                    List<AbnormityModel> gylx = new Gson().fromJson(ReturnMsg, new TypeToken<List<AbnormityModel>>() {
-                                    }.getType());
-                                    for (int i = 0; i < gylx.size(); i++) {
-                                        abnormityModel.add(gylx.get(i));
-                                        String[] temp = new String[4];
-                                        temp[0] = gylx.get(i).getFName();
-                                        temp[1] = String.valueOf(gylx.get(i).getFItemID());
-                                        temp[2] = "无";
-                                        temp[3] = "未选";
-                                        selectAbnormity.add(temp);
-                                    }
-                                } else {
-                                    Toast.makeText(mContext, ReturnMsg, Toast.LENGTH_SHORT).show();
+                            JSONObject jsonObject = new JSONObject(result);
+                            String ReturnType = jsonObject.getString("ReturnType");
+                            String ReturnMsg = jsonObject.getString("ReturnMsg");
+                            LOG.E("ReturnMsg=" + ReturnMsg);
+                            if ("success".equals(ReturnType)) {
+                                List<AbnormityModel> gylx = new Gson().fromJson(ReturnMsg, new TypeToken<List<AbnormityModel>>() {
+                                }.getType());
+                                for (int i = 0; i < gylx.size(); i++) {
+                                    abnormityModel.add(gylx.get(i));
+                                    String[] temp = new String[4];
+                                    temp[0] = gylx.get(i).getFName();
+                                    temp[1] = String.valueOf(gylx.get(i).getFItemID());
+                                    temp[2] = "无";
+                                    temp[3] = "未选";
+                                    selectAbnormity.add(temp);
                                 }
-                            } catch (JSONException e) {
-                                Toast.makeText(mContext, "数据解析异常", Toast.LENGTH_SHORT).show();
-                                e.printStackTrace();
-                            } catch (UnsupportedEncodingException e) {
-                                e.printStackTrace();
-                                Toast.makeText(mContext, "数据解码异常", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(mContext, ReturnMsg, Toast.LENGTH_SHORT).show();
                             }
-                        } else {
-                            tv_tip.setText("暂无数据");
+                        } catch (JSONException e) {
+                            Toast.makeText(mContext, "数据解析异常", Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                            Toast.makeText(mContext, "数据解码异常", Toast.LENGTH_SHORT).show();
                         }
-                        mMenuAdapter.notifyDataSetChanged();
+                    } else {
+                        tv_tip.setText("暂无数据");
                     }
+                    mMenuAdapter.notifyDataSetChanged();
                 });
 
 //        RequestParams params;

@@ -112,6 +112,28 @@ public class Sc_ProcessWorkCardEntry implements Cloneable {
 
     private double fmustqty;//应派工数量;
 
+    private int frouteinterfid;
+
+    public boolean isHaveSave() {
+        return haveSave;
+    }
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public void setOpen(boolean open) {
+        isOpen = open;
+    }
+
+    public int getFrouteinterfid() {
+        return frouteinterfid;
+    }
+
+    public void setFrouteinterfid(int frouteinterfid) {
+        this.frouteinterfid = frouteinterfid;
+    }
+
     public void setFsourceqty(float fsourceqty) {
         this.fsourceqty = fsourceqty;
     }

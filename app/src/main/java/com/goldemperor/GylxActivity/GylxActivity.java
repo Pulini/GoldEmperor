@@ -31,6 +31,7 @@ import com.goldemperor.PgdActivity.RouteEntry;
 import com.goldemperor.PgdActivity.RouteResult;
 import com.goldemperor.R;
 import com.goldemperor.Utils.LOG;
+import com.goldemperor.Utils.SPUtils;
 import com.goldemperor.Widget.fancybuttons.FancyButton;
 import com.goldemperor.Widget.lemonhello.LemonHello;
 import com.goldemperor.Widget.lemonhello.LemonHelloAction;
@@ -59,7 +60,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 /**
  * Created by Nova on 2018/2/28.
  */
@@ -77,7 +77,6 @@ public class GylxActivity extends AppCompatActivity {
     private SwipeMenuRecyclerView mMenuRecyclerView;
     private GylxAdapter mMenuAdapter;
 
-    private SharedPreferences dataPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +88,6 @@ public class GylxActivity extends AppCompatActivity {
         setContentView(R.layout.activity_gylx);
         //隐藏标题栏
         getSupportActionBar().hide();
-        dataPref = this.getSharedPreferences(define.SharedName, 0);
         mContext = this;
         act = this;
         RouteResultList = new ArrayList<RouteEntry>();
@@ -132,15 +130,15 @@ public class GylxActivity extends AppCompatActivity {
         tv_tip = (TextView) findViewById(R.id.tv_tip);
         tv_tip.setVisibility(View.GONE);
 
-        mMenuRecyclerView = (SwipeMenuRecyclerView) findViewById(R.id.recycler_view);
-        mMenuRecyclerView.setLayoutManager(new LinearLayoutManager(this));// 布局管理器。
-        mMenuRecyclerView.addItemDecoration(new ListViewDecoration(this));// 添加分割线。
         mMenuAdapter = new GylxAdapter(RouteResultList);
-        mMenuRecyclerView.setAdapter(mMenuAdapter);
+        mMenuRecyclerView = (SwipeMenuRecyclerView) findViewById(R.id.recycler_view);
+        mMenuRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));// 布局管理器。
+        mMenuRecyclerView.addItemDecoration(new ListViewDecoration(mContext));// 添加分割线。
         // 设置菜单创建器。
         mMenuRecyclerView.setSwipeMenuCreator(swipeMenuCreator);
         // 设置菜单Item点击监听。
         mMenuRecyclerView.setSwipeMenuItemClickListener(menuItemClickListener);
+        mMenuRecyclerView.setAdapter(mMenuAdapter);
     }
 
     /**
@@ -149,53 +147,50 @@ public class GylxActivity extends AppCompatActivity {
     private SwipeMenuCreator swipeMenuCreator = new SwipeMenuCreator() {
         @Override
         public void onCreateMenu(SwipeMenu swipeLeftMenu, SwipeMenu swipeRightMenu, int viewType) {
-            int width = mContext.getResources().getDimensionPixelSize(R.dimen.item_height);
-
-            // MATCH_PARENT 自适应高度，保持和内容一样高；也可以指定菜单具体高度，也可以用WRAP_CONTENT。
-            int height = ViewGroup.LayoutParams.MATCH_PARENT;
-
+            LOG.e("-----------------------------------------------------");
+            int width = Utils.dp2px(60);
+            int height = Utils.dp2px(70);
             // 添加右侧的，如果不添加，则右侧不会出现菜单。
-            {
 
-                SwipeMenuItem addItem = new SwipeMenuItem(mContext)
-                        .setBackground(R.drawable.selector_yellow)
-                        .setImage(R.mipmap.ic_action_module_black)
-                        .setText("修改")
-                        .setTextColor(Color.RED)
-                        .setWidth(width)
-                        .setHeight(height);
-                swipeRightMenu.addMenuItem(addItem); // 添加一个按钮到右侧菜单。
+            SwipeMenuItem addItem = new SwipeMenuItem(mContext)
+                    .setBackground(R.drawable.selector_yellow)
+                    .setImage(R.mipmap.ic_action_module_black)
+                    .setText("修改")
+                    .setTextColor(Color.RED)
+                    .setWidth(width)
+                    .setHeight(height);
+            SwipeMenuItem addItem1 = new SwipeMenuItem(mContext)
+                    .setBackground(R.drawable.selector_green)
+                    .setImage(R.mipmap.ic_action_module_black)
+                    .setText("复制")
+                    .setTextColor(Color.WHITE)
+                    .setWidth(width)
+                    .setHeight(height);
+            SwipeMenuItem addItem2 = new SwipeMenuItem(mContext)
+                    .setBackground(R.drawable.selector_purple)
+                    .setImage(R.mipmap.ic_action_add)
+                    .setText("新增")
+                    .setTextColor(Color.WHITE)
+                    .setWidth(width)
+                    .setHeight(height);
+            SwipeMenuItem addItem3 = new SwipeMenuItem(mContext)
+                    .setBackground(R.drawable.selector_red)
+                    .setImage(R.mipmap.ic_action_delete)
+                    .setText("删除")
+                    .setTextColor(Color.WHITE)
+                    .setWidth(width)
+                    .setHeight(height);
 
-                SwipeMenuItem addItem1 = new SwipeMenuItem(mContext)
-                        .setBackground(R.drawable.selector_green)
-                        .setImage(R.mipmap.ic_action_module_black)
-                        .setText("复制")
-                        .setTextColor(Color.WHITE)
-                        .setWidth(width)
-                        .setHeight(height);
-                swipeRightMenu.addMenuItem(addItem1); // 添加一个按钮到右侧菜单。
+            swipeRightMenu.addMenuItem(addItem); // 添加一个按钮到右侧菜单。
+            swipeRightMenu.addMenuItem(addItem1); // 添加一个按钮到右侧菜单。
+            swipeRightMenu.addMenuItem(addItem2); // 添加一个按钮到右侧菜单。
+            swipeRightMenu.addMenuItem(addItem3); // 添加一个按钮到右侧菜单。
 
-                SwipeMenuItem addItem2 = new SwipeMenuItem(mContext)
-                        .setBackground(R.drawable.selector_purple)
-                        .setImage(R.mipmap.ic_action_add)
-                        .setText("新增")
-                        .setTextColor(Color.WHITE)
-                        .setWidth(width)
-                        .setHeight(height);
-                swipeRightMenu.addMenuItem(addItem2); // 添加一个按钮到右侧菜单。
 
-                SwipeMenuItem addItem3 = new SwipeMenuItem(mContext)
-                        .setBackground(R.drawable.selector_red)
-                        .setImage(R.mipmap.ic_action_delete)
-                        .setText("删除")
-                        .setTextColor(Color.WHITE)
-                        .setWidth(width)
-                        .setHeight(height);
-                swipeRightMenu.addMenuItem(addItem3); // 添加一个按钮到右侧菜单。
 
-            }
         }
     };
+
 
     /**
      * 菜单点击监听。
@@ -358,7 +353,8 @@ public class GylxActivity extends AppCompatActivity {
 
                 }
             }
-            menuBridge.closeMenu();;// 关闭被点击的菜单。
+            menuBridge.closeMenu();
+            ;// 关闭被点击的菜单。
 
         }
 
@@ -380,7 +376,7 @@ public class GylxActivity extends AppCompatActivity {
         tv_tip.setVisibility(View.VISIBLE);
         tv_tip.setText("数据载入中...");
         RouteResultList.clear();
-        RequestParams params = new RequestParams(define.Net2 + define.GetPrdRouteInfo);
+        RequestParams params = new RequestParams(SPUtils.getServerPath() + define.GetPrdRouteInfo);
         params.setReadTimeout(60000);
         params.addQueryStringParameter("FBillNo", searchText.toUpperCase());
         Log.e("jindi", params.toString());
@@ -397,14 +393,14 @@ public class GylxActivity extends AppCompatActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     String ReturnType = jsonObject.getString("ReturnType");
-                    String ReturnMsg= jsonObject.getString("ReturnMsg");
+                    String ReturnMsg = jsonObject.getString("ReturnMsg");
                     LOG.e("工艺路线____截取ReturnType=" + ReturnType);
                     LOG.e("工艺路线____截取ReturnMsg=" + ReturnMsg);
                     if (ReturnType.contains("error")) {
                         tv_tip.setText("没有查询到数据");
                     } else {
                         tv_tip.setVisibility(View.GONE);
-                        result = "{\"data\":" + ReturnMsg+ "}";
+                        result = "{\"data\":" + ReturnMsg + "}";
                         LOG.e("工艺路线____拼接json=" + result);
                         Gson g = new Gson();
                         RouteResult gylx = g.fromJson(result, RouteResult.class);
@@ -446,7 +442,7 @@ public class GylxActivity extends AppCompatActivity {
         Gson g = new Gson();
         Utils.e("jindi", g.toJson(RouteResultList));
 
-        RequestParams params = new RequestParams(define.Net2 + define.SavePrdRouteEntry);
+        RequestParams params = new RequestParams(SPUtils.getServerPath() + define.SavePrdRouteEntry);
         params.setReadTimeout(60000);
         params.addParameter("PushJsonCondition", g.toJson(RouteResultList));
         x.http().post(params, new Callback.CommonCallback<String>() {
@@ -490,7 +486,7 @@ public class GylxActivity extends AppCompatActivity {
 
     private void DeletePrdRouteEntryByFID(final int adapterPosition, long fid) {
 
-        RequestParams params = new RequestParams(define.Net2 + define.DeletePrdRouteEntryByFID);
+        RequestParams params = new RequestParams(SPUtils.getServerPath() + define.DeletePrdRouteEntryByFID);
         params.setReadTimeout(60000);
         params.addParameter("FID", fid);
         x.http().post(params, new Callback.CommonCallback<String>() {
@@ -533,9 +529,9 @@ public class GylxActivity extends AppCompatActivity {
     }
 
     private void getControl(final int adapterPosition, final String controlID) {
-        RequestParams params = new RequestParams(define.Net2 + define.IsHaveControl);
+        RequestParams params = new RequestParams(SPUtils.getServerPath() + define.IsHaveControl);
         params.addQueryStringParameter("OrganizeID", "1");
-        params.addQueryStringParameter("empID", dataPref.getString(define.SharedEmpId, define.NONE));
+        params.addQueryStringParameter("empID", (String)SPUtils.get(define.SharedEmpId, define.NONE));
         params.addQueryStringParameter("controlID", controlID);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override

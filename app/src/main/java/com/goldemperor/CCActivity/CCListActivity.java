@@ -52,7 +52,6 @@ public class CCListActivity extends AppCompatActivity {
     private Activity act;
     private TextView tv_tip;
     public CCListAdapter mMenuAdapter;
-    private SharedPreferences dataPref;
 
     private List<facardResult> facardResultList = new ArrayList<facardResult>();
 
@@ -74,7 +73,6 @@ public class CCListActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_cclist);
 
-        dataPref = this.getSharedPreferences(define.SharedName, 0);
 
         tv_tip = (TextView) findViewById(R.id.tv_tip);
         act = this;
@@ -87,7 +85,7 @@ public class CCListActivity extends AppCompatActivity {
 
         tv_tip.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         mMenuRecyclerView = (SwipeMenuRecyclerView) findViewById(R.id.recycler_view);
-        mMenuRecyclerView.setLayoutManager(new LinearLayoutManager(this));// 布局管理器。
+        mMenuRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));// 布局管理器。
 
 
         mMenuAdapter = new CCListAdapter(facardResultList);

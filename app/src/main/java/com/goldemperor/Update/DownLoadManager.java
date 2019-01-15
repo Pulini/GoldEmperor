@@ -30,12 +30,7 @@ public class DownLoadManager {
         conn.setConnectTimeout(5000);
         final int maxlen = conn.getContentLength();
         //获取到文件的大小
-        act.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                pd.setMax(maxlen);
-            }
-        });
+        act.runOnUiThread(() -> pd.setMax(maxlen));
         InputStream is = conn.getInputStream();
 
 
@@ -58,12 +53,7 @@ public class DownLoadManager {
             total += len;
             final int Progress = total;
             //获取当前下载量
-            act.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    pd.setProgress(Progress);
-                }
-            });
+            act.runOnUiThread(() -> pd.setProgress(Progress));
         }
         fos.close();
         bis.close();

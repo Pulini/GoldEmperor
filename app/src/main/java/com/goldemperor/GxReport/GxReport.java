@@ -4,7 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.IntegerRes;
@@ -18,11 +18,17 @@ import android.widget.TextView;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.goldemperor.MainActivity.ListViewDecoration;
+import com.goldemperor.MainActivity.NewHome.Model.GetCodeModel;
 import com.goldemperor.MainActivity.OnItemClickListener;
 import com.goldemperor.MainActivity.define;
 import com.goldemperor.R;
 
 
+
+import com.goldemperor.Utils.LOG;
+import com.goldemperor.Utils.SPUtils;
+import com.goldemperor.Utils.WebServiceUtils;
+import com.goldemperor.Utils.ZProgressHUD;
 import com.goldemperor.Widget.lemonhello.LemonHello;
 import com.goldemperor.Widget.lemonhello.LemonHelloAction;
 import com.goldemperor.Widget.lemonhello.LemonHelloInfo;
@@ -39,6 +45,8 @@ import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuItemClickListener;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
@@ -48,6 +56,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -73,7 +82,7 @@ public class GxReport extends AppCompatActivity implements EasyPermissions.Permi
     private TextView productCount;
     private SwipeMenuRecyclerView mMenuRecyclerView;
 
-    private SharedPreferences dataPref;
+
     /**
      * Item点击监听。
      */
@@ -126,6 +135,7 @@ public class GxReport extends AppCompatActivity implements EasyPermissions.Permi
             }
         }
     };
+    private ZProgressHUD mProgressHUD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,41 +146,34 @@ public class GxReport extends AppCompatActivity implements EasyPermissions.Permi
         setContentView(R.layout.activity_gxreport);
         //隐藏标题栏
         getSupportActionBar().hide();
-        dataPref = this.getSharedPreferences(define.SharedName, 0);
+
+
+
         mContext = this;
         activity = this;
-        QRCodeList = new ArrayList<Order>();
-        scan = (BootstrapButton) findViewById(R.id.scan);
-        scan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(mContext, GxReportScan.class);
-                i.putParcelableArrayListExtra("QRCodeList", QRCodeList);
-                activity.startActivityForResult(i, 1);
+        mProgressHUD = new ZProgressHUD(this);
+        mProgressHUD.setSpinnerType(ZProgressHUD.SIMPLE_ROUND_SPINNER);
+
+        QRCodeList = new ArrayList<>();
+        scan = findViewById(R.id.scan);
+        scan.setOnClickListener(v -> {
+            Intent i = new Intent(mContext, GxReportScan.class);
+            i.putParcelableArrayListExtra("QRCodeList", QRCodeList);
+            activity.startActivityForResult(i, 1);
+        });
+
+        submit = findViewById(R.id.submit);
+        submit.setOnClickListener(v -> {
+            if (QRCodeList.size() != 0) {
+                submitData();
+            } else {
+                LemonHello.getInformationHello("提示", "请扫入条码")
+                        .addAction(new LemonHelloAction("我知道啦", (helloView, helloInfo, helloAction) -> helloView.hide()))
+                        .show(activity);
             }
         });
 
-        submit = (BootstrapButton) findViewById(R.id.submit);
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (QRCodeList.size() != 0) {
-                    submitData();
-                } else {
-
-                    LemonHello.getInformationHello("提示", "请扫入条码")
-                            .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
-                                @Override
-                                public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
-                                    helloView.hide();
-                                }
-                            }))
-                            .show(activity);
-                }
-            }
-        });
-
-        mMenuRecyclerView = (SwipeMenuRecyclerView) findViewById(R.id.recycler_view);
+        mMenuRecyclerView = findViewById(R.id.recycler_view);
         mMenuRecyclerView.setLayoutManager(new LinearLayoutManager(activity));// 布局管理器。
         mMenuRecyclerView.addItemDecoration(new ListViewDecoration(activity));// 添加分割线。
 
@@ -204,104 +207,70 @@ public class GxReport extends AppCompatActivity implements EasyPermissions.Permi
     }
 
     public void submitData() {
-        submit.setEnabled(false);
-        List<SubmitJson> sjl = new ArrayList<SubmitJson>();
-        for (int i = 0; i < QRCodeList.size(); i++) {
-            SubmitJson sj = new SubmitJson();
-            sj.setD_BarCode(QRCodeList.get(i).getFCardNo());
-            sj.setD_EmpID(dataPref.getString(define.SharedEmpId, "none"));
-            sj.setD_Qty(QRCodeList.get(i).getFQty());
-            sjl.add(sj);
-        }
-        Gson g = new Gson();
-        String sjlJson = g.toJson(sjl);
-        String path =define.Net2+ define.SubmitProcessBarCode2CollectBill;
-
-        RequestParams params = new RequestParams(path);
-        params.setConnectTimeout(60000);
-        params.setReadTimeout(60000);
-        String sjlJsonEncode = "";
         try {
-            sjlJsonEncode = URLEncoder.encode(sjlJson, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            Log.e("jindi", "encodeError");
-        }
-        params.addBodyParameter("barcodeJson", sjlJsonEncode);
-        params.addBodyParameter("OrganizeID", define.suitID);
-        params.addBodyParameter("BillTypeID", "1");
-        params.addBodyParameter("EmpID", dataPref.getString(define.SharedEmpId, "none"));
-        params.addBodyParameter("UserID", "1");
-        x.http().post(params, new Callback.CommonCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                //解析result
+            submit.setEnabled(false);
+            List<SubmitJson> sjl = new ArrayList<SubmitJson>();
+            for (int i = 0; i < QRCodeList.size(); i++) {
+                SubmitJson sj = new SubmitJson();
+                sj.setD_BarCode(QRCodeList.get(i).getFCardNo());
+                sj.setD_EmpID((String)SPUtils.get(define.SharedEmpId, "none"));
+                sj.setD_Qty(QRCodeList.get(i).getFQty());
+                sjl.add(sj);
+            }
+            mProgressHUD.setMessage("提交中...");
+            mProgressHUD.show();
 
-                try {
-                    result = URLDecoder.decode(result, "UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-
-                Log.e("jindi", result);
-
-                String StockBillNO = result.substring(result.lastIndexOf("StockBillNO"), result.lastIndexOf("\"}")).replace("StockBillNO\":\"", "");
-                submit.setEnabled(true);
-                if (result.contains("success")) {
-
-                    LemonHello.getSuccessHello("提示", "提交成功,工序汇报单号:" + StockBillNO)
-                            .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
-                                @Override
-                                public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
-                                    helloView.hide();
+            HashMap<String, String> map = new HashMap<>();
+            map.put("barcodeJson", URLEncoder.encode(new Gson().toJson(sjl), "UTF-8"));
+            map.put("OrganizeID", (String)SPUtils.get(define.SharedFOrganizeid, "1"));
+            map.put("BillTypeID", "1");
+            map.put("EmpID", (String)SPUtils.get(define.SharedEmpId, "0"));
+            map.put("UserID", (String)SPUtils.get(define.SharedUserId, "0"));
+            WebServiceUtils.WEBSERVER_NAMESPACE = define.tempuri;// 命名空间
+            WebServiceUtils.callWebService(
+                    SPUtils.getServerPath() + define.ErpForAppServer,
+                    define.SubmitProcessBarCode2CollectBill,
+                    map, result -> {
+                        submit.setEnabled(true);
+                        mProgressHUD.dismiss();
+                        if (result != null) {
+                            try {
+                                result = URLDecoder.decode(result, "UTF-8");
+                                LOG.E("工序汇报提交=" + result);
+                                JSONObject jsonObject = new JSONObject(result);
+                                String ReturnType = jsonObject.getString("ReturnType");
+                                String ReturnMsg = jsonObject.getString("ReturnMsg");
+                                if ("success".equals(ReturnType)) {
+                                    LemonHello.getSuccessHello("提示", "提交成功,工序汇报单号:"+ReturnMsg)
+                                            .addAction(new LemonHelloAction("我知道啦", (helloView, helloInfo, helloAction) -> helloView.hide()))
+                                            .show(activity);
+                                    QRCodeList.clear();
+                                    activity.runOnUiThread(() -> mMenuAdapter.notifyDataSetChanged());
+                                    setData();
+                                } else {
+                                    showdialog("提交失败:" + ReturnMsg);
                                 }
-                            }))
-                            .show(activity);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                showdialog("数据解析异常");
 
-                    QRCodeList.clear();
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mMenuAdapter.notifyDataSetChanged();
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                                showdialog("数据解码异常");
+                            }
+                        } else {
+                            showdialog("接口无返回");
                         }
                     });
-                    setData();
-                } else {
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
-
-                    LemonHello.getErrorHello("提示", "提交失败:" + StockBillNO)
-                            .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
-                                @Override
-                                public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
-                                    helloView.hide();
-                                }
-                            }))
-                            .show(activity);
-                }
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                submit.setEnabled(true);
-
-                LemonHello.getErrorHello("提示", "提交失败,网络错误:" + ex.toString())
-                        .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
-                            @Override
-                            public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
-                                helloView.hide();
-                            }
-                        }))
-                        .show(activity);
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-            }
-
-            @Override
-            public void onFinished() {
-            }
-        });
+    }
+    private void showdialog(String msg){
+        LemonHello.getErrorHello("错误", msg)
+                .addAction(new LemonHelloAction("我知道啦", (helloView, helloInfo, helloAction) -> helloView.hide()))
+                .show(activity);
     }
 
     @Override

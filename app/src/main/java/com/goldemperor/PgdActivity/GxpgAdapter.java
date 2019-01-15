@@ -36,6 +36,7 @@ import com.goldemperor.MainActivity.Utils;
 import com.goldemperor.MainActivity.define;
 import com.goldemperor.R;
 import com.goldemperor.Utils.LOG;
+import com.goldemperor.Utils.SPUtils;
 import com.goldemperor.Utils.WebServiceUtils;
 import com.goldemperor.Widget.NiceSpinner.NiceSpinner;
 import com.goldemperor.Widget.ScrollListenerHorizontalScrollView;
@@ -161,46 +162,48 @@ public class GxpgAdapter extends RecyclerView.Adapter<GxpgAdapter.DefaultViewHol
                         return;
                     }
                     if (holder.edit_dispatchingnumber.isFocused() && s.toString().length() > 0 && Utils.isNumeric(s.toString())) {
-                        int num=(int) Double.parseDouble(holder.edit_dispatchingnumber.getText().toString().trim());
-                        if (num!= 0) {
-                            //先不管超标设置总数
+                        int qtyNumber=(int) Double.parseDouble(holder.edit_dispatchingnumber.getText().toString().trim());
+                        if (qtyNumber!= 0) {
+                            if(selectWorkCardPlan.getFcanreportbynostockin()){
+                                gxpgActivity.sc_ProcessWorkCardEntryList.get(holder.getAdapterPosition()).setFpreschedulingqty(qtyNumber);
+                            }else {
+                                //先不管超标设置总数
 //                                if (Double.parseDouble(edit_dispatchingnumber.getText().toString().trim()) > list.get(position).getFmustqty()) {
-                            if (num >gxpgActivity.norecord) {
+                                if (qtyNumber > gxpgActivity.norecord) {
 //                                    edit_dispatchingnumber.setText((int) list.get(position).getFmustqty() + "");
-                                holder.edit_dispatchingnumber.setText(gxpgActivity.norecord + "");
-                                holder.edit_dispatchingnumber.setSelection(holder.edit_dispatchingnumber.getText().length());
-                            }
+                                    holder.edit_dispatchingnumber.setText(gxpgActivity.norecord + "");
+                                    holder.edit_dispatchingnumber.setSelection(holder.edit_dispatchingnumber.getText().length());
+                                }
+                                gxpgActivity.sc_ProcessWorkCardEntryList.get(holder.getAdapterPosition()).setFpreschedulingqty(qtyNumber);
+                                //设置后判断总数
+                                float count = 0;
+                                for (int i = 0; i < gxpgActivity.sc_ProcessWorkCardEntryList.size(); i++) {
+                                    if (gxpgActivity.sc_ProcessWorkCardEntryList.get(i).getFprocessname().equals(gxpgActivity.sc_ProcessWorkCardEntryList.get(holder.getAdapterPosition()).getFprocessname())) {
 
-                            gxpgActivity.sc_ProcessWorkCardEntryList.get(holder.getAdapterPosition()).setFpreschedulingqty(num);
-                            //设置后判断总数
-                            float count = 0;
-                            for (int i = 0; i < gxpgActivity.sc_ProcessWorkCardEntryList.size(); i++) {
-                                if (gxpgActivity.sc_ProcessWorkCardEntryList.get(i).getFprocessname().equals(gxpgActivity.sc_ProcessWorkCardEntryList.get(holder.getAdapterPosition()).getFprocessname())) {
+                                        count += gxpgActivity.sc_ProcessWorkCardEntryList.get(i).getFpreschedulingqty();
 
-                                    count += gxpgActivity.sc_ProcessWorkCardEntryList.get(i).getFpreschedulingqty();
+                                    }
 
+                                }
+//                                LOG.e("工序：" + gxpgActivity.sc_ProcessWorkCardEntryList.get(getAdapterPosition()).getFprocessname() + "count:" + count + " mustqty:" + list.get(position).getFmustqty());
+//                                LOG.e("position："+position);
+                                int max = gxpgActivity.norecord;
+                                if (selectWorkCardPlan.getFcanreportbynostockin()) {
+                                    max = (int) gxpgActivity.sc_ProcessWorkCardEntryList.get(position).getFmustqty();
+                                }
+                                //超标就将数量设为0
+                                if (count > max) {//总数大于已汇报未计工数
+//                                    LOG.e(""+count+"====="+maxlist.get(position));
+                                    //Log.e("jindi", "afterTextChanged:" + getAdapterPosition());
+
+                                    holder.edit_dispatchingnumber.setText("0");
+                                    holder.edit_dispatchingnumber.setSelection(holder.edit_dispatchingnumber.getText().length());
+
+                                    gxpgActivity.sc_ProcessWorkCardEntryList.get(holder.getAdapterPosition()).setFpreschedulingqty(0);
+                                    Toast.makeText(gxpgActivity, "无法派工,派工总数超标", Toast.LENGTH_LONG).show();
                                 }
 
                             }
-//                                LOG.e("工序：" + gxpgActivity.sc_ProcessWorkCardEntryList.get(getAdapterPosition()).getFprocessname() + "count:" + count + " mustqty:" + list.get(position).getFmustqty());
-//                                LOG.e("position："+position);
-                            int max=gxpgActivity.norecord;
-                            if(selectWorkCardPlan.getFcanreportbynostockin()){
-                                max=(int)gxpgActivity.sc_ProcessWorkCardEntryList.get(position).getFmustqty();
-                            }
-                            //超标就将数量设为0
-                            if (count > max) {//总数大于已汇报未计工数
-//                                    LOG.e(""+count+"====="+maxlist.get(position));
-                                //Log.e("jindi", "afterTextChanged:" + getAdapterPosition());
-
-                                holder.edit_dispatchingnumber.setText("0");
-                                holder.edit_dispatchingnumber.setSelection(holder.edit_dispatchingnumber.getText().length());
-
-                                gxpgActivity.sc_ProcessWorkCardEntryList.get(holder.getAdapterPosition()).setFpreschedulingqty(0);
-                                Toast.makeText(gxpgActivity, "无法派工,派工总数超标", Toast.LENGTH_LONG).show();
-                            }
-
-
 //                                float per = gxpgActivity.sc_ProcessWorkCardEntryList.get(getAdapterPosition()).getFpreschedulingqty() / (gxpgActivity.processWorkCardPlanEntryList.get(getAdapterPosition()).getFmustqty());
 //                                float per = gxpgActivity.sc_ProcessWorkCardEntryList.get(getAdapterPosition()).getFpreschedulingqty() / gxpgActivity.norecord;
 
@@ -410,7 +413,7 @@ public class GxpgAdapter extends RecyclerView.Adapter<GxpgAdapter.DefaultViewHol
             map.put("suitID", "1");
             WebServiceUtils.WEBSERVER_NAMESPACE = define.tempuri;// 命名空间
             WebServiceUtils.callWebService(
-                    define.Net2 + define.ErpForAndroidStockServer,
+                    SPUtils.getServerPath() + define.ErpForAndroidStockServer,
                     define.GetEmpByFnumber,
                     map,
                     new WebServiceUtils.WebServiceCallBack() {

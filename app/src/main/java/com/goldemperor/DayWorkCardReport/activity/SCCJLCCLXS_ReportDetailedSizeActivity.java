@@ -17,6 +17,7 @@ import com.goldemperor.MainActivity.ListViewDecoration;
 import com.goldemperor.MainActivity.define;
 import com.goldemperor.R;
 import com.goldemperor.Utils.LOG;
+import com.goldemperor.Utils.SPUtils;
 import com.goldemperor.Utils.WebServiceUtils;
 import com.goldemperor.Widget.fancybuttons.FancyButton;
 import com.google.gson.Gson;
@@ -120,8 +121,8 @@ public class SCCJLCCLXS_ReportDetailedSizeActivity extends Activity {
             }
         });
 
-        SMV_DayWork_Data.setLayoutManager(new LinearLayoutManager(this));// 布局管理器。
-        SMV_DayWork_Data.addItemDecoration(new ListViewDecoration(this));// 添加分割线。
+        SMV_DayWork_Data.setLayoutManager(new LinearLayoutManager(mActivity));// 布局管理器。
+        SMV_DayWork_Data.addItemDecoration(new ListViewDecoration(mActivity));// 添加分割线。
         DWCA = new SCCJLCCLXS_ReportDetailedSizeAdapter(DWCDM);
         SMV_DayWork_Data.setAdapter(DWCA);
         TRL_DayWork.autoRefresh();
@@ -132,9 +133,9 @@ public class SCCJLCCLXS_ReportDetailedSizeActivity extends Activity {
         HashMap<String, String> map = new HashMap<>();
         map.put("Exec_TodayDateTime", TV_time.getText().toString());
         map.put("Exec_Where", "WHERE t.FSrcICMOInterID = " + FsrcicmointerID + " AND t.FDepartmentID=" + DepartmentID);
-        WebServiceUtils.WEBSERVER_NAMESPACE = "http://www.jindishoes.com/";// 命名空间
+        WebServiceUtils.WEBSERVER_NAMESPACE = define.jindishoes;// 命名空间
         WebServiceUtils.callWebService(
-                "http://192.168.99.79:8019/ERPForSupplierServer.asmx",
+                SPUtils.getServerPath()+define.ERPForSupplierServer,
                 define.GetDayOutPutLevelSizeReport,
                 map,
                 new WebServiceUtils.WebServiceCallBack() {

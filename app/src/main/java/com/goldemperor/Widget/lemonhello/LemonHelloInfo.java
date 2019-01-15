@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.SumPathEffect;
 import android.graphics.drawable.Drawable;
 import android.text.Layout;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.goldemperor.Utils.LOG;
 import com.goldemperor.Widget.lemonhello.LemonHelloAction;
 import com.goldemperor.Widget.lemonhello.LemonHelloGlobal;
 import com.goldemperor.Widget.lemonhello.LemonHelloPanel;
@@ -584,7 +586,11 @@ public class LemonHelloInfo {
     }
 
     public void show(Context context) {
-        LemonHelloView.defaultHelloView().showHelloWithInfo(context, this);
+        try{
+            LemonHelloView.defaultHelloView().showHelloWithInfo(context, this);
+        }catch (Exception e){
+            LOG.e(e.getMessage());
+        }
     }
 
 }

@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -25,25 +26,32 @@ import com.goldemperor.Banner.SimpleImageBanner;
 import com.goldemperor.Banner.SimpleTextBanner;
 import com.goldemperor.Banner.ViewFindUtils;
 import com.goldemperor.CCActivity.CCListActivity;
-import com.goldemperor.ScanCode.CxStockIn.android.NetworkHelper;
+import com.goldemperor.MainActivity.NewHome.NewLogin;
+import com.goldemperor.MainActivity.NewHome.NewLoginListener;
+import com.goldemperor.MainActivity.NewHome.Model.NewLoginModel;
 import com.goldemperor.DayWorkCardReport.activity.SCCJLCCLXS_ReportActivity;
 import com.goldemperor.GxReport.GxReport;
 import com.goldemperor.GylxActivity.GylxActivity;
-import com.goldemperor.LoginActivity.LoginActivity;
 import com.goldemperor.PgdActivity.PgdActivity;
-import com.goldemperor.ScanCode.New_SC_Report.NewScReportActivity;
+import com.goldemperor.ScanCode.FormingPosterior.FormingPosteriorActivity;
 import com.goldemperor.ScanCode.ProcessReportInstock.ProcessReportInstockActivity;
 import com.goldemperor.ProcessSend.ProcessSendActvity;
 import com.goldemperor.Public.SystemUtil;
+import com.goldemperor.ScanCode.ProductionReport.ProductionReportActivity;
+import com.goldemperor.ScanCode.ProductionWarehousing.ProductionWarehousingActivity;
+import com.goldemperor.ScanCode.Supplier.SupplierActivity;
 import com.goldemperor.SetActivity.SetActivity;
 import com.goldemperor.R;
+import com.goldemperor.ShowCapacity.CapacityActivity;
 import com.goldemperor.StaffWorkStatistics.StaffWorkStatisticsActivity;
 import com.goldemperor.StockCheck.StockCheckActivity;
 import com.goldemperor.Update.CheckVersionTask;
 import com.goldemperor.Update.VersionService;
 import com.goldemperor.Utils.LOG;
+import com.goldemperor.Utils.SPUtils;
 import com.goldemperor.Utils.WebServiceUtils;
 import com.goldemperor.ScanCode.WarehouseAllocation.WarehouseAllocationActivity;
+import com.goldemperor.Utils.ZProgressHUD;
 import com.goldemperor.Widget.SuperDialog;
 import com.goldemperor.Widget.banner.anim.select.ZoomInEnter;
 import com.goldemperor.Widget.fancybuttons.FancyButton;
@@ -57,15 +65,6 @@ import com.google.gson.reflect.TypeToken;
 
 //import com.umeng.analytics.MobclickAgent;
 
-import org.xutils.common.Callback;
-import org.xutils.common.task.PriorityExecutor;
-import org.xutils.http.RequestParams;
-import org.xutils.x;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -74,15 +73,11 @@ import java.util.List;
 import java.util.Map;
 
 
-
-import static com.goldemperor.ScanCode.CxStockIn.CxStockInActivity.IsNeedCheckVersion;
-
-
 /**
  * Created by Nova on 2017/7/25.
  */
 
-public class ContentActivity extends AppCompatActivity {
+public class ContentActivity extends AppCompatActivity implements NewLoginListener {
 
     private FancyButton chenckBtn;
 
@@ -122,20 +117,15 @@ public class ContentActivity extends AppCompatActivity {
     private FancyButton btn_UnFinished;
 
     private Button waiBtn;
-
-    private Button neiBtn;
-
     private Button ceBtn;
+    private Button ceBtn2;
 
     private TextView netStatus;
     private TextView version;
 
     private Context mContext;
     private Activity act;
-    private SharedPreferences dataPref;
-    private SharedPreferences.Editor dataEditor;
     String SystemModel = SystemUtil.getSystemModel();
-    private FancyButton btn_SizeBarCode;
     private SuperDialog superDialog;
     private ArrayList<SuperDialog.DialogMenuItem> menuItems;
     private SuperDialog helpDialog;
@@ -143,32 +133,25 @@ public class ContentActivity extends AppCompatActivity {
     Gson mGson;
     private List<HelpModel> HML = new ArrayList<>();
     private boolean isGetJurisdiction = false;
+    private ZProgressHUD mProgressHUD;
+    private NewLogin NL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //隐藏状态啦
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_content);
-        //隐藏标题栏
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
-        mGson = new Gson();
+        setContentView(R.layout.activity_content);
+        initview();
 
+        mGson = new Gson();
+        NL = new NewLogin(this, this);
+        mProgressHUD = new ZProgressHUD(this);
+        mProgressHUD.setSpinnerType(ZProgressHUD.SIMPLE_ROUND_SPINNER);
         mContext = this;
         act = this;
-        dataPref = this.getSharedPreferences(define.SharedName, 0);
-        dataEditor = dataPref.edit();
 
-        Map<String, String> map = new HashMap<>();
-        String User = dataPref.getString(define.SharedUser, "");
-//        List<MyAppInfo> AppInfoList = ApkTool.scanLocalInstallAppList(getPackageManager());
-//        map.put("UserName", User);
-//        for (MyAppInfo myAppInfo : AppInfoList) {
-//            LOG.e("AppName:" + myAppInfo.getAppName());
-//            map.put(myAppInfo.getAppName(), myAppInfo.getPackageName());
-//        }
-//        MobclickAgent.onEvent(this, "AppList", new Gson().toJson(map));
 
         LogToFile.init(this);
         //LogToFile.e("test","写入成功");
@@ -176,11 +159,8 @@ public class ContentActivity extends AppCompatActivity {
         sib.setSelectAnimClass(ZoomInEnter.class)
                 .setSource(DataProvider.getList())
                 .startScroll();
-        sib.setOnItemClickL(new SimpleImageBanner.OnItemClickL() {
-            @Override
-            public void onItemClick(int position) {
-                //Toast.makeText(mContext, "positon:" + position, Toast.LENGTH_LONG).show();
-            }
+        sib.setOnItemClickL(position -> {
+            //Toast.makeText(mContext, "positon:" + position, Toast.LENGTH_LONG).show();
         });
 
         SimpleTextBanner stb = ViewFindUtils.find(getWindow().getDecorView(), R.id.stb);
@@ -189,16 +169,8 @@ public class ContentActivity extends AppCompatActivity {
         for (String title : DataProvider.text) {
             titles.add(title);
         }
-        stb
-                .setSource(titles)
-                .startScroll();
+        stb.setSource(titles).startScroll();
 
-        stb.setOnItemClickL(new SimpleImageBanner.OnItemClickL() {
-            @Override
-            public void onItemClick(int position) {
-                //Toast.makeText(mContext, "positon:" + position, Toast.LENGTH_LONG).show();
-            }
-        });
 
 
         chenckBtn = (FancyButton) findViewById(R.id.btn_check);
@@ -206,8 +178,14 @@ public class ContentActivity extends AppCompatActivity {
         chenckBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(mContext, StockCheckActivity.class);
-                mContext.startActivity(i);
+                if (SPUtils.get(define.SharedPassword, "").equals("")) {
+//                    Intent i = new Intent(mContext, LoginActivity.class);
+//                    mContext.startActivity(i);
+                    NL.show();
+                } else {
+                    Intent i = new Intent(mContext, StockCheckActivity.class);
+                    mContext.startActivity(i);
+                }
             }
         });
 
@@ -285,311 +263,232 @@ public class ContentActivity extends AppCompatActivity {
 //
 //            }
 //        });
-        btn_gylx.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btn_gylx.setOnClickListener(v -> {
 //                Intent i = new Intent(mContext, GylxActivity.class);
 //                mContext.startActivity(i);
 
-                getControl("401040304");
-            }
+            getControl("401040304");
         });
 
-        btn_cc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(mContext, CCListActivity.class);
+        btn_cc.setOnClickListener(v -> {
+            Intent i = new Intent(mContext, CCListActivity.class);
+            mContext.startActivity(i);
+
+        });
+
+        processBtn.setOnClickListener(v -> {
+            if (SPUtils.get(define.SharedPassword, "").equals("")) {
+//                Intent i = new Intent(mContext, LoginActivity.class);
+//                mContext.startActivity(i);
+                NL.show();
+            } else {
+                Intent i = new Intent(mContext, GxReport.class);
                 mContext.startActivity(i);
-
-            }
-        });
-
-        processBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (dataPref.getString(define.SharedPassword, define.NONE).equals(define.NONE)) {
-                    Intent i = new Intent(mContext, LoginActivity.class);
-                    mContext.startActivity(i);
-                } else {
-                    Intent i = new Intent(mContext, GxReport.class);
-                    mContext.startActivity(i);
-                }
             }
         });
 
 
-        btn_process_sc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String SystemModel = SystemUtil.getSystemModel();
-                Log.e("jindi", "手机型号：" + SystemModel);
-                if (SystemModel.equals("MT65") || SystemModel.equals("NLS-MT66") || SystemModel.equals("NLS-MT90")) {
-                    Intent i = new Intent(mContext, com.goldemperor.ScanCode.ScReport.ScReportActivity.class);
-//                    Intent i = new Intent(mContext, NewScReportActivity.class);
-                    mContext.startActivity(i);
-                } else {
-
-                    getControl("1050501");
-                }
-            }
-        });
-
-
-        orderBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (dataPref.getString(define.SharedPassword, define.NONE).equals(define.NONE)) {
-                    Intent i = new Intent(mContext, LoginActivity.class);
-                    mContext.startActivity(i);
-                } else {
-                    Intent i = new Intent(mContext, PgdActivity.class);
-                    mContext.startActivity(i);
-                }
-            }
-        });
-
-        btn_cxstockin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e("jindi", "手机型号：" + SystemModel);
-                if (SystemModel.equals("MT65") || SystemModel.equals("NLS-MT66") || SystemModel.equals("NLS-MT90")) {
-                    Intent i = new Intent(mContext, com.goldemperor.ScanCode.CxStockIn.CxStockInActivity.class);
-                    mContext.startActivity(i);
-                } else {
-
-                    getControl("1050101");
-                }
-            }
-        });
-
-        btn_supperinstock.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String SystemModel = SystemUtil.getSystemModel();
-                Log.e("jindi", "手机型号：" + SystemModel);
-                if (SystemModel.equals("MT65") || SystemModel.equals("NLS-MT66") || SystemModel.equals("NLS-MT90")) {
-                    Intent i = new Intent(mContext, com.goldemperor.ScanCode.SupperInstock.MainActivity.class);
-                    mContext.startActivity(i);
-                } else {
-
-                    getControl("1050301");
-                }
-            }
-        });
-        btn_scstockin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String SystemModel = SystemUtil.getSystemModel();
-                Log.e("jindi", "手机型号：" + SystemModel);
-
-                if (SystemModel.equals("MT65") || SystemModel.equals("NLS-MT66") || SystemModel.equals("NLS-MT90")) {
-                    Intent i = new Intent(mContext, com.goldemperor.ScanCode.ScInstock.MainActivity.class);
-                    mContext.startActivity(i);
-                } else {
-
-                    getControl("1050201");
-                }
-            }
-        });
-
-        setBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (dataPref.getString(define.SharedPassword, define.NONE).equals(define.NONE)) {
-                    Intent i = new Intent(mContext, LoginActivity.class);
-                    mContext.startActivity(i);
-                } else {
-                    Intent i = new Intent(mContext, SetActivity.class);
-                    mContext.startActivity(i);
-                }
-
-            }
-        });
-        btn_pzgl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!dataPref.getString(define.SharedPassword, define.NONE).equals(define.NONE)) {
-                    Intent i = new Intent(mContext, com.goldemperor.PzActivity.PgdActivity.class);
-                    mContext.startActivity(i);
-                } else {
-                    Intent i = new Intent(mContext, LoginActivity.class);
-                    mContext.startActivity(i);
-                }
-
-            }
-        });
-
-        btn_xjdcheck.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!dataPref.getString(define.SharedPassword, define.NONE).equals(define.NONE)) {
-                    Intent i = new Intent(mContext, com.goldemperor.XJChenk.XJListActivity.class);
-                    mContext.startActivity(i);
-                } else {
-                    Intent i = new Intent(mContext, LoginActivity.class);
-                    mContext.startActivity(i);
-                }
-
-            }
-        });
-
-        btn_gxjhpg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!dataPref.getString(define.SharedPassword, define.NONE).equals(define.NONE)) {
-//                    Toast.makeText(mContext,"功能模块正在完善...",Toast.LENGTH_LONG).show();
-                    Intent i = new Intent(mContext, ProcessSendActvity.class);
-                    mContext.startActivity(i);
-                } else {
-                    Intent i = new Intent(mContext, LoginActivity.class);
-                    mContext.startActivity(i);
-                }
-
-            }
-        });
-        btn_day_work.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!dataPref.getString(define.SharedPassword, define.NONE).equals(define.NONE)) {
-//                    Toast.makeText(mContext,"功能模块正在完善...",Toast.LENGTH_LONG).show();
-                    if (superDialog == null) {
-                        showdialog();
-                    }
-                    superDialog.show();
+        btn_process_sc.setOnClickListener(v -> {
+            String SystemModel = SystemUtil.getSystemModel();
+            Log.e("jindi", "手机型号：" + SystemModel);
+//            if (SystemModel.equals("MT65") || SystemModel.equals("NLS-MT66") || SystemModel.equals("NLS-MT90")) {
+//                Intent i = new Intent(mContext, com.goldemperor.ScanCode.ScReport.ScReportActivity.class);
+////                    Intent i = new Intent(mContext, ProductionReportActivity.class);
+//                mContext.startActivity(i);
+//            } else {
 //
-
-                } else {
-                    Intent i = new Intent(mContext, LoginActivity.class);
-                    mContext.startActivity(i);
-                }
-
-            }
-        });
-        btn_help.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (helpDialog != null) {
-                    helpDialog.show();
-                }
-            }
-        });
-        btn_warehouse_allocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (dataPref.getString(define.SharedPassword, define.NONE).equals(define.NONE)) {
-                    Intent i = new Intent(mContext, LoginActivity.class);
-                    mContext.startActivity(i);
-                } else {
-                    getControl("1050601");
-                }
-            }
-        });
-        btn_WorkStatistics.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (dataPref.getString(define.SharedPassword, define.NONE).equals(define.NONE)) {
-                    Intent i = new Intent(mContext, LoginActivity.class);
-                    mContext.startActivity(i);
-                } else {
-                    getControl("303100101");
-                }
-            }
+//            }
+            getControl("1050501");
         });
 
-        btn_ProcessReportInstock.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (dataPref.getString(define.SharedPassword, define.NONE).equals(define.NONE)) {
-                    Intent i = new Intent(mContext, LoginActivity.class);
-                    mContext.startActivity(i);
-                } else {
-                    getControl("1050701");
-                }
-            }
-        });
-        btn_ProcessInformation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (dataPref.getString(define.SharedPassword, define.NONE).equals(define.NONE)) {
-                    Intent i = new Intent(mContext, LoginActivity.class);
-                    mContext.startActivity(i);
-                } else {
-                    getControl("1050801");
-                }
-            }
-        });
 
-        btn_UnFinished.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(mContext, UnfinishedReportActivity.class);
+        orderBtn.setOnClickListener(v -> {
+            if (SPUtils.get(define.SharedPassword, "").equals("")) {
+//                Intent i = new Intent(mContext, LoginActivity.class);
+//                mContext.startActivity(i);
+                NL.show();
+            } else {
+                Intent i = new Intent(mContext, PgdActivity.class);
                 mContext.startActivity(i);
             }
         });
 
-        netStatus = (TextView) findViewById(R.id.netStatus);
-        netStatus.setText("当前网络:外网");
-        define.isWaiNet = true;
-        define.Net1 = define.IP1718341;
-        define.Net2 = define.IP1718012;
+        btn_cxstockin.setOnClickListener(v -> {
+            Log.e("jindi", "手机型号：" + SystemModel);
+//            if (SystemModel.equals("MT65") || SystemModel.equals("NLS-MT66") || SystemModel.equals("NLS-MT90")) {
+//                Intent i = new Intent(mContext, com.goldemperor.ScanCode.CxStockIn.CxStockInActivity.class);
+//                mContext.startActivity(i);
+//            } else {
+//
+//            }
+            getControl("1050101");
+        });
 
-        define.Net3 = define.IP1718020;
-        define.Net4 = define.IP1718083;
+        btn_supperinstock.setOnClickListener(v -> {
+            String SystemModel = SystemUtil.getSystemModel();
+            Log.e("jindi", "手机型号：" + SystemModel);
+//            if (SystemModel.equals("MT65") || SystemModel.equals("NLS-MT66") || SystemModel.equals("NLS-MT90")) {
+//                Intent i = new Intent(mContext, com.goldemperor.ScanCode.SupperInstock.MainActivity.class);
+//                mContext.startActivity(i);
+//            } else {
+//
+//            }
+            getControl("1050301");
+        });
+        btn_scstockin.setOnClickListener(v -> {
+            String SystemModel = SystemUtil.getSystemModel();
+            Log.e("jindi", "手机型号：" + SystemModel);
 
-        waiBtn = (Button) findViewById(R.id.btn_wai);
-        waiBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(define.Net1.equals(define.IP799999)){
-                    dataEditor.putString(define.SharedPassword,define.NONE);
-                    dataEditor.commit();
+//            if (SystemModel.equals("MT65") || SystemModel.equals("NLS-MT66") || SystemModel.equals("NLS-MT90")) {
+//                Intent i = new Intent(mContext, com.goldemperor.ScanCode.ScInstock.MainActivity.class);
+//                mContext.startActivity(i);
+//            } else {
+//
+//            }
+            getControl("1050201");
+        });
+
+        setBtn.setOnClickListener(v -> {
+            if (SPUtils.get(define.SharedPassword, "").equals("")) {
+//                Intent i = new Intent(mContext, LoginActivity.class);
+//                mContext.startActivity(i);
+                NL.show();
+            } else {
+                Intent i = new Intent(mContext, SetActivity.class);
+                mContext.startActivity(i);
+            }
+
+        });
+        btn_pzgl.setOnClickListener(v -> {
+            if (!SPUtils.get(define.SharedPassword, "").equals("")) {
+                Intent i = new Intent(mContext, com.goldemperor.PzActivity.PgdActivity.class);
+                mContext.startActivity(i);
+            } else {
+//                Intent i = new Intent(mContext, LoginActivity.class);
+//                mContext.startActivity(i);
+                NL.show();
+            }
+
+        });
+
+        btn_xjdcheck.setOnClickListener(v -> {
+            if (!SPUtils.get(define.SharedPassword, "").equals("")) {
+                Intent i = new Intent(mContext, com.goldemperor.XJChenk.XJListActivity.class);
+                mContext.startActivity(i);
+            } else {
+//                Intent i = new Intent(mContext, LoginActivity.class);
+////                mContext.startActivity(i);
+                NL.show();
+            }
+
+        });
+
+        btn_gxjhpg.setOnClickListener(v -> {
+            if (!SPUtils.get(define.SharedPassword, "").equals("")) {
+//                    Toast.makeText(mContext,"功能模块正在完善...",Toast.LENGTH_LONG).show();
+                Intent i = new Intent(mContext, ProcessSendActvity.class);
+                mContext.startActivity(i);
+            } else {
+//                Intent i = new Intent(mContext, LoginActivity.class);
+//                mContext.startActivity(i);
+                NL.show();
+            }
+
+        });
+        btn_day_work.setOnClickListener(v -> {
+            if (!SPUtils.get(define.SharedPassword, "").equals("")) {
+//                    Toast.makeText(mContext,"功能模块正在完善...",Toast.LENGTH_LONG).show();
+                if (superDialog == null) {
+                    showdialog();
                 }
-                define.isWaiNet = true;
-                define.Net1 = define.IP1718341;
-                define.Net2 = define.IP1718012;
+                superDialog.show();
+//
+            } else {
+//                Intent i = new Intent(mContext, LoginActivity.class);
+//                mContext.startActivity(i);
+                NL.show();
+            }
 
-                define.Net3 = define.IP1718020;
-                define.Net4 = define.IP1718083;
-                UpdataAPK();
-                netStatus.setText("当前网络:外网");
+        });
+        btn_help.setOnClickListener(v -> {
+            if (helpDialog != null) {
+                helpDialog.show();
+            }
+        });
+        btn_warehouse_allocation.setOnClickListener(v -> {//仓库调拨
+            if (SPUtils.get(define.SharedPassword, "").equals("")) {
+//                Intent i = new Intent(mContext, LoginActivity.class);
+//                mContext.startActivity(i);
+                NL.show();
+            } else {
+                getControl("1050601");
+            }
+        });
+        btn_WorkStatistics.setOnClickListener(v -> {
+            if (SPUtils.get(define.SharedPassword, "").equals("")) {
+//                Intent i = new Intent(mContext, LoginActivity.class);
+//                mContext.startActivity(i);
+                NL.show();
+            } else {
+                getControl("303100101");
             }
         });
 
-        neiBtn = (Button) findViewById(R.id.btn_nei);
-        neiBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                define.isWaiNet = false;
-                define.Net1 = define.IP798341;
-                define.Net2 = define.IP798012;
-
-                define.Net3 = define.IP798020;
-                define.Net4 = define.IP798083;
-                UpdataAPK();
-                netStatus.setText("当前网络:内网");
+        btn_ProcessReportInstock.setOnClickListener(v -> {
+            if (SPUtils.get(define.SharedPassword, "").equals("")) {
+//                Intent i = new Intent(mContext, LoginActivity.class);
+//                mContext.startActivity(i);
+                NL.show();
+            } else {
+                getControl("1050701");
+            }
+        });
+        btn_ProcessInformation.setOnClickListener(v -> {
+            if (SPUtils.get(define.SharedPassword, "").equals("")) {
+//                Intent i = new Intent(mContext, LoginActivity.class);
+//                mContext.startActivity(i);
+                NL.show();
+            } else {
+                getControl("1050801");
             }
         });
 
-        ceBtn = (Button) findViewById(R.id.btn_ce);
-        ceBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!define.Net1.equals(define.IP799999)){
-                    dataEditor.putString(define.SharedPassword,define.NONE);
-                    dataEditor.commit();
-                }
-                define.isWaiNet = false;
+        btn_UnFinished.setOnClickListener(v -> {
+            Intent i = new Intent(mContext, UnfinishedReportActivity.class);
+            mContext.startActivity(i);
+        });
 
-                define.Net1 = define.IP799999;
-                define.Net2 = define.IP798056;
+        netStatus = findViewById(R.id.netStatus);
 
-                define.Net3 = define.IP798020;
-                define.Net4 = define.IP798083;
 
-                define.isCeNet = true;
-                UpdataAPK();
-                netStatus.setText("当前网络:测试库");
-            }
+        if (SPUtils.getServerPath().equals("")) {
+            SPUtils.seveServerPath(define.SERVER + define.PORT_8012);
+            netStatus.setText("当前网络:正式库");
+        } else if (SPUtils.getServerPath().equals(define.SERVER + define.PORT_8012)) {
+            netStatus.setText("当前网络:正式库");
+        } else if (SPUtils.getServerPath().equals(define.SERVER + define.PORT_8056)) {
+            netStatus.setText("当前网络:测试库1");
+        } else if (SPUtils.getServerPath().equals(define.SERVER_XL + define.PORT_8078)) {
+            netStatus.setText("当前网络:测试库2");
+        }
+        waiBtn = findViewById(R.id.btn_wai);
+        waiBtn.setOnClickListener(v -> {
+            SPUtils.seveServerPath(define.SERVER + define.PORT_8012);
+            UpdataAPK();
+            netStatus.setText("当前网络:正式库");
+        });
+
+        ceBtn = findViewById(R.id.btn_ce);
+        ceBtn.setOnClickListener(v -> {
+            SPUtils.seveServerPath(define.SERVER + define.PORT_8056);
+            UpdataAPK();
+            netStatus.setText("当前网络:测试库1");
+        });
+        ceBtn2 = findViewById(R.id.btn_ce2);
+        ceBtn2.setOnClickListener(v -> {
+            SPUtils.seveServerPath(define.SERVER_XL + define.PORT_8078);
+            UpdataAPK();
+            netStatus.setText("当前网络:测试库2");
         });
 
         if (SystemModel.equals("MT65") || SystemModel.equals("NLS-MT66")) {
@@ -598,10 +497,10 @@ public class ContentActivity extends AppCompatActivity {
         }
 
         UpdataAPK();
-        version = (TextView) findViewById(R.id.version);
+        version = findViewById(R.id.version);
         version.setText("当前版本:" + VersionService.getVersionName(act.getBaseContext()));
 
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 201);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE}, 201);
 
         if (Environment.getExternalStorageState()
                 .equals(android.os.Environment.MEDIA_MOUNTED)) {
@@ -613,6 +512,21 @@ public class ContentActivity extends AppCompatActivity {
 
         }
         getHelp();
+
+    }
+
+    private void initview() {
+
+    }
+
+
+    private void StartAct(Class<?> cls) {
+        if ("".equals(SPUtils.get(define.LoginType, ""))) {
+            NL.show();
+        } else {
+            startActivity(new Intent(this, cls));
+        }
+
     }
 
     @Override
@@ -635,22 +549,24 @@ public class ContentActivity extends AppCompatActivity {
         superDialog = new SuperDialog(this);
         menuItems = new ArrayList<>();
         menuItems.add(new SuperDialog.DialogMenuItem("生产车间楼层产量实时汇总表"));
+        menuItems.add(new SuperDialog.DialogMenuItem("本组今日产能"));
         menuItems.add(new SuperDialog.DialogMenuItem("其它报表正在制作中..."));
         superDialog.setTitle("选择报表类型")
                 .setTitleTextSize(30)
                 .setContentTextSize(23)
                 .setContentTextGravity(Gravity.CENTER)
-                .setListener(new SuperDialog.onDialogClickListener() {
-                    @Override
-                    public void click(boolean isButtonClick, int position) {
-                        switch (position) {
-                            case 0:
-                                mContext.startActivity(new Intent(mContext, SCCJLCCLXS_ReportActivity.class));
-                                break;
-                            case 1:
-                                mContext.startActivity(new Intent(mContext, AutographActivity.class));
-                                break;
-                        }
+                .setListener((isButtonClick, position) -> {
+                    switch (position) {
+                        case 0:
+
+                            mContext.startActivity(new Intent(mContext, SCCJLCCLXS_ReportActivity.class));
+                            break;
+                        case 1:
+                            mContext.startActivity(new Intent(mContext, CapacityActivity.class));
+                            break;
+                        case 2:
+//                                mContext.startActivity(new Intent(mContext, AutographActivity.class));
+                            break;
                     }
                 })
                 .setDialogMenuItemList(menuItems);
@@ -668,27 +584,23 @@ public class ContentActivity extends AppCompatActivity {
                 .setTitleTextSize(30)
                 .setContentTextSize(23)
                 .setContentTextGravity(Gravity.CENTER)
-                .setListener(new SuperDialog.onDialogClickListener() {
-                    @Override
-                    public void click(boolean isButtonClick, int position) {
-                        if (position == HML.size()) {
-                            return;
-                        }
-                        Intent i = new Intent(ContentActivity.this, HelpActivity.class);
-                        i.putExtra("URL", HML.get(position).getFHelpUrl());
-                        startActivity(i);
+                .setListener((isButtonClick, position) -> {
+                    if (position == HML.size()) {
+                        return;
                     }
+                    Intent i = new Intent(ContentActivity.this, HelpActivity.class);
+                    i.putExtra("URL", HML.get(position).getFHelpUrl());
+                    startActivity(i);
                 })
                 .setDialogMenuItemList(helpItems);
     }
 
     private void UpdataAPK() {
         //如果有网络的情况下，apk更新
-        if (IsNeedCheckVersion && NetworkHelper.isNetworkAvailable(this)) {
+        if (NetworkHelper.isNetworkAvailable(this)) {
             new Thread() {
                 @Override
                 public void run() {
-                    Log.e("jindi", "连接外网:" + define.isWaiNet);
                     CheckVersionTask myTask = new CheckVersionTask(act);
                     myTask.run();
                 }
@@ -698,6 +610,9 @@ public class ContentActivity extends AppCompatActivity {
     }
 
     private void getControl(final String controlID) {
+        mProgressHUD.setMessage("检查权限...");
+        mProgressHUD.show();
+
         LOG.e(controlID + "isGetJurisdictio=" + isGetJurisdiction);
         if (!isGetJurisdiction) {
             isGetJurisdiction = true;
@@ -705,80 +620,56 @@ public class ContentActivity extends AppCompatActivity {
             Toast.makeText(this, "正在检查权限", Toast.LENGTH_LONG).show();
             return;
         }
-        RequestParams params = new RequestParams(define.Net2 + define.IsHaveControl);
-        params.addQueryStringParameter("OrganizeID", "1");
-        params.addQueryStringParameter("empID", dataPref.getString(define.SharedEmpId, define.NONE));
-        params.addQueryStringParameter("controlID", controlID);
-        LOG.e("检查权限=" + params.toString());
-        x.http().get(params, new Callback.CommonCallback<String>() {
-            @Override
-            public void onSuccess(final String result) {
-                LOG.e("权限=" + result);
-                if (result.contains("false")) {
 
-                    LemonHello.getErrorHello("提示", "你没有权限,请联系管理员开通权限")
-                            .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
-                                @Override
-                                public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
-                                    helloView.hide();
+        HashMap<String, String> map = new HashMap<>();
+        map.put("OrganizeID", "1");
+        map.put("empID",(String)SPUtils.get(define.SharedEmpId, ""));
+        map.put("controlID", controlID);
+        WebServiceUtils.WEBSERVER_NAMESPACE = define.tempuri;// 命名空间
+        WebServiceUtils.callWebService(SPUtils.getServerPath() + define.ErpPublicServer,
+                define.IsHaveControl2, map, result -> {
+                    mProgressHUD.dismiss();
+                    isGetJurisdiction = false;
+                    if (result != null) {
+                        try {
+                            LOG.E("true=" + result);
+                            result = URLDecoder.decode(result, "UTF-8");
+                            LOG.E("检查权限=" + result);
+                            if ("true".equals(result)) {
+                                if (controlID.equals("1050101")) {
+                                    startActivity(new Intent(mContext, FormingPosteriorActivity.class));
+                                } else if (controlID.equals("1050501")) {
+                                    startActivity(new Intent(mContext, ProductionReportActivity.class));
+                                } else if (controlID.equals("401040304")) {
+                                    startActivity(new Intent(mContext, GylxActivity.class));
+                                } else if (controlID.equals("1050601")) {
+                                    startActivity(new Intent(mContext, WarehouseAllocationActivity.class));
+                                } else if (controlID.equals("303100101")) {
+                                    startActivity(new Intent(mContext, StaffWorkStatisticsActivity.class));
+                                } else if (controlID.equals("1050701")) {
+                                    startActivity(new Intent(mContext, ProcessReportInstockActivity.class));
+                                } else if (controlID.equals("1050801")) {
+                                    startActivity(new Intent(mContext, ProcessInformationActivity.class));
+                                } else if (controlID.equals("1050301")) {
+                                    startActivity(new Intent(mContext, SupplierActivity.class));
+                                } else if (controlID.equals("1050201")) {
+                                    startActivity(new Intent(mContext, ProductionWarehousingActivity.class));
                                 }
-                            })).show(act);
-                } else if (result.contains("true")) {
-                    if (controlID.equals("1050101")) {
-                        startActivity(new Intent(mContext, com.goldemperor.ScanCode.CxStockIn.CxStockInActivity.class));
-                    } else if (controlID.equals("1050501")) {
-                        startActivity(new Intent(mContext, com.goldemperor.ScanCode.ScReport.ScReportActivity.class));
-//                        Intent i = new Intent(mContext, NewScReportActivity.class);
-                    } else if (controlID.equals("401040304")) {
-                        startActivity(new Intent(mContext, GylxActivity.class));
-                    } else if (controlID.equals("1050601")) {
-                        startActivity(new Intent(mContext, WarehouseAllocationActivity.class));
-                    } else if (controlID.equals("303100101")) {
-                        startActivity(new Intent(mContext, StaffWorkStatisticsActivity.class));
-                    } else if (controlID.equals("1050701")) {
-                        startActivity(new Intent(mContext, ProcessReportInstockActivity.class));
-                    } else if (controlID.equals("1050801")) {
-                        startActivity(new Intent(mContext, ProcessInformationActivity.class));
-                    }
-                } else {
+                            } else {
+                                LemonHello.getErrorHello("提示", "你没有权限,请联系管理员开通权限")
+                                        .addAction(new LemonHelloAction("我知道啦", (helloView, helloInfo, helloAction) -> helloView.hide())).show(act);
 
-                    LemonHello.getErrorHello("提示", "服务器返回失败")
-                            .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
-                                @Override
-                                public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
-                                    helloView.hide();
-                                }
-                            })).show(act);
-
-                }
-            }
-
-            //请求异常后的回调方法
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-
-                Log.e("jindi", ex.toString());
-
-                LemonHello.getErrorHello("提示", "网络错误")
-                        .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
-                            @Override
-                            public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
-                                helloView.hide();
                             }
-                        })).show(act);
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        LemonHello.getErrorHello("提示", "服务器返回失败")
+                                .addAction(new LemonHelloAction("我知道啦", (helloView, helloInfo, helloAction) -> helloView.hide())).show(act);
+                    }
 
-            }
+                });
 
-            //主动调用取消请求的回调方法
-            @Override
-            public void onCancelled(CancelledException cex) {
-            }
-
-            @Override
-            public void onFinished() {
-                isGetJurisdiction = false;
-            }
-        });
     }
 
     private void getHelp() {
@@ -786,29 +677,35 @@ public class ContentActivity extends AppCompatActivity {
         map.put("suitID", "1");
         WebServiceUtils.WEBSERVER_NAMESPACE = define.tempuri;
         WebServiceUtils.callWebService(
-                define.Net2 + define.ErpPublicServer,
+                SPUtils.getServerPath() + define.ErpPublicServer,
                 define.GetHelpInfoList,
-                map,
-                new WebServiceUtils.WebServiceCallBack() {
-                    @Override
-                    public void callBack(String result) {
-                        LOG.e("result=" + result);
-                        if (result != null) {
-                            try {
-                                result = URLDecoder.decode(result, "UTF-8");
-                                LOG.e("getHelp=" + result);
-                                HML = mGson.fromJson(result, new TypeToken<List<HelpModel>>() {
-                                }.getType());
-                                helpdialog();
+                map, result -> {
+                    LOG.e("result=" + result);
+                    if (result != null) {
+                        try {
+                            result = URLDecoder.decode(result, "UTF-8");
+                            LOG.e("getHelp=" + result);
+                            HML = mGson.fromJson(result, new TypeToken<List<HelpModel>>() {
+                            }.getType());
+                            helpdialog();
 
-                            } catch (UnsupportedEncodingException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            Toast.makeText(mContext, "接口访问异常", Toast.LENGTH_SHORT).show();
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
                         }
+                    } else {
+                        Toast.makeText(mContext, "接口访问异常", Toast.LENGTH_SHORT).show();
                     }
                 });
+
+    }
+
+    @Override
+    public void Login(NewLoginModel NLM) {
+
+    }
+
+    @Override
+    public void Back() {
 
     }
 

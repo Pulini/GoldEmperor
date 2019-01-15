@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.goldemperor.R;
+import com.goldemperor.Utils.SPUtils;
 import com.goldemperor.Widget.lemonhello.LemonHello;
 import com.goldemperor.Widget.lemonhello.LemonHelloAction;
 import com.goldemperor.Widget.lemonhello.LemonHelloInfo;
@@ -52,7 +53,7 @@ public class StockCheckActivity extends AppCompatActivity implements ViewPager.O
     public String nonce = "98269826";
     public static String checkSum;
 
-    public String curTime = String.valueOf((new Date()).getTime() * 1000L );
+    public String curTime = String.valueOf((new Date()).getTime() * 1000L);
 
     private List<View> viewList;
     public ViewPager pager;
@@ -64,8 +65,6 @@ public class StockCheckActivity extends AppCompatActivity implements ViewPager.O
     public ExceptionalView exceptionalView;
 
     public DoneView doneView;
-    private SharedPreferences dataPref;
-    private SharedPreferences.Editor dataEditor;
 
     private Context con;
     private Activity act;
@@ -78,70 +77,61 @@ public class StockCheckActivity extends AppCompatActivity implements ViewPager.O
         getSupportActionBar().hide();
         con = this;
         act = this;
-        dataPref = this.getSharedPreferences(define.SharedName, 0);
-        dataEditor = dataPref.edit();
 
 
-        if (dataPref.getString(define.SharedPassword, define.NONE).equals(define.NONE)) {
-            Intent i = new Intent(con, LoginActivity.class);
-            con.startActivity(i);
-            finish();
-        } else {
+        Gson g = new Gson();
+        final Request request = new Request();
+        RequestBody requestBody = new RequestBody();
+        requestBody.setUserPhone((String)SPUtils.get(define.SharedPhone, define.NONE));
+        requestBody.setPassword((String)SPUtils.get(define.SharedPassword, define.NONE));
+        request.setData(requestBody);
 
-            Gson g = new Gson();
-            final Request request = new Request();
-            RequestBody requestBody = new RequestBody();
-            requestBody.setUserPhone(dataPref.getString(define.SharedPhone, define.NONE));
-            requestBody.setPassword(dataPref.getString(define.SharedPassword, define.NONE));
-            request.setData(requestBody);
+        RequestParams params = new RequestParams(define.Login);
+        params.addHeader("AppKey", appKey);
+        params.addHeader("Nonce", nonce);
+        params.addHeader("CurTime", curTime);
+        checkSum = Utils.getCheckSum(appSecret, nonce, curTime);
+        params.addHeader("CheckSum", checkSum);
 
-            RequestParams params = new RequestParams(define.Login);
-            params.addHeader("AppKey", appKey);
-            params.addHeader("Nonce", nonce);
-            params.addHeader("CurTime", curTime);
-            checkSum = Utils.getCheckSum(appSecret, nonce, curTime);
-            params.addHeader("CheckSum", checkSum);
+        params.setAsJsonContent(true);
+        params.setBodyContent(g.toJson(request));
 
-            params.setAsJsonContent(true);
-            params.setBodyContent(g.toJson(request));
+        x.http().post(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(final String result) {
+                //解析result
+                //重新设置数据
+                Log.e("jindi", result);
+                if (result.contains("成功")) {
 
-            x.http().post(params, new Callback.CommonCallback<String>() {
-                @Override
-                public void onSuccess(final String result) {
-                    //解析result
-                    //重新设置数据
-                    Log.e("jindi",result);
-                    if (result.contains("成功")) {
+                } else {
 
-                    } else {
-
-                        LemonHello.getInformationHello("提示", "请先登录")
-                                .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
-                                    @Override
-                                    public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
-                                        helloView.hide();
-                                    }
-                                }))
-                                .show(act);
-                    }
+                    LemonHello.getInformationHello("提示", "请先登录")
+                            .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
+                                @Override
+                                public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
+                                    helloView.hide();
+                                }
+                            }))
+                            .show(act);
                 }
+            }
 
-                //请求异常后的回调方法
-                @Override
-                public void onError(Throwable ex, boolean isOnCallback) {
+            //请求异常后的回调方法
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
 
-                }
+            }
 
-                //主动调用取消请求的回调方法
-                @Override
-                public void onCancelled(CancelledException cex) {
-                }
+            //主动调用取消请求的回调方法
+            @Override
+            public void onCancelled(CancelledException cex) {
+            }
 
-                @Override
-                public void onFinished() {
-                }
-            });
-        }
+            @Override
+            public void onFinished() {
+            }
+        });
         //初始化viewpage页面
         viewList = new ArrayList<View>();
         pager = (ViewPager) findViewById(R.id.pager);

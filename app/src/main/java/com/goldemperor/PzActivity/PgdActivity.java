@@ -35,6 +35,7 @@ import com.goldemperor.PgdActivity.UserResult;
 import com.goldemperor.PgdActivity.WorkCardPlan;
 import com.goldemperor.R;
 import com.goldemperor.Utils.LOG;
+import com.goldemperor.Utils.SPUtils;
 import com.goldemperor.Utils.WebServiceUtils;
 import com.goldemperor.Widget.ScrollListenerHorizontalScrollView;
 import com.goldemperor.Widget.SublimePickerFragment;
@@ -61,6 +62,7 @@ import org.xutils.http.RequestParams;
 import org.xutils.x;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -79,9 +81,7 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
 
     private Context mContext;
     private Activity act;
-    private SharedPreferences dataPref;
-    private SharedPreferences.Editor dataEditor;
-    private SmartRefreshLayout refreshLayout;
+    private SmartRefreshLayout SRL_PGD_Refresh;
     private SwipeMenuRecyclerView mMenuRecyclerView;
     private PgdAdapter mMenuAdapter;
     private List<WorkCardPlan> pgdWorkCardPlan;
@@ -117,8 +117,8 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
     public static int PaiCount;
 
     private List<DeptModel> DML = new ArrayList<>();
-    private String[] chanDropStrings = {"金帝    ", "金隆    ", "金意    "};
-    private String[] gxDropStrings = {"针车    ", "成型    "};
+    private String[] chanDropStrings = {"金帝    ", "金隆    ", "金意    ","AITA    "};
+    private String[] gxDropStrings = {"针车    ", "成型    ", "裁断    "};
     private ArrayList<String> keDropStrings = new ArrayList<>();
     private ArrayList<String> zuDropStrings = new ArrayList<>();
     private String FDeptID;
@@ -130,28 +130,32 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_zj_pgd);
-        //隐藏标题栏
-        getSupportActionBar().hide();
         mContext = this;
         act = this;
-        dataPref = this.getSharedPreferences(define.SharedName, 0);
-        dataEditor = dataPref.edit();
-        FDeptID = dataPref.getString(define.SharedFDeptmentid, "none");
+        FDeptID =(String)SPUtils.get(define.SharedFDeptmentid, "none");
         //初始化数据库
         dbManager = initDb();
 
         ScrollView = (ScrollListenerHorizontalScrollView) findViewById(R.id.ScrollView);
-        ScrollView.setOnScrollListener(this);
+        tv_tip = (TextView) findViewById(R.id.tv_tip);
+        tv_showDate = (TextView) findViewById(R.id.tv_showDate);
+        //初始化下拉刷新
+        SRL_PGD_Refresh = (SmartRefreshLayout) findViewById(R.id.SRL_PGD_Refresh);
+        mMenuRecyclerView = (SwipeMenuRecyclerView) findViewById(R.id.recycler_view);
+        btn_week = (FancyButton) findViewById(R.id.btn_week);
+        btn_month = (FancyButton) findViewById(R.id.btn_month);
+        btn_today = (FancyButton) findViewById(R.id.btn_today);
+        btn_lastMonth = (FancyButton) findViewById(R.id.btn_lastMonth);
+        searchEdit = (EditText) findViewById(R.id.searchEdit);
+        btn_search = (FancyButton) findViewById(R.id.btn_search);
+        btn_calendar = (FancyButton) findViewById(R.id.btn_calendar);
 
+        ScrollView.setOnScrollListener(this);
         StartTime = Utils.getCurrentYear() + "-" + Utils.getCurrentMonth() + "-" + "01";
         EndTime = Utils.getCurrentTime();
 
-        tv_tip = (TextView) findViewById(R.id.tv_tip);
-        tv_showDate = (TextView) findViewById(R.id.tv_showDate);
-
-        //初始化下拉刷新
-        refreshLayout = (SmartRefreshLayout) findViewById(R.id.refresh_layout);
-        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+        LOG.e(SRL_PGD_Refresh==null?"refreshLayout==null":"refreshLayout!=null");
+        SRL_PGD_Refresh.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 LOG.e("---------------------onRefresh");
@@ -164,9 +168,9 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
 
 //        getData(StartTime, EndTime);
 
-        mMenuRecyclerView = (SwipeMenuRecyclerView) findViewById(R.id.recycler_view);
-        mMenuRecyclerView.setLayoutManager(new LinearLayoutManager(this));// 布局管理器。
-        mMenuRecyclerView.addItemDecoration(new ListViewDecoration(this));// 添加分割线。
+
+        mMenuRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));// 布局管理器。
+        mMenuRecyclerView.addItemDecoration(new ListViewDecoration(mContext));// 添加分割线。
 
         // 设置菜单创建器。
         mMenuRecyclerView.setSwipeMenuCreator(swipeMenuCreator);
@@ -178,7 +182,7 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
         mMenuAdapter.setOnItemClickListener(onItemClickListener);
         mMenuRecyclerView.setAdapter(mMenuAdapter);
 
-        btn_today = (FancyButton) findViewById(R.id.btn_today);
+
         btn_today.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -190,7 +194,7 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
             }
         });
 
-        btn_week = (FancyButton) findViewById(R.id.btn_week);
+
         btn_week.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -202,7 +206,7 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
             }
         });
 
-        btn_month = (FancyButton) findViewById(R.id.btn_month);
+
         btn_month.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -215,7 +219,7 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
             }
         });
 
-        btn_lastMonth = (FancyButton) findViewById(R.id.btn_lastMonth);
+
         btn_lastMonth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -230,8 +234,7 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
             }
         });
 
-        searchEdit = (EditText) findViewById(R.id.searchEdit);
-        btn_search = (FancyButton) findViewById(R.id.btn_search);
+
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -271,7 +274,7 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
             }
         };
 
-        btn_calendar = (FancyButton) findViewById(R.id.btn_calendar);
+
         btn_calendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -308,8 +311,7 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
             @Override
             public void onItemClick(ViewGroup parent, View v, int id) {
                 chanDropDown.setText(chanDropStrings[id]);
-                dataEditor.putString(define.QUALITY_FACTORYNAME, chanDropStrings[id]);
-                dataEditor.commit();
+                SPUtils.put(define.QUALITY_FACTORYNAME, chanDropStrings[id]);
             }
         });
         gxDropDown.setDropdownData(gxDropStrings);
@@ -317,25 +319,35 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
             @Override
             public void onItemClick(ViewGroup parent, View v, int id) {
                 gxDropDown.setText(gxDropStrings[id]);
-                dataEditor.putString(define.QUALITY_WORKINGPROCEDURE, gxDropStrings[id]);
-                dataEditor.commit();
+                SPUtils.put(define.QUALITY_WORKINGPROCEDURE, gxDropStrings[id]);
                 keDropStrings.clear();
+                LOG.e("工序名："+gxDropStrings[id]);
                 for (int i = 0; i < DML.size(); i++) {
                     if (gxDropStrings[id].replaceAll(" ", "").equals("针车")) {
                         if (DML.get(i).getFName().contains(chanDropDown.getText().toString().replaceAll(" ", "") + "_针车") && !DML.get(i).getFName().contains("组") && !DML.get(i).getFName().contains("*")) {
                             keDropStrings.add(DML.get(i).getFName());
                         }
                     } else if (gxDropStrings[id].replaceAll(" ", "").equals("成型")) {
-                        if ((DML.get(i).getFName().contains(chanDropDown.getText().toString().replaceAll(" ", "") + "成型") || DML.get(i).getFName().contains(chanDropDown.getText().toString().replaceAll(" ", "") + "_成型")) && DML.get(i).getFName().contains("课") && !DML.get(i).getFName().contains("*")) {
+                        if ((DML.get(i).getFName().contains(chanDropDown.getText().toString().replaceAll(" ", "") + "_成型") || DML.get(i).getFName().contains(chanDropDown.getText().toString().replaceAll(" ", "") + "_成型")) && DML.get(i).getFName().contains("课") && !DML.get(i).getFName().contains("*")) {
+                            keDropStrings.add(DML.get(i).getFName());
+                        }
+                    } else if (gxDropStrings[id].replaceAll(" ", "").equals("裁断")) {
+                        if ((DML.get(i).getFName().contains(chanDropDown.getText().toString().replaceAll(" ", "") + "_裁断") || DML.get(i).getFName().contains(chanDropDown.getText().toString().replaceAll(" ", "") + "_裁断")) && DML.get(i).getFName().contains("课") && !DML.get(i).getFName().contains("*")) {
                             keDropStrings.add(DML.get(i).getFName());
                         }
                     }
                 }
+                for (String keDropString : keDropStrings) {
+                    LOG.e("列表="+keDropString);
 
-                if (keDropStrings.size() > 1) {
+                }
+
+                if (keDropStrings.size() >= 1) {
                     String[] strings = new String[keDropStrings.size()];
+                    LOG.e("数据="+strings.toString());
                     keDropStrings.toArray(strings);
                     keDropDown.setDropdownData(strings);
+                    keDropDown.setText(keDropStrings.get(0));
                 }
             }
 
@@ -347,8 +359,7 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
             public void onItemClick(ViewGroup parent, View v, int id) {
                 if (keDropStrings != null && keDropStrings.size() > 0) {
                     keDropDown.setText(keDropStrings.get(id));
-                    dataEditor.putString(define.QUALITY_COURSE, keDropStrings.get(id));
-                    dataEditor.commit();
+                    SPUtils.put(define.QUALITY_COURSE,keDropStrings.get(id));
                     zuDropStrings.clear();
                     for (int i = 0; i < DML.size(); i++) {
                         if (DML.get(i).getFName().contains(keDropStrings.get(id))) {
@@ -364,14 +375,21 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
                                         zuDropStrings.add(DML.get(j).getFName());
                                     }
                                 }
+                            }else if (gxDropDown.getText().toString().replaceAll(" ", "").equals("裁断")) {
+                                for (int j = 0; j < DML.size(); j++) {
+                                    if (DML.get(j).getFNumber().contains(DML.get(i).getFNumber()) ) {
+                                        zuDropStrings.add(DML.get(j).getFName());
+                                    }
+                                }
                             }
                         }
 
 
-                        if (zuDropStrings.size() > 1) {
+                        if (zuDropStrings.size() >= 1) {
                             String[] strings = new String[zuDropStrings.size()];
                             zuDropStrings.toArray(strings);
                             zuDropDown.setDropdownData(strings);
+                            zuDropDown.setText(keDropStrings.get(0));
                         }
                     }
                 }
@@ -383,8 +401,7 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
             public void onItemClick(ViewGroup parent, View v, int id) {
                 if (zuDropStrings != null && zuDropStrings.size() > 0) {
                     zuDropDown.setText(zuDropStrings.get(id));
-                    dataEditor.putString(define.QUALITY_GROUP, zuDropStrings.get(id));
-                    dataEditor.commit();
+                    SPUtils.put(define.QUALITY_GROUP,zuDropStrings.get(id));
                     for (int i = 0; i < DML.size(); i++) {
                         if (DML.get(i).getFName().equals(zuDropStrings.get(id))) {
                             FDeptID = String.valueOf(DML.get(i).getFItemID());
@@ -400,10 +417,10 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
 
     private void setdata() {
         tv_tip.setVisibility(View.GONE);
-        String FactoryName = dataPref.getString(define.QUALITY_FACTORYNAME, "");
-        String WorkingProcedure = dataPref.getString(define.QUALITY_WORKINGPROCEDURE, "");
-        String Course = dataPref.getString(define.QUALITY_COURSE, "");
-        String Group = dataPref.getString(define.QUALITY_GROUP, "");
+        String FactoryName = (String)SPUtils.get(define.QUALITY_FACTORYNAME, "");
+        String WorkingProcedure =(String)SPUtils.get(define.QUALITY_WORKINGPROCEDURE, "");
+        String Course = (String)SPUtils.get(define.QUALITY_COURSE, "");
+        String Group =(String)SPUtils.get(define.QUALITY_GROUP, "");
         LOG.e("FactoryName=" + FactoryName);
         LOG.e("WorkingProcedure=" + WorkingProcedure);
         LOG.e("Course=" + Course);
@@ -417,7 +434,7 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
             gxDropDown.setText(WorkingProcedure);
             keDropStrings.clear();
 
-
+LOG.e("WorkingProcedure="+WorkingProcedure);
             for (int i = 0; i < DML.size(); i++) {
 
                 if (WorkingProcedure.equals("针车")) {
@@ -434,6 +451,10 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
                     }
                 } else if (WorkingProcedure.equals("成型")) {
                     if ((DML.get(i).getFName().contains(chanDropDown.getText().toString().replaceAll(" ", "") + "成型") || DML.get(i).getFName().contains(chanDropDown.getText().toString().replaceAll(" ", "") + "_成型")) && DML.get(i).getFName().contains("课") && !DML.get(i).getFName().contains("*")) {
+                        keDropStrings.add(DML.get(i).getFName());
+                    }
+                } else if (WorkingProcedure.equals("裁断")) {
+                    if ((DML.get(i).getFName().contains(chanDropDown.getText().toString().replaceAll(" ", "") + "裁断") || DML.get(i).getFName().contains(chanDropDown.getText().toString().replaceAll(" ", "") + "_裁断")) && DML.get(i).getFName().contains("课") && !DML.get(i).getFName().contains("*")) {
                         keDropStrings.add(DML.get(i).getFName());
                     }
                 }
@@ -461,6 +482,12 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
                     } else if (gxDropDown.getText().toString().replaceAll(" ", "").equals("成型")) {
                         for (int j = 0; j < DML.size(); j++) {
                             if (DML.get(j).getFNumber().contains(DML.get(i).getFNumber()) && DML.get(j).getFName().contains("后段")) {
+                                zuDropStrings.add(DML.get(j).getFName());
+                            }
+                        }
+                    }else if (gxDropDown.getText().toString().replaceAll(" ", "").equals("裁断")) {
+                        for (int j = 0; j < DML.size(); j++) {
+                            if (DML.get(j).getFNumber().contains(DML.get(i).getFNumber()) ) {
                                 zuDropStrings.add(DML.get(j).getFName());
                             }
                         }
@@ -613,7 +640,7 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
     public void getData(final String StartTime, final String EndTime) {
         tv_tip.setText("数据载入中...");
         tv_showDate.setText("显示日期:" + StartTime + "到" + EndTime);
-        RequestParams params = new RequestParams(define.Net2 + define.GetWorkCardInfoNew);
+        RequestParams params = new RequestParams(SPUtils.getServerPath() + define.GetWorkCardInfoNew);
         params.setReadTimeout(60000);
         params.setConnectTimeout(60000);
         params.addQueryStringParameter("FStartTime", StartTime);
@@ -643,11 +670,9 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
                     Log.e("Pan", "pgds=" + pgds.getData().size());
                     if (pgds.getData() != null) {
                         for (int i = 0; i < pgds.getData().size(); i++) {
-                            //Log.e("jindi","deptid:"+pgds.getData().get(i).getFdeptid()+" Deptmentid:"+dataPref.getString(define.SharedFDeptmentid,"none"));
 //                            Log.e("Pan", "" + filter.contains(pgds.getData().get(i).getOrderbill()));
 //                            Log.e("Pan", (pgds.getData().get(i).getOrderbill().indexOf("J")) == 0 ? "==0" : "!=0");
 //                            Log.e("Pan", String.valueOf(pgds.getData().get(i).getFdeptid()).equals(FDeptID) ? "一样" : "不一样");
-//&& String.valueOf(pgds.getData().get(i).getFdeptid()).equals(dataPref.getString(define.SharedFDeptmentid, "none"))
                             if ((!filter.contains(pgds.getData().get(i).getPlanbill()) || !filter.contains(pgds.getData().get(i).getOrderbill()) && pgds.getData().get(i).getOrderbill().indexOf("J") != 0) && String.valueOf(pgds.getData().get(i).getFdeptid()).equals(FDeptID)) {
                                 filter.add(pgds.getData().get(i).getPlanbill());
                                 filter.add(pgds.getData().get(i).getOrderbill());
@@ -693,7 +718,7 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
                 }
                 showWorkCardPlan.addAll(pgdWorkCardPlan);
                 mMenuAdapter.notifyDataSetChanged();
-                refreshLayout.finishRefresh();
+                SRL_PGD_Refresh.finishRefresh();
             }
 
             //请求异常后的回调方法
@@ -719,7 +744,7 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
     public void getSearchData(final String searchText) {
         tv_tip.setText("数据载入中...");
         tv_showDate.setText("显示日期:" + StartTime + "到" + EndTime);
-        RequestParams params = new RequestParams(define.Net2 + define.GetWorkCardInfoByMoNo);
+        RequestParams params = new RequestParams(SPUtils.getServerPath() + define.GetWorkCardInfoByMoNo);
         params.setReadTimeout(60000);
         params.addQueryStringParameter("MoNo", searchText);
         params.addQueryStringParameter("FDeptID", "-1");
@@ -769,7 +794,7 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
                 }
                 showWorkCardPlan.addAll(pgdWorkCardPlan);
                 mMenuAdapter.notifyDataSetChanged();
-                refreshLayout.finishRefresh();
+                SRL_PGD_Refresh.finishRefresh();
             }
 
             //请求异常后的回调方法
@@ -799,9 +824,9 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
 
         }
         if (currentPosition >= pgdWorkCardPlan.size()) {
-            refreshLayout.setEnableLoadMore(false);
+            SRL_PGD_Refresh.setEnableLoadMore(false);
         }
-        refreshLayout.finishRefresh();
+        SRL_PGD_Refresh.finishRefresh();
     }
 
     /**
@@ -832,7 +857,7 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
         map.put("suitID", "1");
         WebServiceUtils.WEBSERVER_NAMESPACE = define.tempuri;// 命名空间
         WebServiceUtils.callWebService(
-                define.Net2 + define.ErpForAndroidStockServer,
+                SPUtils.getServerPath() + define.ErpForAndroidStockServer,
                 define.GetEmpByFnumber,
                 map,
                 new WebServiceUtils.WebServiceCallBack() {
@@ -871,44 +896,41 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
         HashMap<String, String> map = new HashMap<>();
         WebServiceUtils.WEBSERVER_NAMESPACE = define.tempuri;// 命名空间
         WebServiceUtils.callWebService(
-                define.Net2 + define.ErpForMesServer,
+                SPUtils.getServerPath() + define.ErpForMesServer,
                 define.GetDeptAll,
                 map,
-                new WebServiceUtils.WebServiceCallBack() {
-                    @Override
-                    public void callBack(String result) {
-                        if (result != null) {
-                            try {
-                                result = URLDecoder.decode(result, "UTF-8");
-                                LOG.E("Abnormity=" + result);
+                result -> {
+                    if (result != null) {
+                        try {
+                            result = URLDecoder.decode(result, "UTF-8");
+                            LOG.E("Abnormity=" + result);
 
-                                JSONObject jsonObject = new JSONObject(result);
-                                String ReturnType = jsonObject.getString("ReturnType");
-                                String ReturnMsg = jsonObject.getString("ReturnMsg");
-                                LOG.E("ReturnMsg=" + ReturnMsg);
-                                if ("success".equals(ReturnType)) {
-                                    DML = new Gson().fromJson(ReturnMsg, new TypeToken<List<DeptModel>>() {
-                                    }.getType());
-                                    setdata();
-                                } else {
-                                    Toast.makeText(mContext, ReturnMsg, Toast.LENGTH_SHORT).show();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                tv_tip.setVisibility(View.VISIBLE);
-                                tv_tip.setText("数据解析异常");
-                            } catch (UnsupportedEncodingException e) {
-                                e.printStackTrace();
-                                tv_tip.setVisibility(View.VISIBLE);
-                                tv_tip.setText("数据解码异常");
-
+                            JSONObject jsonObject = new JSONObject(result);
+                            String ReturnType = jsonObject.getString("ReturnType");
+                            String ReturnMsg = jsonObject.getString("ReturnMsg");
+                            LOG.E("ReturnMsg=" + ReturnMsg);
+                            if ("success".equals(ReturnType)) {
+                                DML = new Gson().fromJson(ReturnMsg, new TypeToken<List<DeptModel>>() {
+                                }.getType());
+                                setdata();
+                            } else {
+                                Toast.makeText(mContext, ReturnMsg, Toast.LENGTH_SHORT).show();
                             }
-                        } else {
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            tv_tip.setVisibility(View.VISIBLE);
+                            tv_tip.setText("数据解析异常");
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
                             tv_tip.setVisibility(View.VISIBLE);
                             tv_tip.setText("数据解码异常");
+
                         }
-                        mMenuAdapter.notifyDataSetChanged();
+                    } else {
+                        tv_tip.setVisibility(View.VISIBLE);
+                        tv_tip.setText("数据解码异常");
                     }
+                    mMenuAdapter.notifyDataSetChanged();
                 });
 
 //
@@ -948,7 +970,7 @@ public class PgdActivity extends AppCompatActivity implements ScrollListenerHori
             pgdWorkCardPlan.clear();
             showWorkCardPlan.clear();
             currentPosition = 0;
-            refreshLayout.setEnableLoadMore(true);
+            SRL_PGD_Refresh.setEnableLoadMore(true);
             mMenuAdapter.notifyDataSetChanged();
             tv_tip.setVisibility(View.VISIBLE);
             getData(StartTime, EndTime);

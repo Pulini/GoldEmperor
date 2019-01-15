@@ -10,9 +10,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+
 import com.goldemperor.R;
+import com.goldemperor.Utils.LOG;
 import com.goldemperor.Widget.banner.widget.Banner.BaseIndicatorBanner;
+import com.squareup.picasso.Picasso;
 
 public class SimpleImageBanner extends BaseIndicatorBanner<BannerItem, SimpleImageBanner> {
     private ColorDrawable colorDrawable;
@@ -50,12 +52,21 @@ public class SimpleImageBanner extends BaseIndicatorBanner<BannerItem, SimpleIma
         String imgUrl = item.imgUrl;
 
         if (!TextUtils.isEmpty(imgUrl)) {
-            Glide.with(mContext)
+            LOG.e("imgUrl="+imgUrl);
+            LOG.e("itemWidth="+itemWidth);
+            LOG.e("itemHeight="+itemHeight);
+            Picasso.get()
                     .load(imgUrl)
-                    .override(itemWidth, itemHeight)
-                    .centerCrop()
-                    .placeholder(colorDrawable)
+                    .resize(itemWidth,itemHeight)
+//                    .placeholder(R.mipmap.downloading_photo)
+                    .error(R.drawable.loading_failure)
                     .into(iv);
+//            Glide.with(mContext)
+//                    .load(imgUrl)
+//                    .override(itemWidth, itemHeight)
+//                    .centerCrop()
+//                    .placeholder(colorDrawable)
+//                    .into(iv);
         } else {
             iv.setImageDrawable(colorDrawable);
         }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:banner="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@mipmap/goldemperor">
+
+    <com.goldemperor.Banner.SimpleImageBanner
+        android:id="@+id/SIB_Home"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        banner:bb_barColor="#88000000"
+        banner:bb_delay="5"
+        banner:bb_indicatorGravity="RIGHT"
+        banner:bb_period="5"
+        banner:bb_scale="1" />
+    <com.goldemperor.Banner.SimpleTextBanner
+        android:id="@+id/STB_Home"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        banner:bb_isIndicatorShow="false" />
+</LinearLayout>

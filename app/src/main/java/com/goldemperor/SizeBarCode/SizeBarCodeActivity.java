@@ -8,6 +8,7 @@ import android.widget.ListView;
 import com.goldemperor.MainActivity.define;
 import com.goldemperor.R;
 import com.goldemperor.Utils.LOG;
+import com.goldemperor.Utils.SPUtils;
 import com.goldemperor.Utils.WebServiceUtils;
 
 import org.json.JSONException;
@@ -38,14 +39,9 @@ public class SizeBarCodeActivity extends Activity {
         map.put("BillNO", "");
         map.put("suitID", "1");
         WebServiceUtils.callWebService(
-                define.Net2 + define.ErpForAndroidStockServer,
+                SPUtils.getServerPath() + define.ErpForAndroidStockServer,
                 define.GetScMoSizeBarCodeByMONo,
                 map,
-                new WebServiceUtils.WebServiceCallBack() {
-            @Override
-            public void callBack(String result) {
-                LOG.e("callBack="+result);
-            }
-        });
+                result -> LOG.e("callBack="+result));
     }
 }

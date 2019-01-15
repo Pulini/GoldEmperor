@@ -3,6 +3,7 @@ package com.goldemperor.Update;
 import android.util.Xml;
 
 import com.goldemperor.MainActivity.define;
+import com.goldemperor.Utils.SPUtils;
 import com.goldemperor.model.UpdataInfo;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -27,11 +28,11 @@ public class UpdataInfoParser {
                     if ("version".equals(parser.getName())) {
                         info.setVersion(parser.nextText());    //获取版本号
                     } else if ("outurl".equals(parser.getName())) {
-                        if (define.isWaiNet) {
+                        if (SPUtils.getServerPath().contains("8056")) {
                             info.setUrl(parser.nextText());    //获取要升级的APK文件
                         }
                     } else if ("url".equals(parser.getName())) {
-                        if (!define.isWaiNet) {
+                        if (!SPUtils.getServerPath().contains("8056")) {
                             info.setUrl(parser.nextText()
 //                                    .replace(".apk","2.apk")
                             );    //获取要升级的APK文件

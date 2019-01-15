@@ -4,6 +4,7 @@
     package="com.goldemperor">
 
 
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -26,14 +27,6 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
 
-    <!-- the following 2 com.xiaomi.mipushdemo should be changed to your package name -->
-    <permission
-        android:name="com.goldemperor.permission.MIPUSH_RECEIVE"
-        android:protectionLevel="signature" />
-
-    <uses-permission android:name="com.goldemperor.permission.MIPUSH_RECEIVE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-
 
     <uses-permission
         android:name="android.permission.READ_LOGS"
@@ -45,9 +38,8 @@
         android:largeScreens="true"
         android:normalScreens="true"
         android:smallScreens="true" />
-
-
     <application
+
         android:name="com.goldemperor.MainActivity.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/icon"
@@ -56,17 +48,10 @@
         android:roundIcon="@mipmap/icon"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
 
-        <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.goldemperor.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
+
 
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
 
@@ -80,284 +65,154 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name="com.goldemperor.StockCheck.StockCheckActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label=""
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.goldemperor.MainActivity.HelpActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label=""
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.goldemperor.MainActivity.PatternLockActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label=""
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.goldemperor.MainActivity.ContentActivity"
+        <!--
+                <service android:name="cn.jpush.android.service.PushService"
+                    android:process=":multiprocess"
+                    tools:node="replace" >
+                </service>
+        -->
 
-          />
-        <activity
-            android:name="com.goldemperor.SetActivity.SetActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label=""
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.goldemperor.LoginActivity.LoginActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="登录"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.goldemperor.PgdActivity.PgdActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="生产派工单"
-            android:screenOrientation="landscape" />
-        <activity
-            android:name="com.goldemperor.PgdActivity.GxpgActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="工序派工"
-            android:screenOrientation="landscape" />
-        <activity
-            android:name="com.goldemperor.PgdActivity.NameListActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="人员名单"
-            android:screenOrientation="landscape" />
-        <activity
-            android:name="com.goldemperor.PgdActivity.InstructorActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="工艺指导书"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.goldemperor.PgdActivity.AssignActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="人员分配"
-            android:screenOrientation="landscape" />
-        <activity
-            android:name="com.goldemperor.PgdActivity.TechniqueActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="工艺路线"
-            android:screenOrientation="landscape" />
-        <activity
-            android:name="com.goldemperor.PgdActivity.MaterialActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="用料清单"
-            android:screenOrientation="landscape" />
-        <activity
-            android:name="com.goldemperor.PzActivity.PgdActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="品质管理"
-            android:screenOrientation="landscape" />
-        <activity
-            android:name="com.goldemperor.PzActivity.YCListActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="异常单号"
-            android:screenOrientation="landscape" />
-        <activity
-            android:name="com.goldemperor.PzActivity.ZjActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="异常单号"
-            android:screenOrientation="landscape" />
-        <activity
-            android:name="com.goldemperor.PzActivity.ReasonActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="不合格原因"
-            android:screenOrientation="landscape" />
-        <activity
-            android:name="com.goldemperor.StockCheck.WaitView.UpdataActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="上传照片"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.goldemperor.StockCheck.WaitView.LookActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="稽查"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.goldemperor.StockCheck.DoneView.DoneLookActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="已签收"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.goldemperor.StockCheck.ExceptionalView.ExceptionalLookActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="异常处理"
-            android:screenOrientation="portrait" />
 
-        <activity
-            android:name="com.goldemperor.StockCheck.ExceptionalView.DisposeActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="异常处理"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.goldemperor.GxReport.GxReport"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.goldemperor.GxReport.GxReportScan"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ScanCode.CxStockIn.CxStockInActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/cxstockin_form_name"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ScanCode.ScReport.ScReportActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="生产汇报"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ScanCode.New_SC_Report.NewScReportActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.goldemperor.XJChenk.XJListActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="询价单审批"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.goldemperor.XJChenk.SPListActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="询价单审批"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.goldemperor.CCActivity.CCListActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="财产条码打印"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.goldemperor.CCActivity.CCPrintActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="财产条码打印"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.goldemperor.CCActivity.CCDListActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="财产确认"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.goldemperor.CCActivity.NewCCDActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="财产新建"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.goldemperor.GylxActivity.GylxActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="工艺路线"
+        <activity android:name=".MainActivity.NewHome.TV.HomeForTVActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".ScanCode.CxStockIn.CxLoginActivity"
-            android:configChanges="orientation"
-            android:label="@string/cxstockin_form_name"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity
-            android:name=".ScanCode.ScReport.ScLoginActivity"
-            android:configChanges="orientation"
-            android:label="@string/screport_form_name"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity
-            android:name=".ScanCode.SupperInstock.MainActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="供应商入库单扫码"
+            android:name=".MainActivity.NewHome.Phone.HomeForPhoneActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
+        <activity android:name=".MainActivity.NewHome.Pad.HomeForPadActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="landscape" />
         <activity
-            android:name=".ScanCode.ShowReportActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="供应商扫码报表"
-            android:screenOrientation="portrait" />
+            android:name=".ShowCapacity.CapacityActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="landscape" />
+        <activity android:name=".StockCheck.StockCheckActivity" />
+        <activity android:name=".MainActivity.HelpActivity" />
+        <activity android:name=".MainActivity.PatternLockActivity" />
+        <activity android:name=".MainActivity.ContentActivity" />
+        <activity android:name=".SetActivity.SetActivity" />
+        <activity android:name=".LoginActivity.LoginActivity" />
         <activity
-            android:name=".ScanCode.SupperInstock.LoginActivity"
-            android:configChanges="orientation"
-            android:label="@string/supplystockin_form_name"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+            android:name=".PgdActivity.PgdActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="landscape" />
         <activity
-            android:name=".ScanCode.ScInstock.MainActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="生产入库扫码"
-            android:screenOrientation="portrait" />
+            android:name=".PgdActivity.GxpgActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".PgdActivity.NameListActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".PgdActivity.InstructorActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".PgdActivity.AssignActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".PgdActivity.TechniqueActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".PgdActivity.MaterialActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".PzActivity.PgdActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name=".PzActivity.YCListActivity" />
+        <activity android:name=".PzActivity.ZjActivity" />
+        <activity android:name=".PzActivity.ReasonActivity" />
+        <activity android:name=".StockCheck.WaitView.UpdataActivity" />
+        <activity android:name=".StockCheck.WaitView.LookActivity" />
+        <activity android:name=".StockCheck.DoneView.DoneLookActivity" />
+        <activity android:name=".StockCheck.ExceptionalView.ExceptionalLookActivity" />
+        <activity android:name=".StockCheck.ExceptionalView.DisposeActivity" />
+        <activity android:name=".GxReport.GxReport" />
+        <activity android:name=".GxReport.GxReportScan" />
+        <activity android:name=".XJChenk.XJListActivity" />
+        <activity android:name=".XJChenk.SPListActivity" />
+        <activity android:name=".CCActivity.CCListActivity" />
+        <activity android:name=".CCActivity.CCPrintActivity" />
+        <activity android:name=".CCActivity.CCDListActivity" />
+        <activity android:name=".CCActivity.NewCCDActivity" />
+        <activity android:name=".GylxActivity.GylxActivity" />
+        <activity android:name=".ProcessSend.ProcessSendActvity" />
+        <activity android:name=".DayWorkCardReport.activity.SCCJLCCLXS_ReportActivity" />
+        <activity android:name=".DayWorkCardReport.activity.SCCJLCCLXS_ReportDetailedActivity" />
+        <activity android:name=".DayWorkCardReport.activity.SCCJLCCLXS_ReportDetailedSizeActivity" />
+        <activity android:name=".SizeBarCode.SizeBarCodeActivity" />
+        <activity android:name=".MainActivity.AutographActivity" />
+        <activity android:name=".StaffWorkStatistics.StaffWorkStatisticsActivity" />
+        <activity android:name=".MainActivity.PdfActivity" />
+        <activity android:name=".MainActivity.ProcessInformationActivity" />
+        <activity android:name=".MainActivity.UnfinishedReportActivity" />
+        <activity android:name=".DayWorkCardReport.activity.WorkshopDailyReportActivity" />
 
 
         <activity
-            android:name=".ScanCode.ScInstock.LoginActivity"
-            android:configChanges="orientation"
-            android:label="@string/cxstockin_scstockin"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+            android:name=".ScanCode.Show.ShowReportActivity"
+            android:configChanges="orientation|screenSize" />
         <activity
-            android:name=".ScanCode.ScInstock.ScanEMPCodeActivity"
-            android:configChanges="orientation"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity
-            android:name="com.goldemperor.ProcessSend.ProcessSendActvity"
-            android:configChanges="orientation"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity
-            android:name="com.goldemperor.DayWorkCardReport.activity.SCCJLCCLXS_ReportActivity"
-            android:configChanges="orientation"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity
-            android:name="com.goldemperor.DayWorkCardReport.activity.SCCJLCCLXS_ReportDetailedActivity"
-            android:configChanges="orientation"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity
-            android:name="com.goldemperor.DayWorkCardReport.activity.SCCJLCCLXS_ReportDetailedSizeActivity"
-            android:configChanges="orientation"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity
-            android:name="com.goldemperor.SizeBarCode.SizeBarCodeActivity"
-            android:configChanges="orientation"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity
-            android:name=".ScanCode.WarehouseAllocation.WarehouseAllocationActivity"
-            android:configChanges="orientation"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity
-            android:name=".ScanCode.LoginActivity"
-            android:configChanges="orientation"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity
-            android:name=".ScanCode.WarehouseAllocation.WarehouseSummary"
-            android:configChanges="orientation"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+            android:name=".ScanCode.Share.ScanEMPCodeActivity"
+            android:configChanges="orientation|screenSize" />
 
+        <!--成型后段扫码-->
         <activity
-            android:name="com.goldemperor.MainActivity.AutographActivity"
-            android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-
-        <activity
-            android:name="com.goldemperor.StaffWorkStatistics.StaffWorkStatisticsActivity"
-            android:configChanges="orientation"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity
-            android:name="com.goldemperor.MainActivity.PdfActivity"
-            android:configChanges="screenSize|keyboardHidden|orientation" />
-
+            android:name=".ScanCode.FormingPosterior.FormingPosteriorActivity"
+            android:configChanges="orientation|screenSize" />
+        <!--工序汇报入库-->
         <activity
             android:name=".ScanCode.ProcessReportInstock.ProcessReportInstockActivity"
-            android:screenOrientation="portrait" />
+            android:configChanges="orientation|screenSize" />
+        <!--生产汇报入库-->
         <activity
-            android:name=".MainActivity.ProcessInformationActivity"
-            android:configChanges="screenSize|keyboardHidden|orientation" />
+            android:name=".ScanCode.ProductionReport.ProductionReportActivity"
+            android:configChanges="orientation|screenSize" />
+        <!--生产扫码入库-->
         <activity
-            android:name=".MainActivity.UnfinishedReportActivity"
+            android:name=".ScanCode.ProductionWarehousing.ProductionWarehousingActivity"
+            android:configChanges="orientation|screenSize" />
+        <!--供应商扫码-->
+        <activity
+            android:name=".ScanCode.Supplier.SupplierActivity"
+            android:configChanges="orientation|screenSize" />
+        <!--仓库调拨单-->
+        <activity
+            android:name=".ScanCode.WarehouseAllocation.WarehouseAllocationActivity"
+            android:configChanges="orientation|screenSize" />
+
+
+        <activity
+            android:name=".PgdActivity.VideoPlayerActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="stateVisible|adjustPan"/>
+
+            />
+
+
+        <receiver
+            android:name=".ShowCapacity.MyJPushReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_CLICK_ACTION" />
+                <action android:name="cn.jpush.android.intent.CONNECTION" />
+
+                <category android:name="com.goldemperor" />
+            </intent-filter>
+        </receiver>
 
 
     </application>
+
 
 </manifest>

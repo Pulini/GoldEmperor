@@ -147,6 +147,17 @@ public class ProcessWorkCardPlanEntry implements Cloneable{
 
     private float fsourceqty;
 
+
+    private int frouteinterfid;
+
+    public int getFrouteinterfid() {
+        return frouteinterfid;
+    }
+
+    public void setFrouteinterfid(int frouteinterfid) {
+        this.frouteinterfid = frouteinterfid;
+    }
+
     public void setFsourceqty(float fsourceqty) {
         this.fsourceqty = fsourceqty;
     }

@@ -5,7 +5,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -25,23 +24,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.goldemperor.MainActivity.GsonFactory;
 import com.goldemperor.MainActivity.ListViewDecoration;
 import com.goldemperor.MainActivity.LogToFile;
-import com.goldemperor.MainActivity.OnItemClickListener;
+import com.goldemperor.MainActivity.PdfActivity;
 import com.goldemperor.MainActivity.Utils;
 import com.goldemperor.MainActivity.define;
 
 import com.goldemperor.R;
 import com.goldemperor.Utils.LOG;
+import com.goldemperor.Utils.SPUtils;
 import com.goldemperor.Utils.WebServiceUtils;
 import com.goldemperor.Widget.ScrollListenerHorizontalScrollView;
 import com.goldemperor.Widget.fancybuttons.FancyButton;
 import com.goldemperor.Widget.lemonhello.LemonHello;
 import com.goldemperor.Widget.lemonhello.LemonHelloAction;
-import com.goldemperor.Widget.lemonhello.LemonHelloInfo;
-import com.goldemperor.Widget.lemonhello.LemonHelloView;
-import com.goldemperor.Widget.lemonhello.interfaces.LemonHelloActionDelegate;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
@@ -73,7 +71,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLDecoder;
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -82,7 +79,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
-
 
 
 import static com.goldemperor.PgdActivity.GxpgAdapter.gxpgActivity;
@@ -98,8 +94,6 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
 
     private Context mContext;
     private Activity act;
-    private SharedPreferences dataPref;
-    private SharedPreferences.Editor dataEditor;
     private SwipeMenuRecyclerView mMenuRecyclerView;
     public static GxpgAdapter mMenuAdapter;
 
@@ -123,6 +117,8 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
 
     private TextView tv_weiwai;
 
+    private FancyButton BF_ShowPDF;
+    private FancyButton BF_ShowVideo;
     private FancyButton btn_submit;
 
     private FancyButton btn_namelist;
@@ -141,7 +137,7 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
 
     private FancyButton btn_clearZero;
 
-    private FancyButton btn_assign;
+//    private FancyButton btn_assign;
 
     private FancyButton btn_operation;
 
@@ -193,7 +189,12 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
     String RouteFullName;
     private TextView tv_dispatchingnumber;
     private int delete_index = -1;
-
+    private String ScWorkcardNo;
+    String[] names = {"13553-32CX成型教程", "13553-32ZC针车教程", "191852-3CX成型教程"};
+    String[] pahts = {
+            "http://192.168.99.79:8083/Videos/13553-32CX.mp4",
+            "http://192.168.99.79:8083/Videos/13553-32ZC.mp4",
+            "http://192.168.99.79:8083/Videos/191852-3CX.mp4"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,10 +207,9 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
         getSupportActionBar().hide();
         mContext = this;
         act = this;
-        dataPref = this.getSharedPreferences(define.SharedName, 0);
-        dataEditor = dataPref.edit();
         //初始化数据库
         dbManager = initDb();
+
 
         ScrollView = (ScrollListenerHorizontalScrollView) findViewById(R.id.ScrollView);
         ScrollView.setOnScrollListener(this);
@@ -226,22 +226,19 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
                         .setTitle("修改计工数")
                         .setView(editText)
                         .setNegativeButton("取消", null)
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (editText.getText().toString().equals("")) {
+                        .setPositiveButton("确定", (dialog, which) -> {
+                            if (editText.getText().toString().equals("")) {
+                                return;
+                            }
+                            int num = (int) Float.parseFloat(editText.getText().toString());
+                            if (!selectWorkCardPlan.getFcanreportbynostockin()) {
+                                if (num > norecord) {
+                                    Toast.makeText(mContext, "数量不能超过已汇报未计工数", Toast.LENGTH_LONG).show();
                                     return;
                                 }
-                                int num = (int) Float.parseFloat(editText.getText().toString());
-                                if (!selectWorkCardPlan.getFcanreportbynostockin()) {
-                                    if (num > norecord) {
-                                        Toast.makeText(mContext, "数量不能超过已汇报未计工数", Toast.LENGTH_LONG).show();
-                                        return;
-                                    }
-                                }
-                                setWalkthrough(num);
-                                dialog.dismiss();
                             }
+                            setWalkthrough(num);
+                            dialog.dismiss();
                         }).show();
             }
         });
@@ -329,13 +326,15 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
         RouteResultList = new ArrayList<RouteEntry>();
 
         Intent intent = getIntent();
-        finterid = intent.getIntExtra("finterid", 0);
+//        finterid = intent.getIntExtra("finterid", 0);
+        String ReturnMsg = intent.getStringExtra("ReturnMsg");
+        ScWorkcardNo = intent.getStringExtra("ScWorkcardNo");
 
-        getData(finterid);
+
 
         mMenuRecyclerView = (SwipeMenuRecyclerView) findViewById(R.id.recycler_view);
-        mMenuRecyclerView.setLayoutManager(new LinearLayoutManager(this));// 布局管理器。
-        mMenuRecyclerView.addItemDecoration(new ListViewDecoration(this));// 添加分割线。
+        mMenuRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));// 布局管理器。
+        mMenuRecyclerView.addItemDecoration(new ListViewDecoration(mContext));// 添加分割线。
 
         // 设置菜单创建器。
         mMenuRecyclerView.setSwipeMenuCreator(swipeMenuCreator);
@@ -343,74 +342,59 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
         mMenuRecyclerView.setSwipeMenuItemClickListener(menuItemClickListener);
 
         mMenuAdapter = new GxpgAdapter(processWorkCardPlanEntryList, nameList, this, dbManager);
-
         mMenuRecyclerView.setAdapter(mMenuAdapter);
+        setData(ReturnMsg);
 
 
-        btn_submit = (FancyButton) findViewById(R.id.btn_submit);
-        btn_submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final AlertDialog.Builder normalDialog =
-                        new AlertDialog.Builder(act);
-                normalDialog.setTitle("提示");
-                normalDialog.setMessage("你确定要提交?");
-                normalDialog.setPositiveButton("确定",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (!checkJobNumber()) {
-                                    submitData();
-                                }
-                            }
-                        });
-                normalDialog.setNegativeButton("取消",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
+        btn_submit = findViewById(R.id.btn_submit);
+        btn_submit.setOnClickListener(v -> {
+            final AlertDialog.Builder normalDialog =
+                    new AlertDialog.Builder(act);
+            normalDialog.setTitle("提示");
+            normalDialog.setMessage("你确定要提交?");
+            normalDialog.setPositiveButton("确定",
+                    (dialog, which) -> {
+                        if (!checkJobNumber()) {
+                            submitData();
+                        }
+                    });
+            normalDialog.setNegativeButton("取消",
+                    (dialog, which) -> dialog.dismiss());
 
-                normalDialog.show();
-            }
+            normalDialog.show();
         });
 
-        btn_verify = (FancyButton) findViewById(R.id.btn_verify);
+        BF_ShowPDF = findViewById(R.id.BF_ShowPDF);
+        BF_ShowVideo = findViewById(R.id.BF_ShowVideo);
 
-        btn_verify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getGylxData();
-            }
-        });
+        BF_ShowPDF.setOnClickListener(v -> mContext.startActivity(new Intent(mContext, PdfActivity.class).putExtra("ScWorkcardNo", ScWorkcardNo)));
 
-        btn_namelist = (FancyButton) findViewById(R.id.btn_namelist);
-        btn_namelist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, NameListActivity.class);
-                mContext.startActivity(intent);
-            }
+        BF_ShowVideo.setOnClickListener(v -> new MaterialDialog.Builder(this)
+                .title("选择教程")// 标题
+                .items(names)// 列表数据
+                .itemsCallback((dialog, itemView, position, text) ->
+                        mContext.startActivity(new Intent(mContext, VideoPlayerActivity.class).putExtra("path", pahts[position]))
+                ).show());// 显示对话框
+
+        btn_verify = findViewById(R.id.btn_verify);
+
+        btn_verify.setOnClickListener(v -> getGylxData());
+
+        btn_namelist = findViewById(R.id.btn_namelist);
+        btn_namelist.setOnClickListener(v -> {
+            Intent intent1 = new Intent(mContext, NameListActivity.class);
+            mContext.startActivity(intent1);
         });
         btn_instructor = (FancyButton) findViewById(R.id.btn_instructor);
 
-        btn_instructor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                btn_instructor.setEnabled(false);
-                GetInstructor();
-            }
+        btn_instructor.setOnClickListener(v -> {
+            btn_instructor.setEnabled(false);
+            GetInstructor();
         });
 
 
         btn_save = (FancyButton) findViewById(R.id.btn_save);
-        btn_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveGxpgPlanReportNumber(true);
-            }
-        });
+        btn_save.setOnClickListener(v -> saveGxpgPlanReportNumber(true));
 
         btn_reportPublish = (FancyButton) findViewById(R.id.btn_reportPublish);
 
@@ -548,22 +532,22 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
             }
         });
 
-        btn_assign = (FancyButton) findViewById(R.id.btn_assign);
-
-        btn_assign.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Bundle bundle = new Bundle();
-                bundle.putString("planBody", processWorkCardPlanEntryList.get(0).getPlantbody());
-                LOG.e("Plantbody：" + processWorkCardPlanEntryList.get(0).getPlantbody());
-                Intent intent = new Intent(act,
-                        AssignActivity.class);
-                intent.putExtras(bundle);
-                // 启动另一个Activity。
-                startActivityForResult(intent, 0);
-            }
-        });
+//        btn_assign = (FancyButton) findViewById(R.id.btn_assign);
+//
+//        btn_assign.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                Bundle bundle = new Bundle();
+//                bundle.putString("planBody", processWorkCardPlanEntryList.get(0).getPlantbody());
+//                LOG.e("Plantbody：" + processWorkCardPlanEntryList.get(0).getPlantbody());
+//                Intent intent = new Intent(act,
+//                        AssignActivity.class);
+//                intent.putExtras(bundle);
+//                // 启动另一个Activity。
+//                startActivityForResult(intent, 0);
+//            }
+//        });
 
         btn_reportCheck = (FancyButton) findViewById(R.id.btn_reportCheck);
         btn_reportCheck.setOnClickListener(new View.OnClickListener() {
@@ -578,14 +562,16 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
 
         btn_operation = (FancyButton) findViewById(R.id.btn_operation);
 
-        btn_operation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                if (!checkJobNumber()) {
-                    try {
-                        List<GxpgPlanStatus> gxpgPlanStatusesList = dbManager.selector(GxpgPlanStatus.class).where("planbill", " = ", selectWorkCardPlan.getPlanbill()).and("orderbill", "=", selectWorkCardPlan.getOrderbill()).findAll();
+        btn_operation.setOnClickListener(v -> {
+            if (!checkJobNumber()) {
+                try {
+                    List<GxpgPlanStatus> gxpgPlanStatusesList = dbManager.selector(GxpgPlanStatus.class).where("planbill", " = ", selectWorkCardPlan.getPlanbill()).and("orderbill", "=", selectWorkCardPlan.getOrderbill()).findAll();
+                    if (selectWorkCardPlan.getFcanreportbynostockin()) {
+                        for (int i = 0; i < sc_ProcessWorkCardEntryList.size(); i++) {
+                            sc_ProcessWorkCardEntryList.get(i).setFqty(sc_ProcessWorkCardEntryList.get(i).getFpreschedulingqty());
+                            mMenuAdapter.notifyDataSetChanged();
+                        }
+                    } else {
                         if (norecord <= 0) {
                             Toast.makeText(mContext, "已汇报未计工数为零", Toast.LENGTH_LONG).show();
                         } else if (gxpgPlanStatusesList == null || gxpgPlanStatusesList.size() < 1) {
@@ -596,12 +582,12 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
                                 mMenuAdapter.notifyDataSetChanged();
                             }
                         }
-                    } catch (DbException e) {
-                        e.printStackTrace();
                     }
+                } catch (DbException e) {
+                    e.printStackTrace();
                 }
-
             }
+
         });
 
         //按钮应用工序计划
@@ -673,6 +659,10 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
     }
 
     private void setWalkthrough(int max) {
+
+        if (max <= 0) {
+            return;
+        }
         List<data> dataid = new ArrayList<>();
         //循环获取每条工单的序号
         for (Sc_ProcessWorkCardEntry sc_processWorkCardEntry : sc_ProcessWorkCardEntryList) {
@@ -906,6 +896,7 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
 
             if (!selectWorkCardPlan.getFcanreportbynostockin()) {
                 if (sc_ProcessWorkCardEntryList.get(i).getIsOpen()) {
+                    LOG.e("count=" + count);
                     if (count > norecord && !message.contains(sc_ProcessWorkCardEntryList.get(i).getFprocessname())) {
                         message += "【" + sc_ProcessWorkCardEntryList.get(i).getFprocessnumber() + "】" + sc_ProcessWorkCardEntryList.get(i).getFprocessname() + ",超过汇报数:" + (norecord - count) + "\n";
                     } else if (count < norecord && !message.contains(sc_ProcessWorkCardEntryList.get(i).getFprocessname())) {
@@ -920,7 +911,7 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
             } else {
                 if (sc_ProcessWorkCardEntryList.get(i).getIsOpen()) {
                     if (count + OutputCount > Havedispatchingnumber && !message.contains(sc_ProcessWorkCardEntryList.get(i).getFprocessname())) {
-                        message += "【" + sc_ProcessWorkCardEntryList.get(i).getFprocessnumber() + "】" + sc_ProcessWorkCardEntryList.get(i).getFprocessname() + ",超过总数:" + (Havedispatchingnumber - count - OutputCount) + "\n";
+                        message += "【(委外)" + sc_ProcessWorkCardEntryList.get(i).getFprocessnumber() + "】" + sc_ProcessWorkCardEntryList.get(i).getFprocessname() + ",超过总数:" + (Havedispatchingnumber - count - OutputCount) + "\n";
                     }
                 }
             }
@@ -949,15 +940,16 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
 
     //获取已汇报数和累计计工数
     public void GetWorkCardQtyPassInfo() {
-        RequestParams params = new RequestParams(define.Net2 + define.GetWorkCardQtyPassInfo);
+        RequestParams params = new RequestParams(SPUtils.getServerPath() + define.GetWorkCardQtyPassInfo);
         params.addQueryStringParameter("WorkCardID", String.valueOf(selectWorkCardPlan.getFinterid()));
 
-        Log.e("jindi", params.toString());
+        LOG.e(params.toString());
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 try {
                     result = URLDecoder.decode(result, "UTF-8");
+                    LOG.e("获取已汇报数和累计计工数="+result);
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
@@ -1011,74 +1003,110 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
         map.put("FInterID", String.valueOf(finterid));
         WebServiceUtils.WEBSERVER_NAMESPACE = define.tempuri;// 命名空间
         WebServiceUtils.callWebService(
-                define.Net2 + define.ErpForAndroidStockServer,
+                SPUtils.getServerPath() + define.ErpForAndroidStockServer,
                 "GetProcessWorkCardInfo",
                 map,
-                new WebServiceUtils.WebServiceCallBack() {
-                    @Override
-                    public void callBack(String result) {
-                        if (result != null) {
-                            try {
-                                result = URLDecoder.decode(result, "UTF-8");
-                                LOG.E("获取工序=" + result);
+                result -> {
+                    if (result != null) {
+                        try {
+                            result = URLDecoder.decode(result, "UTF-8");
+                            LOG.E("获取工序=" + result);
 
-                                List<ProcessWorkCardPlanEntry> list = new ArrayList<>();
-                                Gson g = new Gson();
+                            List<ProcessWorkCardPlanEntry> list = new ArrayList<>();
+                            Gson g = new Gson();
 
-                                list = g.fromJson(result, new TypeToken<List<ProcessWorkCardPlanEntry>>() {
-                                }.getType());
-                                LOG.E("工序list=" + list.size());
-                                if (list.size() > 0) {
-                                    tv_group.setText("组别:" + selectWorkCardPlan.getFgroup());
-                                    tv_number.setText("派工单号:" + list.get(0).getProcessbillnumber().toUpperCase());
-                                    tv_planbill.setText("计划跟踪号:" + selectWorkCardPlan.getPlanbill());
-                                    tv_style.setText("工厂型体:" + list.get(0).getPlantbody().toUpperCase());
+                            list = g.fromJson(result, new TypeToken<List<ProcessWorkCardPlanEntry>>() {
+                            }.getType());
+                            LOG.E("工序list=" + list.size());
+                            if (list.size() > 0) {
+                                tv_group.setText("组别:" + selectWorkCardPlan.getFgroup());
+                                tv_number.setText("派工单号:" + list.get(0).getProcessbillnumber().toUpperCase());
+                                tv_planbill.setText("计划跟踪号:" + selectWorkCardPlan.getPlanbill());
+                                tv_style.setText("工厂型体:" + list.get(0).getPlantbody().toUpperCase());
 
-                                    top_havedispatchingnumber.setText("派工总数:" + (int) list.get(0).getFsourceqty());
+                                top_havedispatchingnumber.setText("派工总数:" + (int) list.get(0).getFsourceqty());
 
-                                    Havedispatchingnumber = (int) list.get(0).getFsourceqty();
-                                    for (int i = 0; i < list.size(); i++) {
-                                        processWorkCardPlanEntryList.add(list.get(i));
-                                        addSc_ProcessWorkCardEntry(list.get(i));
-                                    }
-                                    //自动应用计划工序
-                                        List<GxpgPlanStatus> gxpgPlanStatusList = dbManager.selector(GxpgPlanStatus.class).where("planbill", " = ", selectWorkCardPlan.getPlanbill()).and("orderbill", "=", selectWorkCardPlan.getOrderbill()).findAll();
-                                        LOG.e("工序list=" + processWorkCardPlanEntryList.size());
-                                        if (gxpgPlanStatusList == null || gxpgPlanStatusList.size() <= 0) {
-                                            useGxpgPlan(processWorkCardPlanEntryList.get(0).getPlantbody());
+                                Havedispatchingnumber = (int) list.get(0).getFsourceqty();
+                                for (int i = 0; i < list.size(); i++) {
+                                    processWorkCardPlanEntryList.add(list.get(i));
+                                    addSc_ProcessWorkCardEntry(list.get(i));
+                                }
+                                //自动应用计划工序
+                                List<GxpgPlanStatus> gxpgPlanStatusList = dbManager.selector(GxpgPlanStatus.class).where("planbill", " = ", selectWorkCardPlan.getPlanbill()).and("orderbill", "=", selectWorkCardPlan.getOrderbill()).findAll();
+                                LOG.e("工序list=" + processWorkCardPlanEntryList.size());
+                                if (gxpgPlanStatusList == null || gxpgPlanStatusList.size() <= 0) {
+                                    useGxpgPlan(processWorkCardPlanEntryList.get(0).getPlantbody());
 
-                                            Log.e("jindi", "应用计划工序");
-                                        } else {
-                                            Log.e("jindi", "工序已提交过");
-                                        }
+                                    Log.e("jindi", "应用计划工序");
+                                } else {
+                                    Log.e("jindi", "工序已提交过");
+                                }
 
-                                        //应用暂存数据
+                                //应用暂存数据
 //                                        useGxpgPlanReportNumberSave();
 
 
-                                    tv_tip.setVisibility(View.GONE);
-                                    btn_report.setEnabled(true);
-                                    GetWorkCardQtyPassInfo();
-                                }
-                            } catch (UnsupportedEncodingException e) {
-                                tv_tip.setVisibility(View.VISIBLE);
-                                tv_tip.setText("初始数据载入出错，请联系管理员");
-                                e.printStackTrace();
-                            } catch (DbException e) {
-                                e.printStackTrace();
-                                tv_tip.setVisibility(View.VISIBLE);
-                                tv_tip.setText("数据库初始化失败，请联系管理员");
-                            } catch (JsonSyntaxException e){
-                                e.printStackTrace();
-                                tv_tip.setVisibility(View.VISIBLE);
-                                tv_tip.setText("数据解析异常，请联系管理员");
+                                tv_tip.setVisibility(View.GONE);
+//                                btn_report.setEnabled(true);
+                                GetWorkCardQtyPassInfo();
                             }
-                        } else {
-                            tv_tip.setText("暂无数据");
+                        } catch (UnsupportedEncodingException e) {
+                            tv_tip.setVisibility(View.VISIBLE);
+                            tv_tip.setText("初始数据载入出错，请联系管理员");
+                            e.printStackTrace();
+                        } catch (DbException e) {
+                            e.printStackTrace();
+                            tv_tip.setVisibility(View.VISIBLE);
+                            tv_tip.setText("数据库初始化失败，请联系管理员");
+                        } catch (JsonSyntaxException e) {
+                            e.printStackTrace();
+                            tv_tip.setVisibility(View.VISIBLE);
+                            tv_tip.setText("数据解析异常，请联系管理员");
                         }
-                        mMenuAdapter.notifyDataSetChanged();
+                    } else {
+                        tv_tip.setText("暂无数据");
                     }
+                    mMenuAdapter.notifyDataSetChanged();
                 });
+
+    }
+    //获取工序
+    public void setData(String ReturnMsg) {
+        try {
+            List<ProcessWorkCardPlanEntry>  list = new Gson().fromJson(ReturnMsg, new TypeToken<List<ProcessWorkCardPlanEntry>>() {
+            }.getType());
+            LOG.E("工序list=" + list.size());
+            if (list.size() > 0) {
+                tv_group.setText("组别:" + selectWorkCardPlan.getFgroup());
+                tv_number.setText("派工单号:" + list.get(0).getProcessbillnumber().toUpperCase());
+                tv_planbill.setText("计划跟踪号:" + selectWorkCardPlan.getPlanbill());
+                tv_style.setText("工厂型体:" + list.get(0).getPlantbody().toUpperCase());
+
+                top_havedispatchingnumber.setText("派工总数:" + (int) list.get(0).getFsourceqty());
+
+                Havedispatchingnumber = (int) list.get(0).getFsourceqty();
+                for (int i = 0; i < list.size(); i++) {
+                    processWorkCardPlanEntryList.add(list.get(i));
+                    addSc_ProcessWorkCardEntry(list.get(i));
+                }
+                //自动应用计划工序
+                List<GxpgPlanStatus> gxpgPlanStatusList = null;
+                gxpgPlanStatusList = dbManager.selector(GxpgPlanStatus.class).where("planbill", " = ", selectWorkCardPlan.getPlanbill()).and("orderbill", "=", selectWorkCardPlan.getOrderbill()).findAll();
+
+                LOG.e("工序list=" + processWorkCardPlanEntryList.size());
+                if (gxpgPlanStatusList == null || gxpgPlanStatusList.size() <= 0) {
+                    useGxpgPlan(processWorkCardPlanEntryList.get(0).getPlantbody());
+                    Log.e("jindi", "应用计划工序");
+                } else {
+                    Log.e("jindi", "工序已提交过");
+                }
+                tv_tip.setVisibility(View.GONE);
+                GetWorkCardQtyPassInfo();
+            }
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+        mMenuAdapter.notifyDataSetChanged();
 
     }
 
@@ -1089,7 +1117,7 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
         tv_tip.setText("数据更新中...");
         processWorkCardPlanEntryList.clear();
         sc_ProcessWorkCardEntryList.clear();
-        RequestParams params = new RequestParams(define.Net2 + define.GetProcessWorkCardInfoByWorkCardID);
+        RequestParams params = new RequestParams(SPUtils.getServerPath() + define.GetProcessWorkCardInfoByWorkCardID);
         params.setReadTimeout(60000);
         params.setConnectTimeout(60000);
         params.addQueryStringParameter("WorkCardID", String.valueOf(WorkCardID));
@@ -1121,7 +1149,7 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
                             addSc_ProcessWorkCardEntry(gxpgs.getData().get(i));
                         }
                         tv_tip.setVisibility(View.GONE);
-                        btn_report.setEnabled(true);
+//                        btn_report.setEnabled(true);
 //                        Toast.makeText(mContext, "工序汇报成功", Toast.LENGTH_LONG).show();
                         GetWorkCardQtyPassInfo();
                     } else {
@@ -1164,7 +1192,7 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
         map.put("FID", fid);
         WebServiceUtils.WEBSERVER_NAMESPACE = define.tempuri;// 命名空间
         WebServiceUtils.callWebService(
-                define.Net2 + define.ErpForAndroidStockServer,
+                SPUtils.getServerPath() + define.ErpForAndroidStockServer,
                 define.DeleteProcessWorkCardEntryByFID,
                 map,
                 new WebServiceUtils.WebServiceCallBack() {
@@ -1210,6 +1238,7 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
     }
 
     public void addSc_ProcessWorkCardEntry(ProcessWorkCardPlanEntry processWorkCardPlanEntry) {
+        LOG.e("Price="+processWorkCardPlanEntry.getPrice());
         Sc_ProcessWorkCardEntry sc_processWorkCardEntry = new Sc_ProcessWorkCardEntry();
         sc_processWorkCardEntry.setFinterid(processWorkCardPlanEntry.getFinterid());
         sc_processWorkCardEntry.setFentryid(processWorkCardPlanEntry.getFentryid());
@@ -1268,10 +1297,11 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
 
         sc_processWorkCardEntry.setFid(processWorkCardPlanEntry.getFid());
 
+
         sc_processWorkCardEntry.setFpartitioncoefficient(processWorkCardPlanEntry.getFpartitioncoefficient());
 
         sc_processWorkCardEntry.setFsourceqty(processWorkCardPlanEntry.getFsourceqty());
-
+        sc_processWorkCardEntry.setFrouteinterfid(processWorkCardPlanEntry.getFrouteinterfid());
 
 //        if ((int) processWorkCardPlanEntry.getFpreschedulingqty() == 0) {
 //            Log.e("jindi", processWorkCardPlanEntry.getProcessname() + ":" + processWorkCardPlanEntry.getFmustqty() + "," + processWorkCardPlanEntry.getFpartitioncoefficient());
@@ -1374,8 +1404,10 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
                     }
                 }
             }
-            LOG.e("已汇报未计工数"+norecord);
-            setWalkthrough(norecord);
+            LOG.e("已汇报未计工数" + norecord);
+            if (!selectWorkCardPlan.getFcanreportbynostockin()) {
+                setWalkthrough(norecord);
+            }
         } catch (DbException e) {
             e.printStackTrace();
             Log.e("jindi", e.toString());
@@ -1408,9 +1440,9 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
         params.addQueryStringParameter("FPlanBill", String.valueOf(selectWorkCardPlan.getPlanbill()));
         */
 
-        RequestParams params = new RequestParams(define.Net2 + define.GetManufactureInstructions);
+        RequestParams params = new RequestParams(SPUtils.getServerPath() + define.GetManufactureInstructions);
 
-        params.addQueryStringParameter("FUserID", dataPref.getString(define.SharedUserId, define.NONE));
+        params.addQueryStringParameter("FUserID", (String) SPUtils.get(define.SharedUserId, define.NONE));
         params.addQueryStringParameter("FRouteID", String.valueOf(selectWorkCardPlan.getFroutingid()));
 
         Log.e("jindi", params.toString());
@@ -1498,7 +1530,7 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
         map.put("FBillNo", selectWorkCardPlan.getRoutebillnumber());
         WebServiceUtils.WEBSERVER_NAMESPACE = define.tempuri;// 命名空间
         WebServiceUtils.callWebService(
-                define.Net2 + define.ErpForMesServer,
+                SPUtils.getServerPath() + define.ErpForMesServer,
                 define.GetPrdRouteInfo2,
                 map,
                 new WebServiceUtils.WebServiceCallBack() {
@@ -1560,7 +1592,7 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
 //
 //
 //        RouteResultList.clear();
-//        RequestParams params = new RequestParams(define.Net2 + define.GetPrdRouteInfo);
+//        RequestParams params = new RequestParams(SPUtils.getServerPath() + define.GetPrdRouteInfo);
 //        params.setReadTimeout(60000);
 //        params.addQueryStringParameter("FBillNo", selectWorkCardPlan.getRoutebillnumber());
 //        Log.e("jindi", params.toString());
@@ -1726,11 +1758,6 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
         saveGxpgPlanReportNumber(false);
 
         Gson g = new Gson();
-        RequestParams params = new RequestParams(define.Net2 + define.SaveProcessWorkCardEntry);
-        params.setReadTimeout(60000);
-        params.setConnectTimeout(60000);
-
-
         for (int i = 0; i < sc_ProcessWorkCardEntryList.size(); i++) {
             sc_ProcessWorkCardEntryList.get(i).setFentryid(i + 1);
             //关闭程序设成0
@@ -1743,93 +1770,64 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
 
         List<Sc_ProcessWorkCardEntryNative> sc_ProcessWorkCardEntryListNative = GsonFactory.jsonToArrayList(g.toJson(sc_ProcessWorkCardEntryList), Sc_ProcessWorkCardEntryNative.class);
         for (Sc_ProcessWorkCardEntryNative sc_processWorkCardEntryNative : sc_ProcessWorkCardEntryListNative) {
-            if(!sc_processWorkCardEntryNative.isOpen()){
+            LOG.e("Price="+sc_processWorkCardEntryNative.getFprice());
+            if (!sc_processWorkCardEntryNative.isOpen()) {
                 sc_processWorkCardEntryNative.setFqty(0);
                 sc_processWorkCardEntryNative.setFpreschedulingqty(0);
             }
         }
 
-
         Collections.reverse(sc_ProcessWorkCardEntryListNative);
-//        Utils.e("jindi", g.toJson(sc_ProcessWorkCardEntryListNative));
-        params.addParameter("PushJsonCondition", g.toJson(sc_ProcessWorkCardEntryListNative));
-        LOG.E("保存预排提交：" + g.toJson(sc_ProcessWorkCardEntryListNative));
-        for (Sc_ProcessWorkCardEntryNative SC : sc_ProcessWorkCardEntryListNative) {
-            LOG.e("isOpen:"+SC.isOpen()+"  EmpId:"+SC.getFempid()+"   工序名称:"+SC.getFprocessname()+"  预排数量:"+SC.getFpreschedulingqty()+"  已汇报未计工数:"+SC.getFqty());
-        }
-        x.http().post(params, new Callback.CommonCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                //解析result
-                //重新设置数据
-                try {
-                    LOG.E("保存预排：" + URLDecoder.decode(result, "UTF-8"));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                if (result.contains("OK") || result.contains("success")) {
-
-                    LemonHello.getSuccessHello("提示", "提交成功")
-                            .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
-                                @Override
-                                public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
-                                    helloView.hide();
+        HashMap<String, String> map = new HashMap<>();
+        map.put("PushJsonCondition", g.toJson(sc_ProcessWorkCardEntryListNative));
+        map.put("UserID", (String) SPUtils.get(define.SharedUserId, "0"));
+        WebServiceUtils.WEBSERVER_NAMESPACE = define.tempuri;// 命名空间
+        WebServiceUtils.callWebService(SPUtils.getServerPath() + define.ErpForAndroidStockServer,
+                define.APPSaveProcessWorkCard, map, result -> {
+                    btn_report.setEnabled(true);
+                    if (result != null) {
+                        try {
+                            LOG.E("保存预排=" + result);
+                            result = URLDecoder.decode(result, "UTF-8");
+                            JSONObject jb = new JSONObject(result);
+                            String ReturnType = jb.getString("ReturnType");
+                            String ReturnMsg = jb.getString("ReturnMsg");
+                            if("success".equals(ReturnType)){
+                                for (int i = 0; i < sc_ProcessWorkCardEntryList.size(); i++) {
+                                    reportNumberList.set(i, (int) sc_ProcessWorkCardEntryList.get(i).getFqty());
                                 }
-                            }))
-                            .show(act);
-                    for (int i = 0; i < sc_ProcessWorkCardEntryList.size(); i++) {
-                        reportNumberList.set(i,(int)sc_ProcessWorkCardEntryList.get(i).getFqty());
-                    }
-                    //提交成功后刷新
-                    getData((int) sc_ProcessWorkCardEntryList.get(0).getFinterid());
-                    selectWorkCardPlan.setPlanStatus("已排");
-                    hasCloseGx = false;
-                } else {
-
-                    LemonHello.getErrorHello("提示", "提交失败")
-                            .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
-                                @Override
-                                public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
-                                    helloView.hide();
-                                }
-                            }))
-                            .show(act);
-
-                }
-            }
-
-            //请求异常后的回调方法
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                Log.e("jindi", "saveData:" + ex.getMessage());
-                tv_tip.setVisibility(View.VISIBLE);
-                tv_tip.setText("提交失败,请联系管理员");
-
-                LemonHello.getErrorHello("提示", "提交失败,请联系管理员")
-                        .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
-                            @Override
-                            public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
-                                helloView.hide();
+                                //提交成功后刷新
+                                getData(Integer.parseInt(ReturnMsg));
+                                selectWorkCardPlan.setPlanStatus("已排");
+                                hasCloseGx = false;
+                                LemonHello.getSuccessHello("提示", "提交成功")
+                                        .addAction(new LemonHelloAction("我知道啦", (helloView, helloInfo, helloAction) -> helloView.hide()))
+                                        .show(act);
+                            }else{
+                                LemonHello.getErrorHello("提示", ReturnMsg)
+                                        .addAction(new LemonHelloAction("我知道啦", (helloView, helloInfo, helloAction) -> helloView.hide()))
+                                        .show(act);
                             }
-                        }))
-                        .show(act);
-            }
+                        } catch (UnsupportedEncodingException e) {
+                            tv_tip.setVisibility(View.VISIBLE);
+                            tv_tip.setText("数据出错，请联系管理员");
+                            e.printStackTrace();
+                        } catch (JSONException e) {
+                            tv_tip.setVisibility(View.VISIBLE);
+                            tv_tip.setText("解析异常，请联系管理员");
+                            e.printStackTrace();
+                        }
+                    } else {
+                        tv_tip.setText("暂无数据");
+                    }
+                });
 
-            //主动调用取消请求的回调方法
-            @Override
-            public void onCancelled(CancelledException cex) {
-            }
-
-            @Override
-            public void onFinished() {
-            }
-        });
     }
 
     //工序计工
     public void RecordProductionCount() {
 
-//        RequestParams params = new RequestParams(define.Net2 + define.RecordProductionCount);
+//        RequestParams params = new RequestParams(SPUtils.getServerPath() + define.RecordProductionCount);
 
         //重新设置entryid
         for (int i = 0; i < sc_ProcessWorkCardEntryList.size(); i++) {
@@ -1864,50 +1862,45 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
 
         HashMap<String, String> map = new HashMap<>();
         map.put("PushJsonCondition", g.toJson(sc_ProcessWorkCardEntryListNative));
-        map.put("UserID", dataPref.getString(define.SharedUserId, "0"));
+        map.put("UserID", (String) SPUtils.get(define.SharedUserId, "0"));
         map.put("suitID", define.suitID);
         WebServiceUtils.WEBSERVER_NAMESPACE = define.tempuri;// 命名空间
         WebServiceUtils.callWebService(
-                define.Net2 + define.ErpForAndroidStockServer,
+                SPUtils.getServerPath() + define.ErpForAndroidStockServer,
                 define.RecordProductionCount,
-                map,
-                new WebServiceUtils.WebServiceCallBack() {
-                    @Override
-                    public void callBack(String result) {
-                        btn_report.setEnabled(true);
-                        if (result != null) {
-                            try {
-                                result = URLDecoder.decode(result, "UTF-8");
-                                LOG.E("工序计工提交结果=" + result);
+                map, result -> {
+                    btn_report.setEnabled(true);
+                    if (result != null) {
+                        try {
+                            result = URLDecoder.decode(result, "UTF-8");
+                            LOG.E("工序计工提交结果=" + result);
 //                                {"ReturnMsg":"计工成功!","ReturnType":"success"}
-                                JSONObject jb = new JSONObject(result);
-                                String ReturnType = jb.getString("ReturnType");
-                                String ReturnMsg = jb.getString("ReturnMsg");
-                                GetProcessWorkCardInfoByWorkCardID(selectWorkCardPlan.getFinterid());
+                            JSONObject jb = new JSONObject(result);
+                            String ReturnType = jb.getString("ReturnType");
+                            String ReturnMsg = jb.getString("ReturnMsg");
+                            GetProcessWorkCardInfoByWorkCardID(selectWorkCardPlan.getFinterid());
 
-                                LemonHello.getInformationHello("提示", ReturnMsg)
-                                        .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
-                                            @Override
-                                            public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
-                                                helloView.hide();
-                                            }
-                                        }))
+
+                            if (ReturnType.equals("success")) {
+                                LemonHello.getSuccessHello("计工成功", ReturnMsg)
+                                        .addAction(new LemonHelloAction("我知道啦", (helloView, helloInfo, helloAction) -> helloView.hide()))
                                         .show(act);
-//                                if (ReturnType.equals("success")) {
-//                                } else {
-//                                }
-                            } catch (UnsupportedEncodingException e) {
-                                tv_tip.setVisibility(View.VISIBLE);
-                                tv_tip.setText("数据出错，请联系管理员");
-                                e.printStackTrace();
-                            } catch (JSONException e) {
-                                tv_tip.setVisibility(View.VISIBLE);
-                                tv_tip.setText("解析异常，请联系管理员");
-                                e.printStackTrace();
+                            } else {
+                                LemonHello.getErrorHello("计工失败", ReturnMsg)
+                                        .addAction(new LemonHelloAction("我知道啦", (helloView, helloInfo, helloAction) -> helloView.hide()))
+                                        .show(act);
                             }
-                        } else {
-                            tv_tip.setText("暂无数据");
+                        } catch (UnsupportedEncodingException e) {
+                            tv_tip.setVisibility(View.VISIBLE);
+                            tv_tip.setText("数据出错，请联系管理员");
+                            e.printStackTrace();
+                        } catch (JSONException e) {
+                            tv_tip.setVisibility(View.VISIBLE);
+                            tv_tip.setText("解析异常，请联系管理员");
+                            e.printStackTrace();
                         }
+                    } else {
+                        tv_tip.setText("暂无数据");
                     }
                 });
     }
@@ -1992,7 +1985,7 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
             gxpgPlanReportNumberSave.setProcessname(sc_ProcessWorkCardEntryList.get(i).getFprocessname());
             gxpgPlanReportNumberSave.setUsername(sc_ProcessWorkCardEntryList.get(i).getName());
             gxpgPlanReportNumberSave.setUsernumber(sc_ProcessWorkCardEntryList.get(i).getJobNumber());
-            gxpgPlanReportNumberSave.setRecordcount((int)sc_ProcessWorkCardEntryList.get(i).getFqty());
+            gxpgPlanReportNumberSave.setRecordcount((int) sc_ProcessWorkCardEntryList.get(i).getFqty());
             Log.e("jindi", selectWorkCardPlan.getOrderbill() + "," + selectWorkCardPlan.getPlanbill() + "," + sc_ProcessWorkCardEntryList.get(i).getFprocessname() + "," + sc_ProcessWorkCardEntryList.get(i).getJobNumber());
             GxpgPlanReportNumberSaveList.add(gxpgPlanReportNumberSave);
         }
@@ -2191,8 +2184,8 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
 
     //获取今日目标数
     private void GetDayWorkCardPlanQtyBysuitID() {
-        RequestParams params = new RequestParams(define.Net2 + define.GetDayWorkCardPlanQtyBysuitID);
-        params.addParameter("FDeptID", dataPref.getString(define.SharedFDeptmentid, "0"));
+        RequestParams params = new RequestParams(SPUtils.getServerPath() + define.GetDayWorkCardPlanQtyBysuitID);
+        params.addParameter("FDeptID", (String) SPUtils.get(define.SharedFDeptmentid, "0"));
         params.addParameter("FDate", Utils.getCurrentTime());
         params.addParameter("suitID", define.suitID);
         //String log=params.toString();
@@ -2207,7 +2200,7 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
                     if (result.contains("success")) {
                         LOG.e("今日目标数：" + result);
                         String todayTarget = result.substring(result.indexOf("ReturnMsg"), result.indexOf(",")).replace("ReturnMsg\":", "").replace("\"", "");
-                        TT = (int)Double.parseDouble(todayTarget);
+                        TT = (int) Double.parseDouble(todayTarget);
                     }
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
@@ -2240,7 +2233,7 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
 
 
     private void againSCProcessOutPutReWriteBysuitID() {
-        RequestParams params = new RequestParams(define.Net2 + define.ResetWorkCardPushData);
+        RequestParams params = new RequestParams(SPUtils.getServerPath() + define.ResetWorkCardPushData);
         params.addParameter("workcardID", selectWorkCardPlan.getFinterid());
         params.addParameter("suitID", define.suitID);
         params.setConnectTimeout(120000);
@@ -2268,7 +2261,7 @@ public class GxpgActivity extends AppCompatActivity implements ScrollListenerHor
                 } else {
                     Toast.makeText(mContext, "工序汇报校正失败,请重新校正。", Toast.LENGTH_LONG).show();
                 }
-                btn_report.setEnabled(true);
+//                btn_report.setEnabled(true);
             }
 
             //请求异常后的回调方法

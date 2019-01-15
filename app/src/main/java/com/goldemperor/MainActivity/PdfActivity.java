@@ -17,6 +17,7 @@ import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.goldemperor.R;
 import com.goldemperor.Utils.LOG;
 import com.goldemperor.Utils.PdfUtil;
+import com.goldemperor.Utils.SPUtils;
 import com.goldemperor.Utils.WebServiceUtils;
 
 import org.json.JSONException;
@@ -63,12 +64,7 @@ public class PdfActivity extends Activity implements OnPageChangeListener {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
         mActivity = this;
-        IV_Back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        IV_Back.setOnClickListener(v -> finish());
         String ScWorkcardNo = getIntent().getExtras().getString("ScWorkcardNo");
         getdata(ScWorkcardNo);
     }
@@ -81,60 +77,54 @@ public class PdfActivity extends Activity implements OnPageChangeListener {
         map.put("type", "pdf");
         map.put("suitID", "1");
         WebServiceUtils.WEBSERVER_NAMESPACE = define.tempuri;// 命名空间
-        WebServiceUtils.callWebService(
-                define.Net2 + define.ErpForAndroidStockServer,
-                define.GetScMoNoPreviewFile,
-                map,
-                new WebServiceUtils.WebServiceCallBack() {
-                    @Override
-                    public void callBack(String result) {
-                        if (result != null) {
-                            TV_Msg.setText("下载完成,正在转码...");
-                            try {
-                                result = URLDecoder.decode(result, "UTF-8");
-                                LOG.E("result=" + result);
-                                JSONObject jsonObject = new JSONObject(result);
-                                String ReturnType = jsonObject.getString("ReturnType");
-                                String ReturnMsg = jsonObject.getString("ReturnMsg");
-                                if ("success".equals(ReturnType)) {
-                                    PdfUtil.base64StringToPDF(ReturnMsg, new PdfUtil.Base64ToFileListener() {
-                                        @Override
-                                        public void OnFinish(File file) {
-                                            TV_Msg.setText("转码完成,启动PDF");
-                                            PDFV_ShowPDF.fromFile(file)
-                                                    .defaultPage(Page)
-                                                    .onPageChange(PdfActivity.this)
-                                                    .enableAnnotationRendering(true)
-                                                    .scrollHandle(new DefaultScrollHandle(mActivity))
-                                                    .spacing(10)
+        WebServiceUtils.callWebService(SPUtils.getServerPath() + define.ErpForAndroidStockServer,
+                define.GetScMoNoPreviewFile, map, result -> {
+                    if (result != null) {
+                        TV_Msg.setText("下载完成,正在转码...");
+                        try {
+                            result = URLDecoder.decode(result, "UTF-8");
+                            LOG.E("result=" + result);
+                            JSONObject jsonObject = new JSONObject(result);
+                            String ReturnType = jsonObject.getString("ReturnType");
+                            String ReturnMsg = jsonObject.getString("ReturnMsg");
+                            if ("success".equals(ReturnType)) {
+                                PdfUtil.base64StringToPDF(ReturnMsg, new PdfUtil.Base64ToFileListener() {
+                                    @Override
+                                    public void OnFinish(File file) {
+                                        TV_Msg.setText("转码完成,启动PDF");
+                                        PDFV_ShowPDF.fromFile(file)
+                                                .defaultPage(Page)
+                                                .onPageChange(PdfActivity.this)
+                                                .enableAnnotationRendering(true)
+                                                .scrollHandle(new DefaultScrollHandle(mActivity))
+                                                .spacing(10)
 //                                                    .pageFitPolicy(FitPolicy.BOTH)
-                                                    .load();
-                                        }
-                                        @Override
-                                        public void OnError(String msg) {
-                                            PB_reading.setVisibility(View.GONE);
-                                            TV_Msg.setText("转码完失败:"+msg);
-                                        }
-                                    });
-                                } else {
-                                    PB_reading.setVisibility(View.GONE);
-                                    TV_Msg.setText("获取数据失败:"+ReturnMsg);
-                                }
-                            } catch (JSONException e) {
+                                                .load();
+                                    }
+                                    @Override
+                                    public void OnError(String msg) {
+                                        PB_reading.setVisibility(View.GONE);
+                                        TV_Msg.setText("转码完失败:"+msg);
+                                    }
+                                });
+                            } else {
                                 PB_reading.setVisibility(View.GONE);
-                                TV_Msg.setText("数据解析异常");
-                                e.printStackTrace();
-                            } catch (UnsupportedEncodingException e) {
-                                e.printStackTrace();
-                                PB_reading.setVisibility(View.GONE);
-                                TV_Msg.setText("数据解码异常");
+                                TV_Msg.setText("获取数据失败:"+ReturnMsg);
                             }
-                        } else {
+                        } catch (JSONException e) {
                             PB_reading.setVisibility(View.GONE);
-                            TV_Msg.setText("暂无数据");
+                            TV_Msg.setText("数据解析异常");
+                            e.printStackTrace();
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                            PB_reading.setVisibility(View.GONE);
+                            TV_Msg.setText("数据解码异常");
                         }
-                        LL_Reading.setVisibility(View.GONE);
+                    } else {
+                        PB_reading.setVisibility(View.GONE);
+                        TV_Msg.setText("暂无数据");
                     }
+                    LL_Reading.setVisibility(View.GONE);
                 });
     }
 

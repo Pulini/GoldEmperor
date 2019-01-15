@@ -9,10 +9,15 @@ package com.goldemperor.MainActivity;
  */
 public class CodeDataModel {
     public String Code;
-    public boolean Type;
+    public boolean Type = false;
 
     public CodeDataModel(String Code) {
         this.Code = Code;
+    }
+
+    public CodeDataModel(String Code, boolean Type) {
+        this.Code = Code;
+        this.Type = Type;
     }
 
     public String getCode() {

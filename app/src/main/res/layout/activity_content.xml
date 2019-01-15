@@ -45,9 +45,9 @@
                         android:id="@+id/btn_check"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:padding="5dp"
                         android:layout_marginRight="5dp"
                         android:layout_weight="1"
+                        android:padding="5dp"
                         fancy:fb_borderColor="#FFFFFF"
                         fancy:fb_borderWidth="2dp"
                         fancy:fb_defaultColor="#40a75a"
@@ -56,17 +56,16 @@
                         fancy:fb_iconPosition="top"
                         fancy:fb_radius="10dp"
                         fancy:fb_text="来料稽查"
-                        fancy:fb_textColor="#FFFFFF"/>
-
+                        fancy:fb_textColor="#FFFFFF" />
 
 
                     <com.goldemperor.Widget.fancybuttons.FancyButton
                         android:id="@+id/btn_order"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:padding="5dp"
                         android:layout_marginRight="5dp"
                         android:layout_weight="1"
+                        android:padding="5dp"
                         fancy:fb_borderColor="#FFFFFF"
                         fancy:fb_borderWidth="2dp"
                         fancy:fb_defaultColor="#ff5f69"
@@ -82,8 +81,8 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginRight="5dp"
-                        android:padding="5dp"
                         android:layout_weight="1"
+                        android:padding="5dp"
                         fancy:fb_borderColor="#FFFFFF"
                         fancy:fb_borderWidth="2dp"
                         fancy:fb_defaultColor="#3b414f"
@@ -93,12 +92,13 @@
                         fancy:fb_radius="10dp"
                         fancy:fb_text="工序计划派工"
                         fancy:fb_textColor="#FFFFFF" />
+
                     <com.goldemperor.Widget.fancybuttons.FancyButton
                         android:id="@+id/btn_pzgl"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:padding="5dp"
                         android:layout_weight="1"
+                        android:padding="5dp"
                         fancy:fb_borderColor="#FFFFFF"
                         fancy:fb_borderWidth="2dp"
                         fancy:fb_defaultColor="#7ed862"
@@ -114,8 +114,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginRight="5dp"
                     android:orientation="horizontal">
 
                     <com.goldemperor.Widget.fancybuttons.FancyButton
@@ -123,8 +123,8 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginRight="5dp"
-                        android:padding="5dp"
                         android:layout_weight="1"
+                        android:padding="5dp"
                         fancy:fb_borderColor="#FFFFFF"
                         fancy:fb_borderWidth="2dp"
                         fancy:fb_defaultColor="#3b414f"
@@ -140,8 +140,8 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginRight="5dp"
-                        android:padding="5dp"
                         android:layout_weight="1"
+                        android:padding="5dp"
                         fancy:fb_borderColor="#FFFFFF"
                         fancy:fb_borderWidth="2dp"
                         fancy:fb_defaultColor="#3b5998"
@@ -151,8 +151,7 @@
                         fancy:fb_radius="10dp"
                         fancy:fb_text="成型后段扫码入库"
                         fancy:fb_textColor="#FFFFFF"
-                        fancy:fb_textSize="9dp"/>
-
+                        fancy:fb_textSize="9dp" />
 
 
                     <com.goldemperor.Widget.fancybuttons.FancyButton
@@ -160,8 +159,8 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginRight="5dp"
-                        android:padding="5dp"
                         android:layout_weight="1"
+                        android:padding="5dp"
                         fancy:fb_borderColor="#FFFFFF"
                         fancy:fb_borderWidth="2dp"
                         fancy:fb_defaultColor="#ff8800"
@@ -177,8 +176,8 @@
                         android:id="@+id/btn_scstockin"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:padding="5dp"
                         android:layout_weight="1"
+                        android:padding="5dp"
                         fancy:fb_borderColor="#FFFFFF"
                         fancy:fb_borderWidth="2dp"
                         fancy:fb_defaultColor="#3b5998"
@@ -196,8 +195,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginRight="5dp"
                     android:orientation="horizontal">
 
                     <com.goldemperor.Widget.fancybuttons.FancyButton
@@ -205,8 +204,8 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginRight="5dp"
-                        android:padding="5dp"
                         android:layout_weight="1"
+                        android:padding="5dp"
                         fancy:fb_borderColor="#FFFFFF"
                         fancy:fb_borderWidth="2dp"
                         fancy:fb_defaultColor="#3b5998"
@@ -223,8 +222,8 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginRight="5dp"
-                        android:padding="5dp"
                         android:layout_weight="1"
+                        android:padding="5dp"
                         fancy:fb_borderColor="#FFFFFF"
                         fancy:fb_borderWidth="2dp"
                         fancy:fb_defaultColor="#008800"
@@ -239,9 +238,9 @@
                         android:id="@+id/btn_day_work"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:padding="5dp"
                         android:layout_marginRight="5dp"
                         android:layout_weight="1"
+                        android:padding="5dp"
                         fancy:fb_borderColor="#FFFFFF"
                         fancy:fb_borderWidth="2dp"
                         fancy:fb_defaultColor="#ff8800"
@@ -256,8 +255,8 @@
                         android:id="@+id/btn_cc"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:padding="5dp"
                         android:layout_weight="1"
+                        android:padding="5dp"
                         fancy:fb_borderColor="#FFFFFF"
                         fancy:fb_borderWidth="2dp"
                         fancy:fb_defaultColor="#cc00"
@@ -275,8 +274,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginRight="5dp"
                     android:orientation="horizontal">
 
                     <com.goldemperor.Widget.fancybuttons.FancyButton
@@ -284,8 +283,8 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginRight="5dp"
-                        android:padding="5dp"
                         android:layout_weight="1"
+                        android:padding="5dp"
                         fancy:fb_borderColor="#FFFFFF"
                         fancy:fb_borderWidth="2dp"
                         fancy:fb_defaultColor="#008800"
@@ -301,8 +300,8 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginRight="5dp"
-                        android:padding="5dp"
                         android:layout_weight="1"
+                        android:padding="5dp"
                         fancy:fb_borderColor="#FFFFFF"
                         fancy:fb_borderWidth="2dp"
                         fancy:fb_defaultColor="#cc0088"
@@ -318,8 +317,8 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginRight="5dp"
-                        android:padding="5dp"
                         android:layout_weight="1"
+                        android:padding="5dp"
                         fancy:fb_borderColor="#FFFFFF"
                         fancy:fb_borderWidth="2dp"
                         fancy:fb_defaultColor="#00ff00"
@@ -329,6 +328,7 @@
                         fancy:fb_radius="10dp"
                         fancy:fb_text="工艺路线变更"
                         fancy:fb_textColor="#FFFFFF" />
+
                     <com.goldemperor.Widget.fancybuttons.FancyButton
                         android:id="@+id/btn_help"
                         android:layout_width="0dp"
@@ -352,8 +352,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginRight="5dp"
                     android:orientation="horizontal">
 
                     <com.goldemperor.Widget.fancybuttons.FancyButton
@@ -361,8 +361,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
-                        android:padding="5dp"
                         android:layout_weight="1"
+                        android:padding="5dp"
                         fancy:fb_borderColor="#FFFFFF"
                         fancy:fb_borderWidth="2dp"
                         fancy:fb_defaultColor="#4888FF"
@@ -378,8 +378,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
-                        android:padding="5dp"
                         android:layout_weight="1"
+                        android:padding="5dp"
                         fancy:fb_borderColor="#FFFFFF"
                         fancy:fb_borderWidth="2dp"
                         fancy:fb_defaultColor="#4888FF"
@@ -395,8 +395,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
-                        android:padding="5dp"
                         android:layout_weight="1"
+                        android:padding="5dp"
                         fancy:fb_borderColor="#FFFFFF"
                         fancy:fb_borderWidth="2dp"
                         fancy:fb_defaultColor="#668877"
@@ -411,8 +411,8 @@
                         android:id="@+id/btn_UnFinished"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:padding="5dp"
                         android:layout_weight="1"
+                        android:padding="5dp"
                         fancy:fb_borderColor="#FFFFFF"
                         fancy:fb_borderWidth="2dp"
                         fancy:fb_defaultColor="#4888FF"
@@ -429,16 +429,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginRight="5dp"
                     android:orientation="horizontal">
 
                     <com.goldemperor.Widget.fancybuttons.FancyButton
                         android:id="@+id/btn_set"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:padding="5dp"
                         android:layout_weight="1"
+                        android:padding="5dp"
                         fancy:fb_borderColor="#FFFFFF"
                         fancy:fb_borderWidth="2dp"
                         fancy:fb_defaultColor="#ff8800"
@@ -468,56 +468,64 @@
         android:background="#ffffff"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="right">
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="10dp"
-                android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp">
 
-                <TextView
-                    android:id="@+id/netStatus"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="当前网络:"
-                    android:textSize="15dp" />
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/version"
+                    <TextView
+                        android:id="@+id/netStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="当前网络:"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/version"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="当前版本:"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btn_wai"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:text="正式库" />
 
-                    android:text="当前版本:"
-                    android:textSize="15dp" />
+                <Button
+                    android:id="@+id/btn_ce"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:text="测试库1" />
+
+                <Button
+                    android:id="@+id/btn_ce2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:text="测试库2" />
+
             </LinearLayout>
-
-            <Button
-                android:id="@+id/btn_wai"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:text="切换外网" />
-
-            <Button
-                android:id="@+id/btn_nei"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:text="切换内网" />
-
-            <Button
-                android:id="@+id/btn_ce"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:text="测试库" />
-
-        </LinearLayout>
+        </HorizontalScrollView>
 
         <com.goldemperor.Banner.SimpleTextBanner
             android:id="@+id/stb"

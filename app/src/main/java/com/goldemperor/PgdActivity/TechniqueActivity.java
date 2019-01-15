@@ -20,6 +20,7 @@ import com.goldemperor.MainActivity.define;
 import com.goldemperor.PzActivity.RouteEntryModel;
 import com.goldemperor.R;
 import com.goldemperor.Utils.LOG;
+import com.goldemperor.Utils.SPUtils;
 import com.goldemperor.Utils.WebServiceUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -50,8 +51,6 @@ public class TechniqueActivity extends AppCompatActivity {
 
     private Context mContext;
     private Activity act;
-    private SharedPreferences dataPref;
-    private SharedPreferences.Editor dataEditor;
     private SwipeMenuRecyclerView mMenuRecyclerView;
     private TechniqueAdapter mMenuAdapter;
     private int finterid;
@@ -69,8 +68,6 @@ public class TechniqueActivity extends AppCompatActivity {
 
         mContext = this;
         act = this;
-        dataPref = this.getSharedPreferences(define.SharedName, 0);
-        dataEditor = dataPref.edit();
 
 
         mMenuRecyclerView = (SwipeMenuRecyclerView) findViewById(R.id.recycler_view);
@@ -93,7 +90,7 @@ public class TechniqueActivity extends AppCompatActivity {
         map.put("FInterID", finterid + "");
         WebServiceUtils.WEBSERVER_NAMESPACE = define.tempuri;// 命名空间
         WebServiceUtils.callWebService(
-                define.Net2 + define.ErpForMesServer,
+                SPUtils.getServerPath() + define.ErpForMesServer,
                 define.GetRouteEntryBody,
                 map,
                 new WebServiceUtils.WebServiceCallBack() {

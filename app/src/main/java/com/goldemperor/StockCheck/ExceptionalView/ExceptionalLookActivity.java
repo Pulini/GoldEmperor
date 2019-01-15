@@ -90,8 +90,8 @@ public class ExceptionalLookActivity extends AppCompatActivity {
         mUpdataImageList = new ArrayList<>();
         RecyclerView imageRecyclerView = (RecyclerView)findViewById(R.id.recycler_view);
 
-        imageRecyclerView.setLayoutManager(new LinearLayoutManager(this));// 布局管理器。
-        imageRecyclerView.addItemDecoration(new ListViewDecoration(this));// 添加分割线。
+        imageRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));// 布局管理器。
+        imageRecyclerView.addItemDecoration(new ListViewDecoration(mContext));// 添加分割线。
 
         lookImageAdapter = new LookImageAdapter(mUpdataImageList);
         lookImageAdapter.setOnItemClickListener(null);

@@ -3,12 +3,13 @@ package com.goldemperor.MainActivity;
 import android.net.Uri;
 import android.os.Environment;
 
+import com.goldemperor.Utils.LOG;
 
-import com.goldemperor.Widget.takephoto.app.TakePhoto;
-import com.goldemperor.Widget.takephoto.compress.CompressConfig;
-import com.goldemperor.Widget.takephoto.model.CropOptions;
-import com.goldemperor.Widget.takephoto.model.LubanOptions;
-import com.goldemperor.Widget.takephoto.model.TakePhotoOptions;
+import org.devio.takephoto.app.TakePhoto;
+import org.devio.takephoto.compress.CompressConfig;
+import org.devio.takephoto.model.CropOptions;
+import org.devio.takephoto.model.LubanOptions;
+import org.devio.takephoto.model.TakePhotoOptions;
 
 import java.io.File;
 
@@ -51,7 +52,7 @@ public class TakePhotoHelper {
         }
         Uri imageUri = Uri.fromFile(file);
 
-
+        LOG.e("imageUri="+imageUri.getPath());
         this.etCropWidth=etCropWidth;
         this.etHeightPx=etHeightPx;
         this.etLimit=etLimit;

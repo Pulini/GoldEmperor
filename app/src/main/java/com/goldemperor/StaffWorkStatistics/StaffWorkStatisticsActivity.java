@@ -21,6 +21,7 @@ import com.goldemperor.MainActivity.Utils;
 import com.goldemperor.MainActivity.define;
 import com.goldemperor.R;
 import com.goldemperor.Utils.LOG;
+import com.goldemperor.Utils.SPUtils;
 import com.goldemperor.Utils.WebServiceUtils;
 import com.goldemperor.Widget.NiceSpinner.NiceSpinner;
 import com.goldemperor.Widget.fancybuttons.FancyButton;
@@ -111,8 +112,6 @@ public class StaffWorkStatisticsActivity extends Activity {
     private TextView TV_FAmountSum2;
 
 
-    private SharedPreferences dataPref;
-    private SharedPreferences.Editor dataEditor;
     List<Type> TL = new ArrayList<>();
     List<StaffWorkStatistics_GX_Model> SWSM_GX_L = new ArrayList<>();
     List<StaffWorkStatistics_CL_Model> SWSM_CL_L = new ArrayList<>();
@@ -141,8 +140,6 @@ public class StaffWorkStatisticsActivity extends Activity {
     }
 
     private void initview() {
-        dataPref = this.getSharedPreferences(define.SharedName, 0);
-        dataEditor = dataPref.edit();
 
         FB_Query.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -222,55 +219,51 @@ public class StaffWorkStatisticsActivity extends Activity {
     private void CheckJurisdiction(final String controlID) {
         HashMap<String, String> map = new HashMap<>();
         map.put("OrganizeID", "1");
-        map.put("empID", dataPref.getString(define.SharedEmpId, define.NONE));
+        map.put("empID", (String)SPUtils.get(define.SharedEmpId, define.NONE));
         map.put("controlID", controlID);
         WebServiceUtils.WEBSERVER_NAMESPACE = define.tempuri;// 命名空间
         WebServiceUtils.callWebService(
-                define.Net2 + define.ErpPublicServer,
+                SPUtils.getServerPath() + define.ErpPublicServer,
                 define.IsHaveControl2,
-                map,
-                new WebServiceUtils.WebServiceCallBack() {
-                    @Override
-                    public void callBack(String result) {
-                        if (result != null) {
-                            try {
-                                result = URLDecoder.decode(result, "UTF-8");
-                                LOG.e("权限=" + result);
-                                if (result.equals("true")) {
-                                    if (controlID.equals("303100102")) {
-                                        isShowPrice=true;
-                                    } else if (controlID.equals("303100103")) {
-                                        isShowAmount=true;
-                                    }
+                map, result -> {
+                    if (result != null) {
+                        try {
+                            result = URLDecoder.decode(result, "UTF-8");
+                            LOG.e("权限=" + result);
+                            if (result.equals("true")) {
+                                if (controlID.equals("303100102")) {
+                                    isShowPrice=true;
+                                } else if (controlID.equals("303100103")) {
+                                    isShowAmount=true;
                                 }
-                                if (isShowPrice) {
-                                    TV_FPrice1.setVisibility(View.VISIBLE);
-                                    TV_FPrice2.setVisibility(View.VISIBLE);
-                                } else {
-                                    TV_FPrice1.setVisibility(View.GONE);
-                                    TV_FPrice2.setVisibility(View.GONE);
-                                }
-
-                                if (isShowAmount) {
-                                    TV_FAmount1.setVisibility(View.VISIBLE);
-                                    TV_FAmount2.setVisibility(View.VISIBLE);
-                                } else {
-                                    TV_FAmount1.setVisibility(View.GONE);
-                                    TV_FAmount2.setVisibility(View.GONE);
-                                }
-                                if(isShowPrice&&isShowAmount){
-                                    TV_FAmountSum1.setVisibility(View.VISIBLE);
-                                    TV_FAmountSum2.setVisibility(View.VISIBLE);
-                                }else{
-                                    TV_FAmountSum1.setVisibility(View.GONE);
-                                    TV_FAmountSum2.setVisibility(View.GONE);
-                                }
-
-                            } catch (UnsupportedEncodingException e) {
-                                e.printStackTrace();
+                            }
+                            if (isShowPrice) {
+                                TV_FPrice1.setVisibility(View.VISIBLE);
+                                TV_FPrice2.setVisibility(View.VISIBLE);
+                            } else {
+                                TV_FPrice1.setVisibility(View.GONE);
+                                TV_FPrice2.setVisibility(View.GONE);
                             }
 
+                            if (isShowAmount) {
+                                TV_FAmount1.setVisibility(View.VISIBLE);
+                                TV_FAmount2.setVisibility(View.VISIBLE);
+                            } else {
+                                TV_FAmount1.setVisibility(View.GONE);
+                                TV_FAmount2.setVisibility(View.GONE);
+                            }
+                            if(isShowPrice&&isShowAmount){
+                                TV_FAmountSum1.setVisibility(View.VISIBLE);
+                                TV_FAmountSum2.setVisibility(View.VISIBLE);
+                            }else{
+                                TV_FAmountSum1.setVisibility(View.GONE);
+                                TV_FAmountSum2.setVisibility(View.GONE);
+                            }
+
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
                         }
+
                     }
                 });
     }
@@ -284,7 +277,7 @@ public class StaffWorkStatisticsActivity extends Activity {
         map.put("suitID", "1");
         WebServiceUtils.WEBSERVER_NAMESPACE = define.tempuri;// 命名空间
         WebServiceUtils.callWebService(
-                define.Net2 + define.ErpForAndroidStockServer,
+                SPUtils.getServerPath() + define.ErpForAndroidStockServer,
                 define.WEB_GETPROCESSOUTPUTREPORT,
                 map,
                 new WebServiceUtils.WebServiceCallBack() {
@@ -341,12 +334,12 @@ public class StaffWorkStatisticsActivity extends Activity {
         map.put("FItemID", FItemID);
         map.put("BeginDate", startDate);
         map.put("EndDate", endDate);
-        map.put("FDeptID", dataPref.getString(define.SharedFDeptmentid, "0"));
+        map.put("FDeptID", (String)SPUtils.get(define.SharedFDeptmentid, "0"));
         map.put("FEmpNumber", query);
         map.put("suitID", "1");
         WebServiceUtils.WEBSERVER_NAMESPACE = define.tempuri;// 命名空间
         WebServiceUtils.callWebService(
-                define.Net2 + define.ErpForAndroidStockServer,
+                SPUtils.getServerPath() + define.ErpForAndroidStockServer,
                 define.WEB_GETPROCESSOUTPUTREPORTDETAIL,
                 map,
                 new WebServiceUtils.WebServiceCallBack() {

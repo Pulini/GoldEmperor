@@ -41,8 +41,6 @@ public class AssignActivity extends AppCompatActivity {
 
     private Context mContext;
     private Activity act;
-    private SharedPreferences dataPref;
-    private SharedPreferences.Editor dataEditor;
     private SwipeMenuRecyclerView mMenuRecyclerView;
     private AssignAdapter mMenuAdapter;
     private FancyButton btn_clear;
@@ -62,8 +60,6 @@ public class AssignActivity extends AppCompatActivity {
 
         mContext = this;
         act=this;
-        dataPref = this.getSharedPreferences(define.SharedName, 0);
-        dataEditor = dataPref.edit();
         dbManager = initDb();
 
         btn_clear = (FancyButton) findViewById(R.id.btn_clear);
@@ -82,8 +78,8 @@ public class AssignActivity extends AppCompatActivity {
             }
         });
         mMenuRecyclerView = (SwipeMenuRecyclerView) findViewById(R.id.recycler_view);
-        mMenuRecyclerView.setLayoutManager(new LinearLayoutManager(this));// 布局管理器。
-        mMenuRecyclerView.addItemDecoration(new ListViewDecoration(this));// 添加分割线。
+        mMenuRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));// 布局管理器。
+        mMenuRecyclerView.addItemDecoration(new ListViewDecoration(mContext));// 添加分割线。
 
         try {
             gxpgPlanList = dbManager.selector(GxpgPlan.class).where("style", " = ", planBody).findAll();

@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.alibaba.sdk.android.oss.ClientException;
@@ -39,19 +40,20 @@ import com.goldemperor.R;
 import com.goldemperor.MainActivity.TakePhotoHelper;
 import com.goldemperor.MainActivity.Utils;
 import com.goldemperor.MainActivity.define;
+import com.goldemperor.Utils.LOG;
+import com.goldemperor.Utils.SPUtils;
 import com.goldemperor.Widget.SuperDialog;
 import com.goldemperor.Widget.lemonhello.LemonHello;
 import com.goldemperor.Widget.lemonhello.LemonHelloAction;
 import com.goldemperor.Widget.lemonhello.LemonHelloInfo;
 import com.goldemperor.Widget.lemonhello.LemonHelloView;
 import com.goldemperor.Widget.lemonhello.interfaces.LemonHelloActionDelegate;
-import com.goldemperor.Widget.takephoto.app.TakePhotoFragment;
-import com.goldemperor.Widget.takephoto.model.TResult;
+
 import com.google.gson.Gson;
 
 
-
-
+import org.devio.takephoto.app.TakePhotoFragment;
+import org.devio.takephoto.model.TResult;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.image.ImageOptions;
@@ -70,8 +72,6 @@ public class UpdataView extends TakePhotoFragment {
 
     private FragmentActivity act;
 
-    private SharedPreferences dataPref;
-    private SharedPreferences.Editor dataEditor;
 
     private EditText edit_auditor;
     private EditText edit_info;
@@ -91,7 +91,8 @@ public class UpdataView extends TakePhotoFragment {
     private UpdataImageEditAdapter UpdataImageAdapter;
     private List<stock_check_image> lsi = new ArrayList<stock_check_image>();
 
-    private  Bundle bundle;
+    private Bundle bundle;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.pager_updata, null);
@@ -106,12 +107,9 @@ public class UpdataView extends TakePhotoFragment {
                 .setUseMemCache(true)
                 .build();
 
-        dataPref = act.getSharedPreferences(define.SharedName, 0);
-        dataEditor = dataPref.edit();
 
         edit_info = (EditText) view.findViewById(R.id.edit_info);
-        edit_info.setText(dataPref.getString(define.SharedInfo, ""));
-
+        edit_info.setText((String) SPUtils.get(define.SharedInfo, ""));
 
 
         //设置照片选择
@@ -171,7 +169,7 @@ public class UpdataView extends TakePhotoFragment {
         });
 
         edit_auditor = (EditText) view.findViewById(R.id.edit_auditor);
-        edit_auditor.setText(dataPref.getString(define.SharedUser, ""));
+        edit_auditor.setText((String) SPUtils.get(define.SharedUser, ""));
 
         //设置图片Grid
         mUpdataImageList = new ArrayList<>();
@@ -190,11 +188,10 @@ public class UpdataView extends TakePhotoFragment {
             public void onClick(View v) {
 
 
-                dataEditor.putString(define.SharedInfo, edit_info.getText().toString());
-                dataEditor.putString(define.SharedAuditor, edit_auditor.getText().toString());
+                SPUtils.put(define.SharedInfo, edit_info.getText().toString());
+                SPUtils.put(define.SharedAuditor, edit_auditor.getText().toString());
 
-                dataEditor.commit();
-                if (mUpdataImageList.size()==0) {
+                if (mUpdataImageList.size() == 0) {
 
                     LemonHello.getWarningHello("提示", "请至少上传一张图片")
                             .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
@@ -204,8 +201,7 @@ public class UpdataView extends TakePhotoFragment {
                                 }
                             }))
                             .show(act);
-                }
-                else if (edit_info.getText().toString().isEmpty()) {
+                } else if (edit_info.getText().toString().isEmpty()) {
 
 
                     LemonHello.getWarningHello("提示", "请输入情况说明")
@@ -217,11 +213,11 @@ public class UpdataView extends TakePhotoFragment {
                             }))
                             .show(act);
                 } else {
-                    String checkId="0";
+                    String checkId = "0";
                     RequestParams params = new RequestParams(define.SubmitCheck);
                     if (bundle != null) {
                         if (bundle.getString("id") != null) {
-                            checkId=bundle.getString("id");
+                            checkId = bundle.getString("id");
                             params.addQueryStringParameter("id", bundle.getString("id"));
                         }
                     }
@@ -256,10 +252,11 @@ public class UpdataView extends TakePhotoFragment {
                             });
 
                         }
+
                         //请求异常后的回调方法
                         @Override
                         public void onError(Throwable ex, boolean isOnCallback) {
-                            Log.e("jindi",ex.toString());
+                            Log.e("jindi", ex.toString());
 
                             LemonHello.getErrorHello("提示", "网络错误，单号提交失败")
                                     .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
@@ -281,8 +278,8 @@ public class UpdataView extends TakePhotoFragment {
                         }
                     });
 
-                    for(int i=0;i<mUpdataImageList.size();i++){
-                        stock_check_image sciTemp=new stock_check_image();
+                    for (int i = 0; i < mUpdataImageList.size(); i++) {
+                        stock_check_image sciTemp = new stock_check_image();
                         sciTemp.setCheckId(checkId);
                         sciTemp.setImage(mUpdataImageList.get(i));
                         lsi.add(sciTemp);
@@ -297,6 +294,7 @@ public class UpdataView extends TakePhotoFragment {
 
 
                         }
+
                         //请求异常后的回调方法
                         @Override
                         public void onError(Throwable ex, boolean isOnCallback) {
@@ -320,21 +318,22 @@ public class UpdataView extends TakePhotoFragment {
         getImage();
         return view;
     }
-    private  void getImage(){
+
+    private void getImage() {
         RequestParams params = new RequestParams(define.GetImage);
         if (bundle != null) {
             if (bundle.getString("id") != null) {
                 params.addQueryStringParameter("checkId", bundle.getString("id"));
             }
         }
-        Log.e("jindi",params.toString());
+        Log.e("jindi", params.toString());
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(final String result) {
                 //解析result
                 //重新设置数据
                 ArrayList<stock_check_image> arraytemp = GsonFactory.jsonToArrayList(result, stock_check_image.class);
-                for(int i=0;i<arraytemp.size();i++){
+                for (int i = 0; i < arraytemp.size(); i++) {
                     mUpdataImageList.add(arraytemp.get(i).getImage());
                 }
                 act.runOnUiThread(new Runnable() {
@@ -344,10 +343,11 @@ public class UpdataView extends TakePhotoFragment {
                     }
                 });
             }
+
             //请求异常后的回调方法
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.e("jindi",ex.toString());
+                Log.e("jindi", ex.toString());
 
 
                 LemonHello.getErrorHello("提示", "网络错误，单号提交失败")
@@ -370,6 +370,7 @@ public class UpdataView extends TakePhotoFragment {
             }
         });
     }
+
     /**
      * Item点击监听。
      */
@@ -389,43 +390,44 @@ public class UpdataView extends TakePhotoFragment {
     @Override
     public void takeSuccess(TResult tResult) {
         super.takeSuccess(tResult);
+        LOG.e("takeSuccess="+tResult.getImages().size());
 
-        OSS oss = OSSHelper.getOSSClient(act, define.OSS_KEY, define.OSS_SECRET);
         for (int i = 0; i < tResult.getImages().size(); i++) {
             // 拷贝图片,最后通知图库更新
             //复制文件到huayifu目录
             final String fileName = System.currentTimeMillis() + ".jpg";
             final File file = new File(Environment.getExternalStorageDirectory(), "/pictures/" + fileName);
-            Log.e("jindi","takeSuccess:"+file.toString());
+            LOG.e("takeSuccess:" + file.toString());
 
             act.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + file)));
             if (!file.getParentFile().exists()) {
+                LOG.e("mkdirs");
                 file.getParentFile().mkdirs();
             }
             Utils.copyfile(new File(tResult.getImages().get(i).getCompressPath()), file, true);
-            putImage(oss, fileName, file.toString());
+            putImage( fileName, file.toString());
         }
     }
 
-    public void putImage(OSS oss, final String fileName, String filePath) {
+    public void putImage( final String fileName, String filePath) {
+        LOG.e("提交照片");
         PutObjectRequest put = new PutObjectRequest(define.bucket, fileName, filePath);
-
         // 异步上传时可以设置进度回调
-        put.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
-            @Override
-            public void onProgress(PutObjectRequest request, long currentSize, long totalSize) {
-                Log.d("PutObject", "currentSize: " + currentSize + " totalSize: " + totalSize);
-            }
-        });
+        put.setProgressCallback((request, currentSize, totalSize) -> LOG.w("currentSize: " + currentSize + " totalSize: " + totalSize));
 
-        OSSAsyncTask task = oss.asyncPutObject(put, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
+        OSSHelper.getOSSClient(act, define.OSS_KEY, define.OSS_SECRET)
+                .asyncPutObject(put, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
             @Override
             public void onSuccess(PutObjectRequest request, PutObjectResult result) {
-                Log.d("PutObject", "UploadSuccess");
+                LOG.e("UploadSuccess");
 
-                Log.d("ETag", result.getETag());
-                Log.d("RequestId", result.getRequestId());
+                LOG.e("ETag="+result.getETag());
+                LOG.e("RequestId="+result.getRequestId());
                 mUpdataImageList.add(fileName);
+
+                for (String s : mUpdataImageList) {
+                    LOG.e("fileName="+s);
+                }
                 act.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -436,6 +438,7 @@ public class UpdataView extends TakePhotoFragment {
 
             @Override
             public void onFailure(PutObjectRequest request, ClientException clientExcepion, ServiceException serviceException) {
+                LOG.e("onFailure="+clientExcepion.getMessage());
                 // 请求异常
                 if (clientExcepion != null) {
                     // 本地异常如网络异常等
@@ -443,10 +446,10 @@ public class UpdataView extends TakePhotoFragment {
                 }
                 if (serviceException != null) {
                     // 服务异常
-                    Log.e("ErrorCode", serviceException.getErrorCode());
-                    Log.e("RequestId", serviceException.getRequestId());
-                    Log.e("HostId", serviceException.getHostId());
-                    Log.e("RawMessage", serviceException.getRawMessage());
+                    LOG.e("ErrorCode="+serviceException.getErrorCode());
+                    LOG.e("RequestId="+serviceException.getRequestId());
+                    LOG.e("HostId="+ serviceException.getHostId());
+                    LOG.e("RawMessage="+ serviceException.getRawMessage());
 
                     Toast.makeText(act, "照片上传失败，请检查网络设置", Toast.LENGTH_LONG).show();
                 }

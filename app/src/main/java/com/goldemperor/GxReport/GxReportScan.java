@@ -6,38 +6,33 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.goldemperor.MainActivity.define;
 import com.goldemperor.R;
-import com.goldemperor.Widget.core.QRCodeView;
+import com.goldemperor.Utils.LOG;
+import com.goldemperor.Utils.SPUtils;
+import com.goldemperor.Utils.WebServiceUtils;
+import com.goldemperor.Utils.ZProgressHUD;
 import com.goldemperor.Widget.lemonhello.LemonHello;
 import com.goldemperor.Widget.lemonhello.LemonHelloAction;
-import com.goldemperor.Widget.lemonhello.LemonHelloInfo;
-import com.goldemperor.Widget.lemonhello.LemonHelloView;
-import com.goldemperor.Widget.lemonhello.interfaces.LemonHelloActionDelegate;
-import com.goldemperor.Widget.zbar.ZBarView;
+import com.goldemperor.model.ScProcessWorkCardInfoBysuitID;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.StreamException;
 
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-import org.xutils.common.Callback;
-import org.xutils.http.RequestParams;
-import org.xutils.x;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
+import cn.bingoogolapple.qrcode.core.QRCodeView;
+import cn.bingoogolapple.qrcode.zbar.ZBarView;
 
 
 /**
@@ -50,8 +45,10 @@ public class GxReportScan extends AppCompatActivity implements QRCodeView.Delega
 
     private QRCodeView mQRCodeView;
     private ArrayList<Order> QRCodeList;
+    private List<String> list = new ArrayList<>();
     private Context mContext;
     private Activity mActivity;
+    private ZProgressHUD mProgressHUD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,16 +66,18 @@ public class GxReportScan extends AppCompatActivity implements QRCodeView.Delega
         Bundle bundle = this.getIntent().getExtras();
         QRCodeList = bundle.getParcelableArrayList("QRCodeList");
         mContext = this;
-        mActivity=this;
+        mActivity = this;
+        mProgressHUD = new ZProgressHUD(this);
+        mProgressHUD.setSpinnerType(ZProgressHUD.SIMPLE_ROUND_SPINNER);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         mQRCodeView.startCamera();
+        mQRCodeView.showScanRect();
 //        mQRCodeView.startCamera(Camera.CameraInfo.CAMERA_FACING_FRONT);
 
-        mQRCodeView.showScanRect();
     }
 
     @Override
@@ -99,137 +98,114 @@ public class GxReportScan extends AppCompatActivity implements QRCodeView.Delega
     }
 
     @Override
-    public void onScanQRCodeSuccess(String result) {
-        LemonHello.getSuccessHello("提示", "扫描成功")
-                .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
-                    @Override
-                    public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
-                        helloView.hide();
-                    }
-                }))
-                .show(mActivity);
-
-
+    public void onScanQRCodeSuccess(String Code) {
         vibrate();
         boolean flag = true;
         for (int i = 0; i < QRCodeList.size(); i++) {
-            if (QRCodeList.get(i).getFCardNo().equals(result)) {
+            if (QRCodeList.get(i).getFCardNo().equals(Code)) {
                 flag = false;
             }
         }
-        if (flag && result.length() > 10) {
+        if (flag) {
 
-            String path = define.Net2+define.GetScProcessWorkCardInfoBysuitID;
-
-            RequestParams params = new RequestParams(path);
-            params.setConnectTimeout(60000);
-            params.setReadTimeout(60000);
-            params.addQueryStringParameter("BarCodeNumber", result);
-            params.addQueryStringParameter("suitID", define.suitID);
-            Log.e("jindi",params.toString());
-            x.http().get(params, new Callback.CommonCallback<String>() {
-                @Override
-                public void onSuccess(String result) {
-                    //解析result
-                    //重新设置数据
-                    try {
-                        Order order = new Order();
-                        String decodeResult = URLDecoder.decode(result, "UTF-8");
-                        decodeResult = decodeResult.replace("<?xml version=\"1.0\" standalone=\"yes\"?>", "");
-                        Log.e("GoldEmperor", "FCardNo:" + decodeResult);
-                        XmlPullParserFactory pullFactory = XmlPullParserFactory.newInstance();
-                        XmlPullParser parser = pullFactory.newPullParser();
-                        parser.setInput(new StringReader(decodeResult));
-                        int eventType = parser.getEventType();
-                        //只要不是文档结束事件，就一直循环
-                        while (eventType != XmlPullParser.END_DOCUMENT) {
-                            switch (eventType) {
-                                //触发开始文档事件
-                                case XmlPullParser.START_DOCUMENT:
-
-                                    break;
-                                //触发开始元素事件
-                                case XmlPullParser.START_TAG:
-                                    //获取解析器当前指向的元素的名称
-                                    if ("string".equals(parser.getName())) {
-                                        //获取解析器当前指向元素的文本节点的值
-                                        if (decodeResult.contains("未找到")) {
-                                            Toast.makeText(mContext, parser.nextText(), Toast.LENGTH_SHORT).show();
+            mProgressHUD.setMessage("检测条码中...");
+            mProgressHUD.show();
+            mQRCodeView.stopCamera();
+            HashMap<String, String> map = new HashMap<>();
+            map.put("BarCodeNumber", Code);
+            map.put("suitID", "1");
+            WebServiceUtils.WEBSERVER_NAMESPACE = define.tempuri;// 命名空间
+            WebServiceUtils.callWebService(SPUtils.getServerPath() + define.ErpForAndroidStockServer,
+                    define.GetScProcessWorkCardInfoBysuitID, map, Result -> {
+                        mProgressHUD.dismiss();
+                        if (Result != null) {
+                            try {
+                                Result = URLDecoder.decode(Result, "UTF-8");
+                                LOG.e("条码检查=" + Result);
+                                JSONObject jsonObject = new JSONObject(Result);
+                                String ReturnType = jsonObject.getString("ReturnType");
+                                String ReturnMsg = jsonObject.getString("ReturnMsg");
+                                if(ReturnType.equals("success")){
+                                    XStream xStream = new XStream();
+                                    xStream.processAnnotations(ScProcessWorkCardInfoBysuitID.class);
+                                    ScProcessWorkCardInfoBysuitID PWCI = (ScProcessWorkCardInfoBysuitID) xStream.fromXML(ReturnMsg);
+                                    Order order;
+                                    for (ScProcessWorkCardInfoBysuitID.table table : PWCI.getDbHelperTable()) {
+                                        order = new Order();
+                                        order.setFCardNo(table.getFCardNo());
+                                        order.setFEmpID(table.getFEmpID());
+                                        order.setFQty(table.getFQty());
+                                        if (!list.contains(table.getFCardNo())) {
+                                            list.add(table.getFCardNo());
+                                            QRCodeList.add(order);
                                         }
-
-                                    } else if ("FCardNo".equals(parser.getName())) {
-                                        //获取解析器当前指向元素的文本节点的值
-                                        //Log.e("GoldEmperor", "FCardNo:" + parser.nextText());
-                                        order.setFCardNo(parser.nextText());
-
-                                    } else if ("FEmpID".equals(parser.getName())) {
-                                        //获取解析器当前指向元素的文本节点的值
-                                        order.setFEmpID(parser.nextText());
-                                        //Log.e("GoldEmperor", "FCardNo:" + parser.nextText());
-                                    } else if ("FQty".equals(parser.getName())) {
-                                        //获取解析器当前指向元素的文本节点的值
-                                        order.setFQty(parser.nextText());
-                                        //Log.e("GoldEmperor", "FCardNo:" + parser.nextText());
                                     }
-
-                                    break;
-                                //触发结束元素事件
-                                case XmlPullParser.END_TAG:
-                                    //
-
-                                    break;
-                                case XmlPullParser.END_DOCUMENT:
-                                    //
-                                    break;
-                                default:
-                                    break;
-                            }
-                            eventType = parser.next();
-                        }
-                        if (order.getFCardNo() != null) {
-                            QRCodeList.add(order);
-                        }
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    } catch (XmlPullParserException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-
-                //请求异常后的回调方法
-                @Override
-                public void onError(Throwable ex, boolean isOnCallback) {
-
-                    LemonHello.getErrorHello("提示", "网络错误")
-                            .addAction(new LemonHelloAction("我知道啦", new LemonHelloActionDelegate() {
-                                @Override
-                                public void onClick(LemonHelloView helloView, LemonHelloInfo helloInfo, LemonHelloAction helloAction) {
-                                    helloView.hide();
+                                    LemonHello.getInformationHello("提示", "有效条码\n是否继续扫描？")
+                                            .addAction(
+                                                    new LemonHelloAction("继续扫码", (helloView, helloInfo, helloAction) -> {
+                                                        mQRCodeView.startCamera();
+                                                        mQRCodeView.startSpot();
+                                                        mQRCodeView.showScanRect();
+                                                        helloView.hide();
+                                                    }),
+                                                    new LemonHelloAction("去提交", (helloView, helloInfo, helloAction) -> {
+                                                        helloView.hide();
+                                                        onBackPressed();
+                                                    }))
+                                            .show(mActivity);
+                                }else{
+                                    showdialog(ReturnMsg);
                                 }
-                            }))
-                            .show(mActivity);
-                }
-
-                //主动调用取消请求的回调方法
-                @Override
-                public void onCancelled(CancelledException cex) {
-                }
-
-                @Override
-                public void onFinished() {
-                }
-            });
-
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                                mQRCodeView.startSpot();
+                                showdialog("数据解码错误");
+                            } catch (StreamException e) {
+                                e.printStackTrace();
+                                mQRCodeView.startSpot();
+                                showdialog("数据解析异常");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                mQRCodeView.startSpot();
+                                showdialog("数据解析异常");
+                            }
+                        } else {
+                            mQRCodeView.startSpot();
+                            showdialog("检测数据失败");
+                        }
+                    });
         }
-        mQRCodeView.startSpot();
+
+
+    }
+
+    @Override
+    public void onCameraAmbientBrightnessChanged(boolean isDark) {
+        String tipText = mQRCodeView.getScanBoxView().getTipText();
+        String ambientBrightnessTip = "\n环境过暗，请打开闪光灯";
+        if (isDark) {
+            if (!tipText.contains(ambientBrightnessTip)) {
+                mQRCodeView.getScanBoxView().setTipText(tipText + ambientBrightnessTip);
+            }
+        } else {
+            if (tipText.contains(ambientBrightnessTip)) {
+                tipText = tipText.substring(0, tipText.indexOf(ambientBrightnessTip));
+                mQRCodeView.getScanBoxView().setTipText(tipText);
+            }
+        }
+    }
+
+    private void showdialog(String msg){
+        LemonHello.getErrorHello("错误", msg)
+                .addAction(new LemonHelloAction("我知道啦", (helloView, helloInfo, helloAction) -> helloView.hide()))
+                .show(mActivity);
     }
 
     @Override
     public void onScanQRCodeOpenCameraError() {
-
+        LemonHello.getErrorHello("错误", "打开相机出错")
+                .addAction(new LemonHelloAction("我知道啦", (helloView, helloInfo, helloAction) -> helloView.hide()))
+                .show(mActivity);
     }
 
     @Override

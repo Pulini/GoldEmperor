@@ -13,6 +13,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
+
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -382,13 +383,14 @@ public class FancyButton extends LinearLayout {
         if (ta.hasValue(R.styleable.FancyButtonsAttrs_android_fontFamily)) {
             int fontId = ta.getResourceId(R.styleable.FancyButtonsAttrs_android_fontFamily, 0);
             if (fontId != 0)
-
+//                return  ResourcesCompat.getFont(getContext(), fontId);
                 return getResources().getFont(fontId);
         }
         if(ta.hasValue(R.styleable.FancyButtonsAttrs_fb_textFontRes)){
             int fontId = ta.getResourceId(R.styleable.FancyButtonsAttrs_fb_textFontRes, 0);
             if (fontId != 0)
                 return getResources().getFont(fontId);
+//                return  ResourcesCompat.getFont(getContext(), fontId);
         }
         return null;
     }
@@ -844,6 +846,7 @@ public class FancyButton extends LinearLayout {
     @SuppressLint("NewApi")
     public void setCustomTextFont(int fontId) {
         mTextTypeFace =getResources().getFont(fontId);
+//        mTextTypeFace = ResourcesCompat.getFont(getContext(), fontId);
 
         if (mTextView == null)
             initializeFancyButton();

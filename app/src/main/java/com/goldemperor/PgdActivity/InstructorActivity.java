@@ -34,8 +34,6 @@ public class InstructorActivity extends AppCompatActivity {
 
     private Context mContext;
     private Activity act;
-    private SharedPreferences dataPref;
-    private SharedPreferences.Editor dataEditor;
     private SwipeMenuRecyclerView mMenuRecyclerView;
     private InstructorAdapter mMenuAdapter;
 
@@ -55,8 +53,6 @@ public class InstructorActivity extends AppCompatActivity {
 
         mContext = this;
         act=this;
-        dataPref = this.getSharedPreferences(define.SharedName, 0);
-        dataEditor = dataPref.edit();
 
         viewList = new ArrayList<View>();
 

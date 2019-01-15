@@ -24,6 +24,7 @@ import com.goldemperor.R;
 import com.goldemperor.StaffWorkStatistics.StaffWorkStatisticsActivity;
 import com.goldemperor.Utils.LOG;
 import com.goldemperor.Utils.PdfUtil;
+import com.goldemperor.Utils.SPUtils;
 import com.goldemperor.Utils.WebServiceUtils;
 import com.goldemperor.Widget.NiceSpinner.NiceSpinner;
 import com.goldemperor.Widget.fancybuttons.FancyButton;
@@ -95,12 +96,9 @@ public class ProcessInformationActivity extends Activity implements OnPageChange
 
     private void initview() {
 
-        NS_SelectType.addOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                NS_SelectType.setText(ProcessList.get(position).getProcessFlowName());
-                ProcessFlowID = ProcessList.get(position).getProcessFlowID();
-            }
+        NS_SelectType.addOnItemClickListener((parent, view, position, id) -> {
+            NS_SelectType.setText(ProcessList.get(position).getProcessFlowName());
+            ProcessFlowID = ProcessList.get(position).getProcessFlowID();
         });
         FB_Query.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,7 +133,7 @@ public class ProcessInformationActivity extends Activity implements OnPageChange
         map.put("suitID", "1");
         WebServiceUtils.WEBSERVER_NAMESPACE = define.tempuri;// 命名空间
         WebServiceUtils.callWebService(
-                define.Net2 + define.ErpForAndroidStockServer,
+                SPUtils.getServerPath() + define.ErpForAndroidStockServer,
                 define.GetProcessFlowInfo,
                 map,
                 new WebServiceUtils.WebServiceCallBack() {
@@ -187,7 +185,7 @@ public class ProcessInformationActivity extends Activity implements OnPageChange
         map.put("suitID", "1");
         WebServiceUtils.WEBSERVER_NAMESPACE = define.tempuri;// 命名空间
         WebServiceUtils.callWebService(
-                define.Net2 + define.ErpForAndroidStockServer,
+                SPUtils.getServerPath() + define.ErpForAndroidStockServer,
                 define.GetPreviewFileByMoNo,
                 map,
                 new WebServiceUtils.WebServiceCallBack() {
@@ -234,12 +232,7 @@ public class ProcessInformationActivity extends Activity implements OnPageChange
                         } else {
                             TV_Msg.setText("暂无数据");
                         }
-                        mHandler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                LL_Reading.setVisibility(View.GONE);
-                            }
-                        },1000);
+                        mHandler.postDelayed(() -> LL_Reading.setVisibility(View.GONE),1000);
                     }
                 });
     }

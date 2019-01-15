@@ -94,6 +94,8 @@ public class SCCJLCCLXS_ReportAdapter extends RecyclerView.Adapter<SCCJLCCLXS_Re
         holder.TV_MonthCompletionRate.setText(psm.get月完成率() == null ? "" : psm.get月完成率());
         holder.TV_ActualNumber.setText(psm.get实际人数() + "");
 
+
+        ScrollViewList.add(holder.SV_ProcessSend_Item);
         holder.SV_ProcessSend_Item.setOnScrollListener(new ScrollListenerHorizontalScrollView.OnScrollListener() {
             @Override
             public void onScroll(int scrollX) {
@@ -103,6 +105,9 @@ public class SCCJLCCLXS_ReportAdapter extends RecyclerView.Adapter<SCCJLCCLXS_Re
                 pgdActivity.SV_DayWork.scrollTo(scrollX, holder.SV_ProcessSend_Item.getScrollY());
             }
         });
+
+
+
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

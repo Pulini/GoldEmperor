@@ -16,7 +16,6 @@
 package com.goldemperor.GxReport;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +25,8 @@ import android.widget.TextView;
 import com.goldemperor.MainActivity.OnItemClickListener;
 import com.goldemperor.MainActivity.define;
 import com.goldemperor.R;
+import com.goldemperor.ScanCode.Share.ScanUtil;
+import com.goldemperor.Utils.SPUtils;
 
 import java.util.ArrayList;
 
@@ -38,11 +39,9 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.DefaultViewHol
 
     private OnItemClickListener mOnItemClickListener;
 
-    private SharedPreferences dataPref;
 
     public MenuAdapter(ArrayList<Order> ls,Context con) {
         this.ls = ls;
-        dataPref = con.getSharedPreferences(define.SharedName, 0);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
@@ -62,12 +61,12 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.DefaultViewHol
 
     @Override
     public void onBindViewHolder(MenuAdapter.DefaultViewHolder holder, int position) {
-        setData(holder,ls.get(position),dataPref);
+        setData(holder,ls.get(position));
     }
-    public void setData(final DefaultViewHolder holder, Order o, SharedPreferences dataPref) {
+    public void setData(final DefaultViewHolder holder, Order o) {
         holder.tv_number.setText("单号:"+o.getFCardNo());
-        holder.tv_id.setText("工号:"+dataPref.getString(define.SharedJobNumber,"无"));
-        holder.tv_name.setText("姓名:"+dataPref.getString(define.SharedUser,"无"));
+        holder.tv_id.setText("工号:"+SPUtils.get(define.SharedJobNumber,"无"));
+        holder.tv_name.setText("姓名:"+SPUtils.get(define.SharedUser,"无"));
         holder.tv_qua.setText("数量:"+o.getFQty());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -5,7 +5,7 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -50,8 +50,7 @@ public class XJListActivity extends AppCompatActivity {
     private Activity act;
     private TextView tv_tip;
     public XJListAdapter mMenuAdapter;
-    private SharedPreferences dataPref;
-    private SharedPreferences.Editor dataEditor;
+
 
     private List<priceResult> priceResultList = new ArrayList<priceResult>();
     private ActionBar bar = null;
@@ -77,8 +76,7 @@ public class XJListActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_xjlist);
 
-        dataPref = this.getSharedPreferences(define.SharedName, 0);
-        dataEditor = dataPref.edit();
+
         tv_tip = (TextView) findViewById(R.id.tv_tip);
         act = this;
         mContext = this;
@@ -93,7 +91,7 @@ public class XJListActivity extends AppCompatActivity {
 
         tv_tip.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         mMenuRecyclerView = (SwipeMenuRecyclerView) findViewById(R.id.recycler_view);
-        mMenuRecyclerView.setLayoutManager(new LinearLayoutManager(this));// 布局管理器。
+        mMenuRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));// 布局管理器。
 
 
         mMenuAdapter = new XJListAdapter(priceResultList);

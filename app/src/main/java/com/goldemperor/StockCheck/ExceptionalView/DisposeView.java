@@ -34,8 +34,7 @@ import com.goldemperor.MainActivity.GsonFactory;
 import com.goldemperor.StockCheck.WaitView.ListViewDecoration;
 import com.goldemperor.StockCheck.WaitView.LookImageAdapter;
 import com.goldemperor.StockCheck.WaitView.stock_check_image;
-import com.goldemperor.Widget.takephoto.app.TakePhotoFragment;
-import com.goldemperor.Widget.takephoto.model.TResult;
+
 import com.google.gson.Gson;
 import com.goldemperor.StockCheck.sql.stock_check;
 import com.goldemperor.R;
@@ -43,6 +42,8 @@ import com.goldemperor.MainActivity.TakePhotoHelper;
 import com.goldemperor.MainActivity.define;
 
 
+import org.devio.takephoto.app.TakePhotoFragment;
+import org.devio.takephoto.model.TResult;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.image.ImageOptions;

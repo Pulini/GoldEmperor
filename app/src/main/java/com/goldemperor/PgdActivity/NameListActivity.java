@@ -25,8 +25,6 @@ public class NameListActivity extends AppCompatActivity {
 
     private Context mContext;
     private Activity act;
-    private SharedPreferences dataPref;
-    private SharedPreferences.Editor dataEditor;
     private SwipeMenuRecyclerView mMenuRecyclerView;
     private NameListAdapter mMenuAdapter;
 
@@ -44,8 +42,6 @@ public class NameListActivity extends AppCompatActivity {
 
         mContext = this;
         act=this;
-        dataPref = this.getSharedPreferences(define.SharedName, 0);
-        dataEditor = dataPref.edit();
 
 
         mMenuRecyclerView = (SwipeMenuRecyclerView) findViewById(R.id.recycler_view);

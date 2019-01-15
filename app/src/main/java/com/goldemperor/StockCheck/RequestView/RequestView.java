@@ -7,6 +7,7 @@ import android.widget.EditText;
 
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.goldemperor.Utils.SPUtils;
 import com.goldemperor.Widget.CheckBox;
 import com.goldemperor.R;
 import com.goldemperor.StockCheck.StockCheckActivity;
@@ -31,8 +32,6 @@ public class RequestView {
 
     private BootstrapButton submit;
 
-    private SharedPreferences dataPref;
-    private SharedPreferences.Editor dataEditor;
     private EditText edit_number;
     private EditText edit_proposer;
 
@@ -42,18 +41,16 @@ public class RequestView {
 
     public RequestView(final StockCheckActivity act, final View view) {
 
-        dataPref = act.getSharedPreferences(define.SharedName, 0);
-        dataEditor = dataPref.edit();
 
         edit_number=(EditText)view.findViewById(R.id.edit_number);
         edit_proposer=(EditText)view.findViewById(R.id.edit_proposer);
 
         edit_supplier=(EditText)view.findViewById(R.id.edit_supplier);
 
-        edit_number.setText(dataPref.getString(define.SharedCheckNumber,""));
-        edit_proposer.setText(dataPref.getString(define.SharedUser,""));
+        edit_number.setText((String)SPUtils.get(define.SharedCheckNumber,""));
+        edit_proposer.setText((String)SPUtils.get(define.SharedUser,""));
 
-        edit_supplier.setText(dataPref.getString(define.SharedSupplier,""));
+        edit_supplier.setText((String)SPUtils.get(define.SharedSupplier,""));
 
         submit = (BootstrapButton) view.findViewById(R.id.submit);
 
@@ -63,12 +60,11 @@ public class RequestView {
             public void onClick(View v) {
 
 
-                dataEditor.putString(define.SharedCheckNumber, edit_number.getText().toString());
-                dataEditor.putString(define.SharedProposer, edit_proposer.getText().toString());
+                SPUtils.put(define.SharedCheckNumber, edit_number.getText().toString());
+                SPUtils.put(define.SharedProposer, edit_proposer.getText().toString());
 
-                dataEditor.putString(define.SharedSupplier, edit_supplier.getText().toString());
+                SPUtils.put(define.SharedSupplier, edit_supplier.getText().toString());
 
-                dataEditor.commit();
 
                 if (edit_number.getText().toString().trim().isEmpty()) {
                     LemonHello.getWarningHello("请输入正确的单号", "")
@@ -136,11 +132,8 @@ public class RequestView {
         });
 
         checkMessage = (CheckBox) view.findViewById(R.id.CheckNoti);
-        checkMessage.setChecked(dataPref.getBoolean(define.SharedCheckMessage, false));
+        checkMessage.setChecked((boolean)SPUtils.get(define.SharedCheckMessage, false));
 
-//        if(dataPref.getBoolean(define.SharedCheckMessage, false)){
-//            MiPushClient.subscribe(act, "CheckMessage", null);
-//        }
 //
 //        checkMessage.setOnCheckedChangeListener(new CheckBox.OnCheckedChangeListener() {
 //            @Override

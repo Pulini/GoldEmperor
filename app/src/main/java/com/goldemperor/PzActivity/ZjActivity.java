@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.goldemperor.MainActivity.define;
 import com.goldemperor.Public.SystemUtil;
 import com.goldemperor.R;
+import com.goldemperor.Utils.SPUtils;
 import com.goldemperor.Widget.lemonhello.LemonHello;
 import com.goldemperor.Widget.lemonhello.LemonHelloAction;
 import com.goldemperor.Widget.lemonhello.LemonHelloInfo;
@@ -63,8 +64,6 @@ public class ZjActivity extends AppCompatActivity {
     private TextView unqualifiedCount;
     private int unqualifiedCountint;
     private FancyButton btn_unqualified;
-    private SharedPreferences dataPref;
-    private SharedPreferences.Editor dataEditor;
 
 
 
@@ -83,8 +82,6 @@ public class ZjActivity extends AppCompatActivity {
         act = this;
 
         unqualifiedCountint = YCListActivity.YcCount;
-        dataPref = this.getSharedPreferences(define.SharedName, 0);
-        dataEditor = dataPref.edit();
         name = (TextView) findViewById(R.id.name);
         jobNumber = (TextView) findViewById(R.id.jobNumber);
 
@@ -103,11 +100,12 @@ public class ZjActivity extends AppCompatActivity {
         tv_reason = (TextView) findViewById(R.id.tv_reason);
 
 
-        name.setText(dataPref.getString(define.SharedUser, ""));
-        jobNumber.setText(dataPref.getString(define.SharedJobNumber, ""));
+        name.setText((String)SPUtils.get(define.SharedUser, ""));
+        jobNumber.setText((String)SPUtils.get(define.SharedJobNumber, ""));
         PaiNumber.setText(selectWorkCardPlan.getOrderbill());
         PaiCount.setText(String.valueOf(PgdActivity.PaiCount));
         Line.setText(selectWorkCardPlan.getFgroup());
+
 
         if(selectWorkCardPlan.getFgroup().contains("针车")){
             CountText.setText("当日质检总数(只)");
@@ -145,8 +143,8 @@ public class ZjActivity extends AppCompatActivity {
 
     private void submitException() {
         WorkCardAbnormityModel model = new WorkCardAbnormityModel();
-        model.setFEmpID(Integer.valueOf(dataPref.getString(define.SharedEmpId, "")));
-        model.setFDeptmentID(Integer.valueOf(dataPref.getString(define.SharedFDeptmentid, "")));
+        model.setFEmpID(Integer.valueOf((String)SPUtils.get(define.SharedEmpId, "0")));
+        model.setFDeptmentID(selectWorkCardPlan.getFdeptid());
         model.setFQty((long) 1);
         model.setFWorkCardInterID((int) selectWorkCardPlan.getFinterid());
         model.setFWorkCardEntryID(selectWorkCardPlan.getFentryid());
@@ -168,7 +166,7 @@ public class ZjActivity extends AppCompatActivity {
         model.setEntry(entryModelList);
 
         Gson g = new Gson();
-        RequestParams params = new RequestParams(define.Net2 + define.WorkCardAbnormityBysuitID);
+        RequestParams params = new RequestParams(SPUtils.getServerPath() + define.WorkCardAbnormityBysuitID);
         params.addQueryStringParameter("json", g.toJson(model, WorkCardAbnormityModel.class));
         params.addQueryStringParameter("suitID", define.suitID);
         Log.e("jindi", params.toString());

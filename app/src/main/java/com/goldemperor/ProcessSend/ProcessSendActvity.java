@@ -15,6 +15,7 @@ import com.goldemperor.MainActivity.define;
 import com.goldemperor.R;
 import com.goldemperor.Utils.HttpUtils;
 import com.goldemperor.Utils.LOG;
+import com.goldemperor.Utils.SPUtils;
 import com.goldemperor.Widget.ScrollListenerHorizontalScrollView;
 import com.goldemperor.Widget.fancybuttons.FancyButton;
 import com.goldemperor.model.ProcessSendModel;
@@ -113,8 +114,8 @@ public class ProcessSendActvity extends Activity implements ScrollListenerHorizo
             }
         });
         TRL_ProcessSend.setEnableLoadMore(false);
-        SMV_ProcessSend_Data.setLayoutManager(new LinearLayoutManager(this));// 布局管理器。
-        SMV_ProcessSend_Data.addItemDecoration(new ListViewDecoration(this));// 添加分割线。
+        SMV_ProcessSend_Data.setLayoutManager(new LinearLayoutManager(mActivity));// 布局管理器。
+        SMV_ProcessSend_Data.addItemDecoration(new ListViewDecoration(mActivity));// 添加分割线。
 
         // 设置菜单创建器。
 //        SMV_ProcessSend_Data.setSwipeMenuCreator(swipeMenuCreator);
@@ -134,41 +135,38 @@ public class ProcessSendActvity extends Activity implements ScrollListenerHorizo
         FMtono=ET_FMtono.getText().toString().trim();
         FItemName=ET_FItemName.getText().toString().trim();
         ProcessNum=ET_ProcessNum.getText().toString().trim();
-        RequestParams RP = new RequestParams(define.Net2+define.GetSfcOperPlanningInfo);
+        RequestParams RP = new RequestParams(SPUtils.getServerPath()+define.GetSfcOperPlanningInfo);
         RP.addQueryStringParameter("FMtono", FMtono);
         RP.addQueryStringParameter("FItemName", FItemName);
         LOG.e("Map:" + RP.toJSONString());
-        HttpUtils.get(RP, new HttpUtils.httpcallback() {
-            @Override
-            public void postcallback(String Finish, String result) {
+        HttpUtils.get(RP, (Finish, result) -> {
 //                LOG.E("callback:" + result);
-                if (Finish.equals(HttpUtils.Success)) {
-                    if (result != null) {
-                        try {
-                            result = URLDecoder.decode(result, "UTF-8");
+            if (Finish.equals(HttpUtils.Success)) {
+                if (result != null) {
+                    try {
+                        result = URLDecoder.decode(result, "UTF-8");
 //                            LOG.E("=====1======" + result + "=======1======");
-                            result = result.substring(result.indexOf(">{") + 1, result.lastIndexOf("}<") + 1);
-                            LOG.E("=====3======" + result + "=======3======");
+                        result = result.substring(result.indexOf(">{") + 1, result.lastIndexOf("}<") + 1);
+                        LOG.E("=====3======" + result + "=======3======");
 
-                            JSONObject jsonObject = new JSONObject(result);
-                            String data = jsonObject.getString("ReturnMsg");
-                            PSML = mGson.fromJson(data, new TypeToken<List<ProcessSendModel>>() {
-                            }.getType());
+                        JSONObject jsonObject = new JSONObject(result);
+                        String data = jsonObject.getString("ReturnMsg");
+                        PSML = mGson.fromJson(data, new TypeToken<List<ProcessSendModel>>() {
+                        }.getType());
 //                            for (ProcessSendModel processSendModel : PSML) {
 //                                LOG.e("processSend:" + mGson.toJson(processSendModel));
 //                            }
-                            PSA.Updata(PSML);
-                            LOG.e("PSML="+PSML.size());
-                            TRL_ProcessSend.finishRefresh();
-                         } catch (JSONException e) {
-                            e.printStackTrace();
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        }
+                        PSA.Updata(PSML);
+                        LOG.e("PSML="+PSML.size());
+                        TRL_ProcessSend.finishRefresh();
+                     } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
                     }
-                } else {
-
                 }
+            } else {
+
             }
         });
     }

@@ -82,10 +82,10 @@ public class SCCJLCCLXS_ReportDetailedAdapter extends RecyclerView.Adapter<SCCJL
         }else{
             holder.LL_BKG.setBackgroundColor(Color.parseColor("#cccccc"));
         }
-        LOG.e("path=" + define.Net4 + psm.get鞋图路径());
+        LOG.e("path=" +define.SERVER+ define.PORT_8083+ psm.get鞋图路径());
 
         Picasso.get()
-                .load(define.Net4 + psm.get鞋图路径())
+                .load(define.SERVER+ define.PORT_8083 + psm.get鞋图路径())
                 .placeholder(R.drawable.loading)
                 .error(R.drawable.loading_failure)
                 .into(holder.IV_icon);

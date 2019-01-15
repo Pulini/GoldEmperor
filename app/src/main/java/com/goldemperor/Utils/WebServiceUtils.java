@@ -103,15 +103,6 @@ public class WebServiceUtils {
         public void callBack(String result);
     }
 
-    public static void CheckPermissions(String controlID, String UserID, WebServiceCallBack wscb) {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("OrganizeID", "1");
-        map.put("UserID", UserID);
-        map.put("controlID", controlID);
-        callWebService(
-                define.Net2 + define.ErpPublicServer,
-                define.IsHaveUserControl2,
-                map, wscb);
-    }
+
 
 }

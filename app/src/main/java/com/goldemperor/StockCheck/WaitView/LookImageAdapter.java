@@ -92,7 +92,7 @@ public class LookImageAdapter extends RecyclerView.Adapter<LookImageAdapter.Defa
         public void setData(String imageName) {
            fileName=imageName;
             x.image().bind(goodsImage,
-                    define.endpoint  + fileName,
+                    define.endpoints  + fileName,
                     imageOptions);
         }
 

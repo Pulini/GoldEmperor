@@ -19,8 +19,6 @@
     <dimen name="item_margin">10dp</dimen>
 
 
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="delete_action_len">90dip</dimen>
 
     <dimen name="three_grid_unit">24dp</dimen>

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
+
     <cn.bingoogolapple.qrcode.zbar.ZBarView
         android:id="@+id/zbarview"
         android:layout_width="match_parent"

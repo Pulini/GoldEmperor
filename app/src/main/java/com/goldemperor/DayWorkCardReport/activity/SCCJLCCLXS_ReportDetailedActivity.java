@@ -23,6 +23,7 @@ import com.goldemperor.MainActivity.ListViewDecoration;
 import com.goldemperor.MainActivity.define;
 import com.goldemperor.R;
 import com.goldemperor.Utils.LOG;
+import com.goldemperor.Utils.SPUtils;
 import com.goldemperor.Utils.WebServiceUtils;
 import com.goldemperor.Widget.fancybuttons.FancyButton;
 import com.goldemperor.Widget.photoview.PhotoView;
@@ -124,8 +125,8 @@ public class SCCJLCCLXS_ReportDetailedActivity extends Activity {
             }
         });
         TRL_DayWork.setEnableLoadMore(false);
-        SMV_DayWork_Data.setLayoutManager(new LinearLayoutManager(this));// 布局管理器。
-        SMV_DayWork_Data.addItemDecoration(new ListViewDecoration(this));// 添加分割线。
+        SMV_DayWork_Data.setLayoutManager(new LinearLayoutManager(mActivity));// 布局管理器。
+        SMV_DayWork_Data.addItemDecoration(new ListViewDecoration(mActivity));// 添加分割线。
 
         DWCA = new SCCJLCCLXS_ReportDetailedAdapter(DWCDM);
         DWCA.setOnItemClickListener(new SCCJLCCLXS_ReportDetailedAdapter.OnItemClickListener() {
@@ -166,43 +167,40 @@ public class SCCJLCCLXS_ReportDetailedActivity extends Activity {
         HashMap<String, String> map = new HashMap<>();
         map.put("Exec_TodayDateTime", TV_time.getText().toString());
         map.put("Exec_Where", "where t.FDepartmentID = " + DepartmentID);
-        WebServiceUtils.WEBSERVER_NAMESPACE = "http://www.jindishoes.com/";// 命名空间
+        WebServiceUtils.WEBSERVER_NAMESPACE = define.jindishoes;// 命名空间
         WebServiceUtils.callWebService(
-                "http://192.168.99.79:8019/ERPForSupplierServer.asmx",
+                SPUtils.getServerPath()+define.ERPForSupplierServer,
                 define.GetDayOutPutLevelOneReport,
                 map,
-                new WebServiceUtils.WebServiceCallBack() {
-                    @Override
-                    public void callBack(String result) {
-                        btn_select_time.setEnabled(true);
-                        TRL_DayWork.finishRefresh();
-                        if (result != null) {
-                            try {
-                                result = URLDecoder.decode(result, "UTF-8");
-                                LOG.E("result=" + result);
-                                JSONObject jsonObject = new JSONObject(result);
-                                String ReturnType = jsonObject.getString("ReturnType");
-                                String ReturnMsg = jsonObject.getString("ReturnMsg");
-                                if ("success".equals(ReturnType)) {
-                                    LOG.E("ReturnMsg=" + ReturnMsg);
-                                    DWCDM = mGson.fromJson(ReturnMsg, new TypeToken<List<SCCJLCCLXS_ReportDetailedModel>>() {
-                                    }.getType());
-                                } else {
-                                    DWCDM.clear();
-                                    Toast.makeText(mActivity, ReturnMsg, Toast.LENGTH_SHORT).show();
-                                }
-                                LOG.E("PSML=" + DWCDM.size());
-                                DWCA.Updata(DWCDM);
-                            } catch (JSONException e) {
-                                Toast.makeText(mActivity, "数据解析异常", Toast.LENGTH_SHORT).show();
-                                e.printStackTrace();
-                            } catch (UnsupportedEncodingException e) {
-                                e.printStackTrace();
-                                Toast.makeText(mActivity, "数据解码异常", Toast.LENGTH_SHORT).show();
+                result -> {
+                    btn_select_time.setEnabled(true);
+                    TRL_DayWork.finishRefresh();
+                    if (result != null) {
+                        try {
+                            result = URLDecoder.decode(result, "UTF-8");
+                            LOG.E("result=" + result);
+                            JSONObject jsonObject = new JSONObject(result);
+                            String ReturnType = jsonObject.getString("ReturnType");
+                            String ReturnMsg = jsonObject.getString("ReturnMsg");
+                            if ("success".equals(ReturnType)) {
+                                LOG.E("ReturnMsg=" + ReturnMsg);
+                                DWCDM = mGson.fromJson(ReturnMsg, new TypeToken<List<SCCJLCCLXS_ReportDetailedModel>>() {
+                                }.getType());
+                            } else {
+                                DWCDM.clear();
+                                Toast.makeText(mActivity, ReturnMsg, Toast.LENGTH_SHORT).show();
                             }
-                        } else {
-                            Toast.makeText(mActivity, "接口访问异常", Toast.LENGTH_SHORT).show();
+                            LOG.E("PSML=" + DWCDM.size());
+                            DWCA.Updata(DWCDM);
+                        } catch (JSONException e) {
+                            Toast.makeText(mActivity, "数据解析异常", Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                            Toast.makeText(mActivity, "数据解码异常", Toast.LENGTH_SHORT).show();
                         }
+                    } else {
+                        Toast.makeText(mActivity, "接口访问异常", Toast.LENGTH_SHORT).show();
                     }
                 });
 

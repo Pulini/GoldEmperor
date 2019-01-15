@@ -24,6 +24,7 @@ import android.widget.ImageView;
 
 import com.goldemperor.MainActivity.define;
 import com.goldemperor.R;
+import com.goldemperor.Utils.LOG;
 
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
@@ -42,7 +43,6 @@ public class UpdataImageEditAdapter extends RecyclerView.Adapter<UpdataImageEdit
 
     public UpdataImageEditAdapter(List<String> imageList) {
         this.imageList = imageList;
-
 
 
     }
@@ -73,14 +73,14 @@ public class UpdataImageEditAdapter extends RecyclerView.Adapter<UpdataImageEdit
         Button editDelete;
         ImageView goodsImage;
 
-        String fileName=null;
+        String fileName = null;
         OnItemClickListener mOnItemClickListener;
 
         private ImageOptions imageOptions;
 
         public DefaultViewHolder(View itemView) {
             super(itemView);
-            imageOptions= new ImageOptions.Builder()
+            imageOptions = new ImageOptions.Builder()
                     .setLoadingDrawableId(R.drawable.loading)
                     .setFailureDrawableId(R.drawable.loading_failure)
                     .setUseMemCache(true)
@@ -88,25 +88,25 @@ public class UpdataImageEditAdapter extends RecyclerView.Adapter<UpdataImageEdit
 
             itemView.setOnClickListener(this);
             editDelete = (Button) itemView.findViewById(R.id.edit_delete);
-            goodsImage=(ImageView) itemView.findViewById(R.id.goodsImage);
+            goodsImage = (ImageView) itemView.findViewById(R.id.goodsImage);
 
             editDelete.setTag("delete");
             editDelete.setOnClickListener(this);
         }
 
         public void setData(String imageName) {
-           fileName=imageName;
+            fileName = imageName;
+            LOG.e("Path=" + define.endpoints + fileName);
             x.image().bind(goodsImage,
-                    define.endpoint  + fileName,
+                    define.endpoints + fileName,
                     imageOptions);
         }
 
         @Override
         public void onClick(View v) {
-            if(mOnItemClickListener != null&&v.getTag()!=null){
+            if (mOnItemClickListener != null && v.getTag() != null) {
                 mOnItemClickListener.onDeleteClick(getAdapterPosition());
-            }
-            else if (mOnItemClickListener != null) {
+            } else if (mOnItemClickListener != null) {
                 mOnItemClickListener.onItemClick(getAdapterPosition());
             }
 

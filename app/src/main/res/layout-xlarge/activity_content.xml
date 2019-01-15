@@ -447,19 +447,18 @@
                     android:id="@+id/btn_wai"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="切换外网" />
-
-                <Button
-                    android:id="@+id/btn_nei"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="切换内网" />
+                    android:text="正式库" />
 
                 <Button
                     android:id="@+id/btn_ce"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="测试库" />
+                    android:text="测试库1" />
+                <Button
+                    android:id="@+id/btn_ce2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="测试库2" />
 
                 <TextView
                     android:id="@+id/version"

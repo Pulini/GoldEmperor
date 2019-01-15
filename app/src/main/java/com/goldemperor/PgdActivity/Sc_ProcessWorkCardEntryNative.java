@@ -6,14 +6,6 @@ import java.util.Date;
 public class Sc_ProcessWorkCardEntryNative implements Cloneable {
     private boolean isOpen;
 
-    public boolean isOpen() {
-        return isOpen;
-    }
-
-    public void setOpen(boolean open) {
-        isOpen = open;
-    }
-
     private String fmtono;
 
     private int fpartsid;
@@ -58,9 +50,9 @@ public class Sc_ProcessWorkCardEntryNative implements Cloneable {
 
     private Date flastfinishdate;
 
-    private long fprice;
+    private double fprice;
 
-    private long famount;
+    private double famount;
 
     private int fprocesserid;//0
 
@@ -112,6 +104,26 @@ public class Sc_ProcessWorkCardEntryNative implements Cloneable {
     private float fpartitioncoefficient;
 
     private float fsourceqty;
+
+    private int frouteinterfid;
+
+    public int getFrouteinterfid() {
+        return frouteinterfid;
+    }
+
+    public void setFrouteinterfid(int frouteinterfid) {
+        this.frouteinterfid = frouteinterfid;
+    }
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public void setOpen(boolean open) {
+        isOpen = open;
+    }
+
+
 
     public void setFsourceqty(float fsourceqty) {
         this.fsourceqty = fsourceqty;
@@ -397,19 +409,19 @@ public class Sc_ProcessWorkCardEntryNative implements Cloneable {
         this.flastfinishdate = flastfinishdate;
     }
 
-    public long getFprice() {
+    public double getFprice() {
         return fprice;
     }
 
-    public void setFprice(long fprice) {
+    public void setFprice(double fprice) {
         this.fprice = fprice;
     }
 
-    public long getFamount() {
+    public double getFamount() {
         return famount;
     }
 
-    public void setFamount(long famount) {
+    public void setFamount(double famount) {
         this.famount = famount;
     }
 

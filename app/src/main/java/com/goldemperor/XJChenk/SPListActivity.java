@@ -1,21 +1,14 @@
 package com.goldemperor.XJChenk;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +17,7 @@ import com.goldemperor.MainActivity.OnItemClickListener;
 import com.goldemperor.MainActivity.Utils;
 import com.goldemperor.MainActivity.define;
 import com.goldemperor.R;
-import com.goldemperor.StockCheck.StockCheckActivity;
+import com.goldemperor.Utils.SPUtils;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
 
 import org.xutils.common.Callback;
@@ -48,8 +41,6 @@ public class SPListActivity extends AppCompatActivity {
     private Context mContext;
     private Activity act;
     public SPListAdapter mMenuAdapter;
-    private SharedPreferences dataPref;
-    private SharedPreferences.Editor dataEditor;
 
     private List<priceEntryResult> priceEntryResultList = new ArrayList<priceEntryResult>();
 
@@ -79,8 +70,6 @@ public class SPListActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splist);
 
-        dataPref = this.getSharedPreferences(define.SharedName, 0);
-        dataEditor = dataPref.edit();
         act = this;
         mContext = this;
 
@@ -108,7 +97,7 @@ public class SPListActivity extends AppCompatActivity {
         tv_famountfor.setText("金额:" + XJListActivity.selectPriceResult.getFsymbols() + XJListActivity.selectPriceResult.getFamountfor());
 
         mMenuRecyclerView = (SwipeMenuRecyclerView) findViewById(R.id.recycler_view);
-        mMenuRecyclerView.setLayoutManager(new LinearLayoutManager(this));// 布局管理器。
+        mMenuRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));// 布局管理器。
 
 
         mMenuAdapter = new SPListAdapter(priceEntryResultList);
@@ -119,7 +108,8 @@ public class SPListActivity extends AppCompatActivity {
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(define.isWaiNet) {
+
+                if(SPUtils.getServerPath().contains("8056")) {
                     GetUserID(XJListActivity.selectPriceResult.getFinterid());
                 }else{
                     Toast.makeText(mContext, "请先切换外网", Toast.LENGTH_LONG).show();
@@ -190,8 +180,8 @@ public class SPListActivity extends AppCompatActivity {
     }
 
     public void GetUserID(final long finterid) {
-        RequestParams params = new RequestParams(define.Net2 + define.GetUserID);
-        params.addQueryStringParameter("FEmpID", dataPref.getString(define.SharedEmpId, "0"));
+        RequestParams params = new RequestParams(SPUtils.getServerPath() + define.GetUserID);
+        params.addQueryStringParameter("FEmpID", (String)SPUtils.get(define.SharedEmpId, "0"));
         params.setConnectTimeout(6000);
         params.setReadTimeout(6000);
         Log.e("jindi", params.toString());
@@ -207,8 +197,7 @@ public class SPListActivity extends AppCompatActivity {
                 if (result.contains("FUserID")) {
                     String FUserID = result.substring(result.indexOf("<FUserID>"), result.indexOf("</FUserID>"));
                     FUserID = FUserID.replaceAll("<FUserID>", "").replaceAll("</FUserID>", "");
-                    dataEditor.putString(define.SharedUserId, FUserID);
-                    dataEditor.commit();
+                    SPUtils.put(define.SharedUserId, FUserID);
                     UpdataCheckerID(finterid, FUserID);
                 } else {
                     Toast.makeText(mContext, "获取员工ID失败,请先切换外网", Toast.LENGTH_LONG).show();

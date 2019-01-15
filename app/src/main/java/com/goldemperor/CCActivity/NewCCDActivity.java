@@ -39,8 +39,7 @@ public class NewCCDActivity extends AppCompatActivity {
 
     private Context mContext;
     private Activity act;
-    private SharedPreferences dataPref;
-    private SharedPreferences.Editor dataEditor;
+
 
 
     private TextView tv_fsno;
@@ -86,8 +85,6 @@ public class NewCCDActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_newccd);
 
-        dataPref = this.getSharedPreferences(define.SharedName, 0);
-        dataEditor = dataPref.edit();
         act = this;
         mContext = this;
 

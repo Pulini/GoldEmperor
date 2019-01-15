@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LL_BKG"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/TV_OrderOfCast"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/shape_black"
+        android:gravity="center"
+        android:text="排名"
+        android:textColor="#333333"
+        android:textSize="20sp" />
+
+
+    <TextView
+        android:id="@+id/TV_DepName"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1.5"
+        android:background="@drawable/shape_black"
+        android:gravity="center"
+        android:text="班组"
+        android:textColor="#333333"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/TV_PlanQty"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/shape_black"
+        android:gravity="center"
+        android:text="目标产量"
+        android:textColor="#333333"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/TV_Qty"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/shape_black"
+        android:gravity="center"
+        android:text="日产量"
+        android:textColor="#333333"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/TV_HGL"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/shape_black"
+        android:gravity="center"
+        android:text="合格率"
+        android:textColor="#333333"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/TV_DCL"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/shape_black"
+        android:gravity="center"
+        android:text="达成率"
+        android:textColor="#333333"
+        android:textSize="20sp" />
+
+
+    <TextView
+        android:id="@+id/TV_RJCN"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/shape_black"
+        android:gravity="center"
+        android:text="人均产能"
+        android:textColor="#333333"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/TV_HourAvgPay"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/shape_black"
+        android:gravity="center"
+        android:text="人均件资"
+        android:textColor="#333333"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/TV_ComprehensiveMark"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/shape_black"
+        android:gravity="center"
+        android:text="综合评分"
+        android:textColor="#333333"
+        android:textSize="20sp" />
+</LinearLayout>
