@@ -7,17 +7,16 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.goldemperor.MainActivity.define;
 import com.goldemperor.R;
 import com.goldemperor.Utils.LOG;
 import com.goldemperor.Utils.SPUtils;
 import com.goldemperor.Utils.WebServiceUtils;
-import com.goldemperor.Utils.ZProgressHUD;
 import com.goldemperor.Widget.lemonhello.LemonHello;
 import com.goldemperor.Widget.lemonhello.LemonHelloAction;
 import com.goldemperor.model.ScProcessWorkCardInfoBysuitID;
+import com.panzx.pulini.ZProgressHUD;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.StreamException;
 

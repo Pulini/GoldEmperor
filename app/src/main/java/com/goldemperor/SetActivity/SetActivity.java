@@ -7,13 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.beardedhen.androidbootstrap.BootstrapButton;
+
 import com.goldemperor.MainActivity.Utils;
 import com.goldemperor.Public.SystemUtil;
 import com.goldemperor.R;
 import com.goldemperor.MainActivity.define;
 import com.goldemperor.Utils.LOG;
 import com.goldemperor.Utils.SPUtils;
+import com.panzx.pulini.Bootstrap.BootstrapButton;
 
 /**
  * Created by Nova on 2017/7/17.

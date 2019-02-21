@@ -31,8 +31,8 @@ import com.alibaba.sdk.android.oss.callback.OSSCompletedCallback;
 import com.alibaba.sdk.android.oss.callback.OSSProgressCallback;
 import com.alibaba.sdk.android.oss.internal.OSSAsyncTask;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
+
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
-import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.goldemperor.MainActivity.GsonFactory;
 import com.goldemperor.MainActivity.OSSHelper;
 import com.goldemperor.MainActivity.People;
@@ -50,6 +50,7 @@ import com.goldemperor.Widget.lemonhello.LemonHelloView;
 import com.goldemperor.Widget.lemonhello.interfaces.LemonHelloActionDelegate;
 
 import com.google.gson.Gson;
+import com.panzx.pulini.Bootstrap.BootstrapButton;
 
 
 import org.devio.takephoto.app.TakePhotoFragment;

@@ -120,7 +120,7 @@
         android:layout_below="@+id/top"
         android:orientation="horizontal">
 
-        <com.beardedhen.androidbootstrap.BootstrapDropDown
+        <com.panzx.pulini.Bootstrap.BootstrapDropDown
             android:id="@+id/CHANXLarge"
             android:layout_width="140dp"
             android:layout_height="wrap_content"
@@ -132,7 +132,7 @@
             app:dropdownResource="@array/bootstrap_dropdown"
             app:roundedCorners="true" />
 
-        <com.beardedhen.androidbootstrap.BootstrapDropDown
+        <com.panzx.pulini.Bootstrap.BootstrapDropDown
             android:id="@+id/GXXLarge"
             android:layout_width="140dp"
             android:layout_height="wrap_content"
@@ -144,7 +144,7 @@
             app:dropdownResource="@array/bootstrap_dropdown"
             app:roundedCorners="true" />
 
-        <com.beardedhen.androidbootstrap.BootstrapDropDown
+        <com.panzx.pulini.Bootstrap.BootstrapDropDown
             android:id="@+id/KEXLarge"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
@@ -156,7 +156,7 @@
             app:dropdownResource="@array/bootstrap_dropdown"
             app:roundedCorners="true" />
 
-        <com.beardedhen.androidbootstrap.BootstrapDropDown
+        <com.panzx.pulini.Bootstrap.BootstrapDropDown
             android:id="@+id/ZUXLarge"
             android:layout_width="200dp"
             android:layout_height="wrap_content"

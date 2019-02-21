@@ -121,7 +121,7 @@
         </LinearLayout>
 
 
-        <com.beardedhen.androidbootstrap.BootstrapButton
+        <com.panzx.pulini.Bootstrap.BootstrapButton
             android:id="@+id/exit"
             android:layout_width="300dp"
             android:layout_height="50dp"

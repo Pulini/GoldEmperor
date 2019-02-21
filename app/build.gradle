@@ -44,6 +44,7 @@ android {
                             'src/main/res/layout/HomeNew',
                             'src/main/res/layout/ScanCode',
                             'src/main/res/layout/WorkshopReport',
+                            'src/main/res/layout/PropertyRegistration',
                             'src/main/res/layout',
                             'src/main/res'
                     ]
@@ -89,7 +90,6 @@ dependencies {
     }
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     api(name: 'bottom-bar-release', ext: 'aar')
-    api(name: 'AndroidBootstrap-release', ext: 'aar')
     implementation 'com.mikepenz:iconics-core:2.8.2@aar'
     implementation 'com.mikepenz:material-design-iconic-typeface:2.2.0.2@aar'
     implementation('com.mikepenz:aboutlibraries:5.9.4@aar') { transitive = true }
@@ -102,8 +102,8 @@ dependencies {
     implementation 'com.appeaser.sublimepickerlibrary:sublimepickerlibrary:2.1.1'
     implementation 'id.zelory:compressor:2.1.0'
     implementation 'com.soundcloud.android.crop:lib_crop:1.0.0'
-    implementation 'com.darsh.multipleimageselect:multipleimageselect:1.0.4'
-    implementation 'me.shaohui.advancedluban:library:1.3.2'
+    implementation 'com.darsh.multipleimageselect:multipleimageselect:1.0.5'
+    implementation 'me.shaohui.advancedluban:library:1.3.5'
     //PDF文件阅读器
 //    implementation 'com.github.barteksc:android-pdf-viewer:3.1.0-beta.1'
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
@@ -146,8 +146,12 @@ dependencies {
     implementation 'com.shuyu:GSYVideoPlayer:6.0.1'
     //Zbar
     implementation 'cn.bingoogolapple:bga-qrcode-zbar:1.3.4'
-    compile project(path: ':takephoto_library')
+    implementation project(path: ':takephoto_library')
 
+    //鲁班压缩
+    implementation 'top.zibin:Luban:1.1.8'
+    implementation(name: 'pulini-release', ext: 'aar')
+//    implementation 'cn.pedant.sweetalert:library:1.3'
     //友盟统计 key：5b31ecf8f29d9862c6000014
     //    compile 'com.umeng.sdk:common:latest.integration'
     //    compile 'com.umeng.sdk:analytics:latest.integration'

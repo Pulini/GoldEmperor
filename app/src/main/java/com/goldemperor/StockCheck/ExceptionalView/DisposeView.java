@@ -29,7 +29,7 @@ import com.alibaba.sdk.android.oss.callback.OSSProgressCallback;
 import com.alibaba.sdk.android.oss.internal.OSSAsyncTask;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
-import com.beardedhen.androidbootstrap.BootstrapButton;
+
 import com.goldemperor.MainActivity.GsonFactory;
 import com.goldemperor.StockCheck.WaitView.ListViewDecoration;
 import com.goldemperor.StockCheck.WaitView.LookImageAdapter;
@@ -40,6 +40,7 @@ import com.goldemperor.StockCheck.sql.stock_check;
 import com.goldemperor.R;
 import com.goldemperor.MainActivity.TakePhotoHelper;
 import com.goldemperor.MainActivity.define;
+import com.panzx.pulini.Bootstrap.BootstrapButton;
 
 
 import org.devio.takephoto.app.TakePhotoFragment;

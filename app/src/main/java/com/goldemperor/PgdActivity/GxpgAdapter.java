@@ -397,7 +397,7 @@ public class GxpgAdapter extends RecyclerView.Adapter<GxpgAdapter.DefaultViewHol
                     // TODO Auto-generated method stub
                     /**这是文本框改变之后 会执行的动作
                      */
-                    if (edit_userNumber.getText().toString().trim().length() >= 6 && edit_userNumber.isFocused()) {
+                    if (s.toString().trim().length() >= 6 && edit_userNumber.isFocused()) {
 //                        getUserInfo(edit_userNumber.getText().toString().trim());
                         getUser(edit_userNumber.getText().toString().trim());
                     }

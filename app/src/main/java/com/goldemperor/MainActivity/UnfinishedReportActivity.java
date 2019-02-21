@@ -1,39 +1,22 @@
 package com.goldemperor.MainActivity;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
-import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
-import com.goldemperor.PgdActivity.Emp;
 import com.goldemperor.R;
 import com.goldemperor.Utils.LOG;
 import com.goldemperor.Utils.SPUtils;
 import com.goldemperor.Utils.WebServiceUtils;
-import com.goldemperor.Utils.ZProgressHUD;
 import com.goldemperor.Widget.fancybuttons.FancyButton;
 import com.goldemperor.Widget.lemonhello.LemonHello;
 import com.goldemperor.Widget.lemonhello.LemonHelloAction;
-import com.goldemperor.model.UnfinishedGroupModel;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.thoughtworks.xstream.XStream;
+import com.panzx.pulini.ZProgressHUD;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,7 +28,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 
 /**
@@ -86,7 +68,7 @@ public class UnfinishedReportActivity extends Activity {
 
     Activity mActivity;
     //    private UnfinishedGroupModel UFGM;
-//    private MyAdapter MA;
+//    private MyAdapterForPad MA;
 //    private Emp EMP;
     private String SubmitTime = "";
     private TimePickerView PickTime;
@@ -108,7 +90,7 @@ public class UnfinishedReportActivity extends Activity {
 //        SharedPreferences sp = mActivity.getSharedPreferences(define.SharedName, 0);
 
         mProgressHUD = new ZProgressHUD(this);
-//        MA = new MyAdapter();
+//        MA = new MyAdapterForPad();
 //        LV_GroupList.setAdapter(MA);
 //        LV_GroupList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
@@ -307,7 +289,7 @@ public class UnfinishedReportActivity extends Activity {
 //                });
 //    }
 
-//    class MyAdapter extends BaseAdapter {
+//    class MyAdapterForPad extends BaseAdapter {
 //
 //        @Override
 //        public int getCount() {

@@ -2,7 +2,6 @@ package com.goldemperor.ScanCode.FormingPosterior;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,7 +18,6 @@ import com.goldemperor.MainActivity.ListViewDecoration;
 import com.goldemperor.MainActivity.define;
 import com.goldemperor.R;
 import com.goldemperor.ScanCode.Model.D_BarCodeModel;
-import com.goldemperor.ScanCode.Model.F_BarCodeModel;
 import com.goldemperor.ScanCode.Share.ActionSheet;
 import com.goldemperor.ScanCode.Share.ScanAdapter;
 import com.goldemperor.ScanCode.Share.ScanListener;
@@ -29,10 +27,10 @@ import com.goldemperor.ScanCode.Show.ShowReportActivity;
 import com.goldemperor.Utils.LOG;
 import com.goldemperor.Utils.SPUtils;
 import com.goldemperor.Utils.WebServiceUtils;
-import com.goldemperor.Utils.ZProgressHUD;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+import com.panzx.pulini.ZProgressHUD;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
 
 import org.json.JSONException;

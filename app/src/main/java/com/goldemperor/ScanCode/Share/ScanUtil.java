@@ -9,16 +9,15 @@ import com.goldemperor.MainActivity.Utils;
 import com.goldemperor.MainActivity.define;
 import com.goldemperor.ScanCode.Model.D_BarCodeModel;
 import com.goldemperor.ScanCode.Model.F_BarCodeModel;
-import com.goldemperor.ScanCode.Show.ReportDataModel;
 import com.goldemperor.ScanCode.Show.ReportModel;
 import com.goldemperor.Utils.LOG;
 import com.goldemperor.Utils.SPUtils;
 import com.goldemperor.Utils.WebServiceUtils;
-import com.goldemperor.Utils.ZProgressHUD;
 import com.goldemperor.Widget.lemonhello.LemonHello;
 import com.goldemperor.Widget.lemonhello.LemonHelloAction;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.panzx.pulini.ZProgressHUD;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator;
@@ -47,8 +46,8 @@ public class ScanUtil {
 
     public static final String ScanReceiverID = "nlscan.action.SCANNER_RESULT";
 
-    public static final String ReturnType_Success = "Error";
-    public static final String ReturnType_Error = "Success";
+    public static final String ReturnType_Success = "Success";
+    public static final String ReturnType_Error = "Error";
     public static final String ReturnType_Information = "Information";
 
 

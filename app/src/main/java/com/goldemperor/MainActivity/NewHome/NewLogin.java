@@ -1,7 +1,6 @@
 package com.goldemperor.MainActivity.NewHome;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -29,12 +28,12 @@ import com.goldemperor.Utils.HttpUtils;
 import com.goldemperor.Utils.LOG;
 import com.goldemperor.Utils.SPUtils;
 import com.goldemperor.Utils.WebServiceUtils;
-import com.goldemperor.Utils.ZProgressHUD;
 import com.goldemperor.Widget.ClearWriteEditText;
 import com.goldemperor.Widget.fancybuttons.FancyButton;
 import com.goldemperor.Widget.lemonhello.LemonHello;
 import com.goldemperor.Widget.lemonhello.LemonHelloAction;
 import com.google.gson.Gson;
+import com.panzx.pulini.ZProgressHUD;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.thoughtworks.xstream.XStream;
 

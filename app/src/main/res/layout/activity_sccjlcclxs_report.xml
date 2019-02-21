@@ -25,7 +25,7 @@
             android:textColor="#333333"
             android:textSize="18sp" />
 
-        <com.beardedhen.androidbootstrap.BootstrapDropDown
+        <com.panzx.pulini.Bootstrap.BootstrapDropDown
             android:id="@+id/BDD_Workshop"
             android:layout_width="140dp"
             android:layout_height="wrap_content"

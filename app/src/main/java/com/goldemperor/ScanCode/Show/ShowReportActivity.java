@@ -39,8 +39,6 @@ import java.util.List;
  */
 @ContentView(R.layout.activity_show)
 public class ShowReportActivity extends Activity {
-    @ViewInject(R.id.LL_BKG)
-    private ListView LL_BKG;
 
     @ViewInject(R.id.LV_Lsit)
     private ListView LV_Lsit;

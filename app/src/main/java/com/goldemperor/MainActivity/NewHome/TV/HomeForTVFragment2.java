@@ -2,13 +2,11 @@ package com.goldemperor.MainActivity.NewHome.TV;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,14 +29,9 @@ import com.goldemperor.MainActivity.UnfinishedReportActivity;
 import com.goldemperor.MainActivity.define;
 import com.goldemperor.PgdActivity.PgdActivity;
 import com.goldemperor.ProcessSend.ProcessSendActvity;
-import com.goldemperor.Public.SystemUtil;
+import com.goldemperor.PropertyRegistration.Pad.PropertyRegistrationListForPadActivity;
+import com.goldemperor.PropertyRegistration.Phone.PropertyRegistrationListForPhoneActivity;
 import com.goldemperor.R;
-import com.goldemperor.ScanCode.FormingPosterior.FormingPosteriorActivity;
-import com.goldemperor.ScanCode.ProcessReportInstock.ProcessReportInstockActivity;
-import com.goldemperor.ScanCode.ProductionReport.ProductionReportActivity;
-import com.goldemperor.ScanCode.ProductionWarehousing.ProductionWarehousingActivity;
-import com.goldemperor.ScanCode.Supplier.SupplierActivity;
-import com.goldemperor.ScanCode.WarehouseAllocation.WarehouseAllocationActivity;
 import com.goldemperor.SetActivity.SetActivity;
 import com.goldemperor.ShowCapacity.CapacityActivity;
 import com.goldemperor.StaffWorkStatistics.StaffWorkStatisticsActivity;
@@ -47,13 +40,13 @@ import com.goldemperor.Update.VersionService;
 import com.goldemperor.Utils.LOG;
 import com.goldemperor.Utils.SPUtils;
 import com.goldemperor.Utils.WebServiceUtils;
-import com.goldemperor.Utils.ZProgressHUD;
 import com.goldemperor.Widget.SuperDialog;
 import com.goldemperor.Widget.lemonhello.LemonHello;
 import com.goldemperor.Widget.lemonhello.LemonHelloAction;
 import com.goldemperor.Widget.verticalviewpager.ViewPagerFragment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.panzx.pulini.ZProgressHUD;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -129,11 +122,13 @@ public class HomeForTVFragment2 extends ViewPagerFragment implements HomeAdapter
         BD.add(new ButtonData("工艺路线变更", "401040304", R.drawable.btn_process, new Intent(mActivity, GylxActivity.class)));
 
         BD.add(new ButtonData("品质管理", "", R.drawable.btn_produce, new Intent(mActivity, com.goldemperor.PzActivity.PgdActivity.class)));
-        BD.add(new ButtonData("财产条码打印", "", R.drawable.btn_order, new Intent(mActivity, CCListActivity.class)));
+        BD.add(new ButtonData("<com.panzx.pulini.Bootstrap.BootstrapDropDown", "", R.drawable.btn_order, new Intent(mActivity, CCListActivity.class)));
         BD.add(new ButtonData("询价单审批", "", R.drawable.btn_process, new Intent(mActivity, com.goldemperor.XJChenk.XJListActivity.class)));
         BD.add(new ButtonData("员工计件明细", "303100101", R.drawable.btn_process, new Intent(mActivity, StaffWorkStatisticsActivity.class)));
         BD.add(new ButtonData("查看指令明细", "1050801", R.drawable.btn_process, new Intent(mActivity, ProcessInformationActivity.class)));
         BD.add(new ButtonData("日未完成达标", "", R.drawable.btn_process, new Intent(mActivity, UnfinishedReportActivity.class)));
+        BD.add(new ButtonData("财产登记", "", R.drawable.btn_process, new Intent(mActivity, PropertyRegistrationListForPhoneActivity.class)));
+
 
         BD.add(new ButtonData("常见问题解答", "", R.drawable.btn_order, null));
         BD.add(new ButtonData("报表", "", R.drawable.btn_order, null));

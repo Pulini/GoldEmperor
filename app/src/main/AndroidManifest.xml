@@ -4,7 +4,7 @@
     package="com.goldemperor">
 
 
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -52,7 +52,6 @@
         tools:ignore="GoogleAppIndexingWarning">
 
 
-
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
 
         <activity
@@ -73,14 +72,16 @@
         -->
 
 
-        <activity android:name=".MainActivity.NewHome.TV.HomeForTVActivity"
+        <activity
+            android:name=".MainActivity.NewHome.TV.HomeForTVActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="landscape" />
         <activity
             android:name=".MainActivity.NewHome.Phone.HomeForPhoneActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
-        <activity android:name=".MainActivity.NewHome.Pad.HomeForPadActivity"
+        <activity
+            android:name=".MainActivity.NewHome.Pad.HomeForPadActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="landscape" />
         <activity
@@ -190,9 +191,25 @@
         <activity
             android:name=".PgdActivity.VideoPlayerActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="landscape"
-
-            />
+            android:screenOrientation="landscape" />
+        <!--财产列表PAD-->
+        <activity
+            android:name=".PropertyRegistration.Pad.PropertyRegistrationListForPadActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="landscape" />
+        <!--财产登记PAD-->
+        <activity
+            android:name=".PropertyRegistration.Pad.PropertyRegistrationDetailsForPadActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="landscape" />
+        <!--财产列表PHONE-->
+        <activity
+            android:name=".PropertyRegistration.Phone.PropertyRegistrationDetailsForPhoneActivity"
+            android:configChanges="orientation|screenSize" />
+        <!--财产登记PHONE-->
+        <activity
+            android:name=".PropertyRegistration.Phone.PropertyRegistrationListForPhoneActivity"
+            android:configChanges="orientation|screenSize" />
 
 
         <receiver

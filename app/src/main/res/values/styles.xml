@@ -107,10 +107,7 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
-    <!--ZProgressHUD-->
-    <style name="DialogTheme" parent="android:Theme.Dialog">
-        <item name="android:windowBackground">@drawable/dialog_background</item>
-    </style>
+
 
     <style name="DialogButton">
         <item name="android:textAllCaps">true</item>
@@ -122,5 +119,11 @@
         <item name="android:paddingRight">@dimen/ld_side_margin</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">?android:textColorPrimary</item>
+    </style>
+
+
+    <style name="AnimationRightFade">
+        <item name="android:windowEnterAnimation">@anim/in_right2left</item>
+        <item name="android:windowExitAnimation">@anim/out_left2right</item>
     </style>
 </resources>

@@ -2,16 +2,20 @@ package com.goldemperor.MainActivity;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 
 import com.goldemperor.Utils.LOG;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -133,6 +137,7 @@ public final class Utils {
         SimpleDateFormat format = new SimpleDateFormat(Format);
         return format.format(date);
     }
+
     public static String getTime(Date date) {//可根据需要自行截取数据显示
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.format(date);
@@ -399,12 +404,12 @@ public final class Utils {
         return str.matches(reg);
     }
 
-    static public String cnToEncode(String s ){
+    static public String cnToEncode(String s) {
         char[] ch = s.toCharArray();
         String result = "";
-        for(int i=0;i<ch.length;i++){
+        for (int i = 0; i < ch.length; i++) {
             char temp = ch[i];
-            if(isChinese(temp)){
+            if (isChinese(temp)) {
                 try {
                     String encode = URLEncoder.encode(String.valueOf(temp), "utf-8");
                     result = result + encode;
@@ -412,8 +417,8 @@ public final class Utils {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-            }else{
-                result = result+temp;
+            } else {
+                result = result + temp;
             }
         }
         return result;
@@ -421,6 +426,7 @@ public final class Utils {
 
     /**
      * 判断字符是否为汉字
+     *
      * @param c
      * @return
      */
@@ -434,12 +440,62 @@ public final class Utils {
         }
         return false;
     }
+
     public static Context getContext() {
         return MyApplication.getContext();
     }
+
     public static int dp2px(int dp) {
         float density = getContext().getResources().getDisplayMetrics().density;
         return (int) (dp * density + 0.5);
     }
+
+
+    /**
+     * bitmap转为base64
+     *
+     * @param bitmap
+     * @return
+     */
+    public static String bitmapToBase64(Bitmap bitmap) {
+        String result = null;
+        ByteArrayOutputStream baos = null;
+        try {
+            if (bitmap != null) {
+                baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos);
+                baos.flush();
+                baos.close();
+                byte[] bitmapBytes = baos.toByteArray();
+                result = Base64.encodeToString(bitmapBytes, Base64.DEFAULT);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (baos != null) {
+                    baos.flush();
+                    baos.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    /**
+     * base64转为bitmap
+     *
+     * @param base64Data
+     * @return
+     */
+    public static Bitmap base64ToBitmap(String base64Data) {
+        byte[] bytes = Base64.decode(base64Data, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    }
+
+
+
 }
 

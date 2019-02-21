@@ -7,18 +7,14 @@ import android.content.Intent;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.IntegerRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.beardedhen.androidbootstrap.BootstrapButton;
+
 import com.goldemperor.MainActivity.ListViewDecoration;
-import com.goldemperor.MainActivity.NewHome.Model.GetCodeModel;
 import com.goldemperor.MainActivity.OnItemClickListener;
 import com.goldemperor.MainActivity.define;
 import com.goldemperor.R;
@@ -28,16 +24,13 @@ import com.goldemperor.R;
 import com.goldemperor.Utils.LOG;
 import com.goldemperor.Utils.SPUtils;
 import com.goldemperor.Utils.WebServiceUtils;
-import com.goldemperor.Utils.ZProgressHUD;
 import com.goldemperor.Widget.lemonhello.LemonHello;
 import com.goldemperor.Widget.lemonhello.LemonHelloAction;
-import com.goldemperor.Widget.lemonhello.LemonHelloInfo;
-import com.goldemperor.Widget.lemonhello.LemonHelloView;
-import com.goldemperor.Widget.lemonhello.interfaces.LemonHelloActionDelegate;
 import com.google.gson.Gson;
 
 
-import com.yanzhenjie.recyclerview.swipe.SwipeItemClickListener;
+import com.panzx.pulini.Bootstrap.BootstrapButton;
+import com.panzx.pulini.ZProgressHUD;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator;
@@ -47,11 +40,7 @@ import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xutils.common.Callback;
-import org.xutils.http.RequestParams;
-import org.xutils.x;
 
-import java.io.Closeable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;

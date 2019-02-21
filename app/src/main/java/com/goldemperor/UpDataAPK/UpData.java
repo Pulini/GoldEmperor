@@ -64,13 +64,13 @@ public class UpData {
     }
 
     /**
-     * 下载工艺指导书
+     * 下载APK
      */
     private static void ShowDownload(Activity act, String path) {
         //创建进度条对话框
         ProgressDialog progressDialog = new ProgressDialog(act);
         //设置标题
-        progressDialog.setTitle("下载指导书");
+        progressDialog.setTitle("下载安装包...");
         //设置显示的格式
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 //        final String name = "GoldEmperor.apk";

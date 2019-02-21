@@ -110,6 +110,7 @@ public class define {
     public static final String GetEmpByFnumber = "GetEmpByFNumber";
 
 
+
     //    public static final String GetRouteEntryBody = "wechatMvn/android/getRouteEntryBody.do";
     public static final String GetRouteEntryBody = "GetRouteEntryBody";
 
@@ -325,7 +326,12 @@ public class define {
 
     public static final String GetEarlyWarningInfoReportOne = "GetEarlyWarningInfoReportOne";//金帝集团车间生产日报表
     public static final String GetEarlyWarningInfoReportTwo = "GetEarlyWarningInfoReportTwo";//金帝集团达成异常预警报表
-
+    public static final String GetUnnumberedProperty = "GetUnnumberedProperty";//获取所有未编号资产信息
+    public static final String GetAssestByFInterID = "GetAssestByFInterID";//获取资产详细信息
+    public static final String UpdateAssest = "UpdateAssest";//固定资产登记
+    public static final String PrintAssestLabel = "PrintAssestLabel";//打印贴标
+    public static final String AssestRegistrationClose = "AssestRegistrationClose";//入库关闭工单
+    public static final String GetEmpAndLiableByEmpCode = "GetEmpAndLiableByEmpCode";
 
 
 }

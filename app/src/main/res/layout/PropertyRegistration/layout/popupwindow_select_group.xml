@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    android:layout_width="200dp"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="所选:"
+            android:textColor="#333333"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/TV_Name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#ff5555"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <com.goldemperor.Widget.ClearWriteEditText
+        android:id="@+id/CET_Select"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="请输筛选关键字" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/RV_Select"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.goldemperor.Widget.fancybuttons.FancyButton
+            android:id="@+id/FB_Withdraw"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            fancy:fb_defaultColor="#017FDA"
+            fancy:fb_focusColor="#8cc9f8"
+            fancy:fb_text="撤回"
+            fancy:fb_textColor="#FFFFFF" />
+
+        <com.goldemperor.Widget.fancybuttons.FancyButton
+            android:id="@+id/FB_Confirm"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            fancy:fb_defaultColor="#017FDA"
+            fancy:fb_focusColor="#8cc9f8"
+            fancy:fb_text="确定"
+            fancy:fb_textColor="#FFFFFF" />
+    </LinearLayout>
+
+</LinearLayout>

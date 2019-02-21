@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
@@ -12,7 +11,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -51,17 +49,14 @@ import com.goldemperor.Utils.LOG;
 import com.goldemperor.Utils.SPUtils;
 import com.goldemperor.Utils.WebServiceUtils;
 import com.goldemperor.ScanCode.WarehouseAllocation.WarehouseAllocationActivity;
-import com.goldemperor.Utils.ZProgressHUD;
 import com.goldemperor.Widget.SuperDialog;
 import com.goldemperor.Widget.banner.anim.select.ZoomInEnter;
 import com.goldemperor.Widget.fancybuttons.FancyButton;
 import com.goldemperor.Widget.lemonhello.LemonHello;
 import com.goldemperor.Widget.lemonhello.LemonHelloAction;
-import com.goldemperor.Widget.lemonhello.LemonHelloInfo;
-import com.goldemperor.Widget.lemonhello.LemonHelloView;
-import com.goldemperor.Widget.lemonhello.interfaces.LemonHelloActionDelegate;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.panzx.pulini.ZProgressHUD;
 
 //import com.umeng.analytics.MobclickAgent;
 
@@ -70,7 +65,6 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /**

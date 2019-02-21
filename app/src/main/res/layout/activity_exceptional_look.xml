@@ -62,7 +62,7 @@
             android:textSize="18sp"
             android:layout_marginBottom="30dp"/>
 
-        <com.beardedhen.androidbootstrap.BootstrapButton
+        <com.panzx.pulini.Bootstrap.BootstrapButton
             android:id="@+id/submitRefuse"
             android:layout_width="150dp"
             android:layout_height="50dp"

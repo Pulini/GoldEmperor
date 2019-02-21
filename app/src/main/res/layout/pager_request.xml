@@ -62,7 +62,7 @@
         />
 
 
-    <com.beardedhen.androidbootstrap.BootstrapButton
+    <com.panzx.pulini.Bootstrap.BootstrapButton
         android:id="@+id/submit"
         android:layout_width="300dp"
         android:layout_height="50dp"

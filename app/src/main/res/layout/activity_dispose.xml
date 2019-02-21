@@ -75,7 +75,7 @@
             android:textCursorDrawable="@drawable/text_cursor_cyan"
             android:textSize="20sp" />
 
-        <com.beardedhen.androidbootstrap.BootstrapButton
+        <com.panzx.pulini.Bootstrap.BootstrapButton
             android:id="@+id/submitResult"
             android:layout_width="300dp"
             android:layout_height="50dp"
