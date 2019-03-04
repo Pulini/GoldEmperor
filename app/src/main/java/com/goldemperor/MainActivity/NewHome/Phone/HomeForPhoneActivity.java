@@ -139,7 +139,7 @@ public class HomeForPhoneActivity extends Activity implements HomeAdapter.HomeIt
         BD.add(new ButtonData("工序汇报", "", R.drawable.btn_process, new Intent(mActivity, GxReport.class)));
 //        BD.add(new ButtonData("工艺路线变更", "401040304", R.drawable.btn_process, new Intent(mActivity, GylxActivity.class)));
         BD.add(new ButtonData("工序汇报入库", "1050701", R.drawable.btn_process, new Intent(mActivity, ProcessReportInstockActivity.class)));
-        BD.add(new ButtonData("财产登记", "", R.drawable.btn_process, new Intent(mActivity, PropertyRegistrationListForPhoneActivity.class)));
+        BD.add(new ButtonData("财产登记", "1050901", R.drawable.btn_process, new Intent(mActivity, PropertyRegistrationListForPhoneActivity.class)));
 //        BD.add(new ButtonData("品质管理", "", R.drawable.btn_produce, new Intent(mActivity, com.goldemperor.PzActivity.PgdActivity.class)));
 //        BD.add(new ButtonData("财产条码打印", "", R.drawable.btn_order, new Intent(mActivity, CCListActivity.class)));
 //        BD.add(new ButtonData("询价单审批", "", R.drawable.btn_process, new Intent(mActivity, com.goldemperor.XJChenk.XJListActivity.class)));

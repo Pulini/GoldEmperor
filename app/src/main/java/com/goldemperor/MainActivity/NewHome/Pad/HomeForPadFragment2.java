@@ -125,7 +125,7 @@ public class HomeForPadFragment2 extends ViewPagerFragment implements HomeAdapte
         BD.add(new ButtonData("员工计件明细", "303100101", R.drawable.btn_process, new Intent(mActivity, StaffWorkStatisticsActivity.class)));
         BD.add(new ButtonData("查看指令明细", "1050801", R.drawable.btn_process, new Intent(mActivity, ProcessInformationActivity.class)));
         BD.add(new ButtonData("日未完成达标", "", R.drawable.btn_process, new Intent(mActivity, UnfinishedReportActivity.class)));
-        BD.add(new ButtonData("财产登记", "", R.drawable.btn_process, new Intent(mActivity, PropertyRegistrationListForPhoneActivity.class)));
+//        BD.add(new ButtonData("财产登记", "", R.drawable.btn_process, new Intent(mActivity, PropertyRegistrationListForPhoneActivity.class)));
 
         BD.add(new ButtonData("常见问题解答", "", R.drawable.btn_order, null));
         BD.add(new ButtonData("报表", "", R.drawable.btn_order, null));

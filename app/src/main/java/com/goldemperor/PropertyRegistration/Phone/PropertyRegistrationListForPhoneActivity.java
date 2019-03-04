@@ -1,8 +1,12 @@
 package com.goldemperor.PropertyRegistration.Phone;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.goldemperor.MainActivity.define;
+import com.goldemperor.PropertyRegistration.BluetoothUtils;
 import com.goldemperor.PropertyRegistration.OnItemClickListener;
 import com.goldemperor.PropertyRegistration.PropertyModel;
 import com.goldemperor.PropertyRegistration.RegistrationUtils;
@@ -62,12 +67,34 @@ public class PropertyRegistrationListForPhoneActivity extends Activity {
 
     private Activity mActivity;
     private PropertyRegistrationListForPhoneAdapter PRLA;
+    private Typeface typeface;
+    private PropertyModel PM;
+    private final int Print = 123;
+
+    @SuppressLint("HandlerLeak")
+    Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case Print:
+                    RegistrationUtils.Print(PM.getFInterID() + "", (isSuccess, msg1) -> {
+                        if (isSuccess) {
+                            getDataList();
+                            new SweetAlertDialog(mActivity, SweetAlertDialog.SUCCESS_TYPE).setTitleText("成功").setContentText(msg1).show();
+                        } else {
+                            new SweetAlertDialog(mActivity, SweetAlertDialog.ERROR_TYPE).setTitleText("失败").setContentText(msg1).show();
+                        }
+                    });
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         x.view().inject(this);
+        typeface = Typeface.createFromAsset(getAssets(), "fonts/arial.ttf");
         mActivity = this;
         initview();
         SRL_PropertyRegistrationList.autoRefresh();
@@ -90,62 +117,12 @@ public class PropertyRegistrationListForPhoneActivity extends Activity {
 
             @Override
             public void CloseClick(int Position) {
-                new SweetAlertDialog(mActivity, SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("警告")
-                        .setContentText("确定要入库吗?")
-                        .setCancelText("取消")
-                        .setConfirmText("确定")
-                        .setConfirmClickListener(sad -> {
-                                    sad.changeAlertType(SweetAlertDialog.PROGRESS_TYPE);
-                                    sad.setTitleText("提交中..").setContentText("");
-                                    RegistrationUtils.RegistrationClose(PML.get(Position).getFInterID() + "", (isSuccess, msg) -> {
-                                        if (isSuccess) {
-                                            getDataList();
-                                            sad.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                                            sad.setTitleText("成功")
-                                                    .setContentText(msg)
-                                                    .showCancelButton(false)
-                                                    .setConfirmClickListener(null);
-                                        } else {
-                                            sad.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                                            sad.setTitleText("失败")
-                                                    .setContentText(msg)
-                                                    .showCancelButton(false)
-                                                    .setConfirmClickListener(null);
-                                        }
-                                    });
-                                }
-                        ).show();
+                Close(PML.get(Position).getFInterID() + "");
             }
 
             @Override
             public void PrintClick(int Position) {
-                new SweetAlertDialog(mActivity, SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("警告")
-                        .setContentText("确定要打印贴标吗?")
-                        .setCancelText("取消")
-                        .setConfirmText("确定")
-                        .setConfirmClickListener(sad -> {
-                                    sad.changeAlertType(SweetAlertDialog.PROGRESS_TYPE);
-                                    sad.setTitleText("提交中..").setContentText("");
-                                    RegistrationUtils.Print(PML.get(Position).getFInterID() + "", (isSuccess, msg) -> {
-                                        if (isSuccess) {
-                                            getDataList();
-                                            sad.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                                            sad.setTitleText("成功")
-                                                    .setContentText(msg)
-                                                    .showCancelButton(false)
-                                                    .setConfirmClickListener(null);
-                                        } else {
-                                            sad.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                                            sad.setTitleText("失败")
-                                                    .setContentText(msg)
-                                                    .showCancelButton(false)
-                                                    .setConfirmClickListener(null);
-                                        }
-                                    });
-                                }
-                        ).show();
+                PrintLabel(PML.get(Position));
             }
         });
     }
@@ -184,4 +161,80 @@ public class PropertyRegistrationListForPhoneActivity extends Activity {
                     }
                 });
     }
+
+    private void Close(String ID) {
+        new SweetAlertDialog(mActivity, SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("警告")
+                .setContentText("确定要入库吗?")
+                .setCancelText("取消")
+                .setConfirmText("确定")
+                .setConfirmClickListener(sad -> {
+                            sad.changeAlertType(SweetAlertDialog.PROGRESS_TYPE);
+                            sad.setTitleText("提交中..").setContentText("");
+                            RegistrationUtils.RegistrationClose(ID, (isSuccess, msg) -> {
+                                if (isSuccess) {
+                                    getDataList();
+                                    sad.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                                    sad.setTitleText("成功")
+                                            .setContentText(msg)
+                                            .showCancelButton(false)
+                                            .setConfirmClickListener(null);
+                                } else {
+                                    sad.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                                    sad.setTitleText("失败")
+                                            .setContentText(msg)
+                                            .showCancelButton(false)
+                                            .setConfirmClickListener(null);
+                                }
+                            });
+                        }
+                ).show();
+    }
+
+    private void PrintLabel(PropertyModel pm) {
+        PM = pm;
+        String st = BluetoothUtils.EnableBlueTooth();
+        if (st.equals("")) {
+            new SweetAlertDialog(mActivity, SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("警告")
+                    .setContentText("确定要打印贴标吗?")
+                    .setCancelText("取消")
+                    .setConfirmText("确定")
+                    .setConfirmClickListener(sad ->
+                            sad.setTitleText("选择标签大小")
+                                    .setContentText("小标签：75 X 45\r\n大标签：90 X 50")
+                                    .setConfirmText("小标签")
+                                    .setConfirmClickListener(sad1 -> Prints(sad1, 0))
+                                    .setCancelText("大标签")
+                                    .setCancelClickListener(sad1 -> Prints(sad1, 1))
+                    ).show();
+        } else {
+            new SweetAlertDialog(mActivity, SweetAlertDialog.ERROR_TYPE).setTitleText("打开蓝牙失败").setContentText(st).setConfirmText("确定").show();
+        }
+    }
+
+    private void Prints(SweetAlertDialog sad, int type) {
+        sad.changeAlertType(SweetAlertDialog.PROGRESS_TYPE);
+        sad.setTitleText("下发打印中...")
+                .showCancelButton(false)
+                .showConfirmButton(false)
+                .setContentText("");
+        BluetoothUtils.Print(
+                typeface,
+                PM.getFInterID() + "",
+                PM.getFName(),
+                PM.getFNumber(),
+                PM.getFbuyDate(),
+                type,
+                (isSend, msg) -> {
+                    sad.dismiss();
+                    if (isSend) {
+                        mHandler.sendEmptyMessage(Print);
+                    } else {
+                        new SweetAlertDialog(mActivity, SweetAlertDialog.ERROR_TYPE).setTitleText("失败").setContentText(msg).show();
+                    }
+                });
+
+    }
+
 }

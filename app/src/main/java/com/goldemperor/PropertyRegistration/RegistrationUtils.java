@@ -317,9 +317,11 @@ public class RegistrationUtils {
         HashMap<String, String> map = new HashMap<>();
         map.put("FInterID", FInterID);
         WebServiceUtils.WEBSERVER_NAMESPACE = define.tempuri;// 命名空间
+        LOG.e("-----------------");
         WebServiceUtils.callWebService(
                 SPUtils.getServerPath() + define.ErpForAppServer,
                 define.PrintAssestLabel, map, result -> {
+                    LOG.e("111111111111111111111"+result);
                     if (result != null) {
                         try {
                             result = URLDecoder.decode(result, "UTF-8");
