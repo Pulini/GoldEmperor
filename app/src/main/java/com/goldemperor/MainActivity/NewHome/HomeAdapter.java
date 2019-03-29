@@ -2,11 +2,15 @@ package com.goldemperor.MainActivity.NewHome;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 
 import com.goldemperor.MainActivity.Utils;
+import com.goldemperor.R;
 import com.goldemperor.ShowCapacity.ViewUtils;
 import com.goldemperor.Widget.fancybuttons.FancyButton;
 
@@ -60,8 +64,9 @@ public class HomeAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        FancyButton FB = new FancyButton(mActivity);
-        FB.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        View V= LayoutInflater.from(mActivity).inflate(R.layout.item_home_bt,null);
+        FancyButton FB=V.findViewById(R.id.FB);
+        FB.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         FB.setText(BD.get(position).getName());
         FB.setTextSize(20);
         FB.setIconResource(BD.get(position).getImageId());
@@ -81,7 +86,7 @@ public class HomeAdapter extends BaseAdapter {
         FB.setOnClickListener(v -> {
             if (HICL != null) HICL.click(position);
         });
-        return FB;
+        return V;
     }
 
 

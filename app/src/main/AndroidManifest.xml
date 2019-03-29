@@ -213,6 +213,9 @@
         <activity
             android:name=".PropertyRegistration.Phone.PropertyRegistrationListForPhoneActivity"
             android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".PropertyRegistration.Phone.SearchActivity"
+            android:configChanges="orientation|screenSize" />
 
 
         <receiver

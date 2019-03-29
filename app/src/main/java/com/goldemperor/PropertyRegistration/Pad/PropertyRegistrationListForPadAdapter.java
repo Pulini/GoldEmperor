@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -84,7 +85,7 @@ public class PropertyRegistrationListForPadAdapter extends RecyclerView.Adapter<
     @Override
     public void onBindViewHolder(PropertyRegistrationListForPadAdapter.MyViewHolder holder, int position) {
         PropertyModel am = data.get(position);
-        holder.LL_BKG.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utils.dp2px(50)));
+        holder.LL_BKG.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, Utils.dp2px(50)));
         if (position == 0 || position % 2 == 0) {
             holder.LL_BKG.setBackgroundColor(Color.parseColor("#BCE6F8"));
         } else {

@@ -316,5 +316,13 @@ public class ScanUtil {
         }
     }
 
+    public boolean CheckList(List<CodeDataModel>CDM){
+        for (CodeDataModel cdm : CDM) {
+            if(cdm.getType()){
+                return false;
+            }
+        }
+        return true;
+    }
 
 }

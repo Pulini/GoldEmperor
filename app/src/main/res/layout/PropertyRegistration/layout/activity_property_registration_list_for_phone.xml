@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
         android:background="#BDD7EE"
         android:gravity="center_vertical">
 
@@ -19,24 +20,33 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="10dp"
             android:gravity="center"
             android:padding="5dp"
             android:text="财产登记"
             android:textColor="#333333"
-            android:textSize="25sp" />
+            android:textSize="20sp" />
 
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1" />
 
+        <ImageView
+            android:id="@+id/IV_Search"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/ic_search" />
+
     </LinearLayout>
 
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="45dp"
+        android:layout_marginBottom="40dp">
 
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/SRL_PropertyRegistrationList"
@@ -60,4 +70,160 @@
             android:visibility="gone" />
     </RelativeLayout>
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <com.panzx.pulini.FancyButtons.FancyButton
+            android:id="@+id/FB_Unaudited"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            fancy:fb_borderColor="#FFFFFF"
+            fancy:fb_borderWidth="1dp"
+            fancy:fb_defaultColor="#00acfe"
+            fancy:fb_focusColor="#8cc9f8"
+            fancy:fb_radius="5dp"
+            fancy:fb_text="未审核"
+            fancy:fb_textColor="#FFFFFF"
+            fancy:fb_textSize="20dp" />
+
+        <com.panzx.pulini.FancyButtons.FancyButton
+            android:id="@+id/FB_Audited"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            fancy:fb_borderColor="#FFFFFF"
+            fancy:fb_borderWidth="1dp"
+            fancy:fb_defaultColor="#00acfe"
+            fancy:fb_focusColor="#8cc9f8"
+            fancy:fb_radius="5dp"
+            fancy:fb_text="已审核"
+            fancy:fb_textColor="#FFFFFF"
+            fancy:fb_textSize="20dp" />
+
+        <com.panzx.pulini.FancyButtons.FancyButton
+            android:id="@+id/FB_Auditing"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            fancy:fb_borderColor="#FFFFFF"
+            fancy:fb_borderWidth="1dp"
+            fancy:fb_defaultColor="#00acfe"
+            fancy:fb_focusColor="#8cc9f8"
+            fancy:fb_radius="5dp"
+            fancy:fb_text="审核中"
+            fancy:fb_textColor="#FFFFFF"
+            fancy:fb_textSize="20dp" />
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/RL_Print"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/IV_BKG"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#88000000" />
+
+        <LinearLayout
+            android:id="@+id/LL_BKG"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="#ffffff"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <TextView
+                android:id="@+id/TV_Name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="固定资产"
+                android:gravity="center"
+                android:textColor="#333333"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/TV_MSG"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="请选择打印标签尺寸"
+                android:textColor="#333333"
+                android:textSize="16sp"/>
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp">
+                    <RadioButton
+                        android:id="@+id/RB_Big"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="大号标签[ 90 x 50 ]"
+                        android:textSize="15sp"
+                        android:checked="true"/>
+
+                    <RadioButton
+                        android:id="@+id/RB_Small"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="小号标签[ 75 x 45 ]"
+                        android:textSize="15sp"/>
+                </RadioGroup>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="50dp"
+                android:gravity="center">
+
+
+                <com.panzx.pulini.FancyButtons.FancyButton
+                    android:id="@+id/FB_Cancel"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    fancy:fb_borderColor="#FFFFFF"
+                    fancy:fb_borderWidth="1dp"
+                    fancy:fb_defaultColor="#B2B2B2"
+                    fancy:fb_focusColor="#8cc9f8"
+                    fancy:fb_radius="5dp"
+                    fancy:fb_text="取消"
+                    fancy:fb_textColor="#FFFFFF"
+                    fancy:fb_textSize="20dp" />
+
+                <com.panzx.pulini.FancyButtons.FancyButton
+                    android:id="@+id/FB_Print"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:padding="5dp"
+                    fancy:fb_borderColor="#FFFFFF"
+                    fancy:fb_borderWidth="1dp"
+                    fancy:fb_defaultColor="#00acfe"
+                    fancy:fb_focusColor="#8cc9f8"
+                    fancy:fb_radius="5dp"
+                    fancy:fb_text="打印"
+                    fancy:fb_textColor="#FFFFFF"
+                    fancy:fb_textSize="20dp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

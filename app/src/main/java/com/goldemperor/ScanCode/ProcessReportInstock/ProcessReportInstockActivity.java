@@ -97,6 +97,7 @@ public class ProcessReportInstockActivity extends Activity implements ScanListen
     private String EmpCode2;
 
     private ScanUtil SU;
+    private boolean isSubmit = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -124,26 +125,32 @@ public class ProcessReportInstockActivity extends Activity implements ScanListen
     private void setListener() {
         SA.SetOnItemClickListener(position -> ET_Numbers.setText(CDM.get(position).getCode()));
         B_UpData.setOnClickListener(v -> SU.GetBarCodeStatus(ScanUtil.GetBarCodeType_ProcessReportInstock));
-        B_Add.setOnClickListener(v -> SU.Add(CDM, FBCM,ET_Numbers.getText().toString().trim()));
+        B_Add.setOnClickListener(v -> SU.Add(CDM, FBCM, ET_Numbers.getText().toString().trim()));
         B_Clear.setOnClickListener(v -> SU.Clear());
         B_Submit.setOnClickListener(v -> {
             if (CDM.size() == 0) {
                 SU.ShowDialog(ScanUtil.ReturnType_Information, "提示", "没有可提交的单号");
             } else {
-                GetProcessFlowInfoByBarCode();
+                if(SU.CheckList(CDM)){
+                    GetProcessFlowInfoByBarCode();
+                }else{
+                    SU.ShowDialog(ScanUtil.ReturnType_Information, "提示", "请删除已入库单号");
+                }
+
             }
         });
     }
+
     private void initdata() {
         mGson = new Gson();
-        List<CodeDataModel>   cdm=null;
+        List<CodeDataModel> cdm = null;
         try {
-          cdm = mGson.fromJson(SU.get(define.BarCode_PRIA, ""), new TypeToken<List<CodeDataModel>>() {
+            cdm = mGson.fromJson(SU.get(define.BarCode_PRIA, ""), new TypeToken<List<CodeDataModel>>() {
             }.getType());
         } catch (JsonSyntaxException e) {
             LOG.e("数据解析异常");
         }
-        if(cdm!=null&&cdm.size()>0){
+        if (cdm != null && cdm.size() > 0) {
             for (CodeDataModel codeDataModel : cdm) {
                 CDM.add(codeDataModel);
             }
@@ -153,6 +160,7 @@ public class ProcessReportInstockActivity extends Activity implements ScanListen
 
         SU.GetBarCodeStatus(ScanUtil.GetBarCodeType_ProcessReportInstock);
     }
+
 
     /**
      * 设置并显示制程列表
@@ -190,6 +198,7 @@ public class ProcessReportInstockActivity extends Activity implements ScanListen
      * 获取制程选项
      */
     private void GetProcessFlowInfoByBarCode() {
+
         mProgressHUD.setMessage("获取制程列表中...");
         mProgressHUD.show();
         List<D_BarCodeModel> list = new ArrayList<>();
@@ -236,6 +245,11 @@ public class ProcessReportInstockActivity extends Activity implements ScanListen
     }
 
     private void Submit() {
+        if (isSubmit) {
+            Toast.makeText(mActivity,"数据正在提交，请勿重复点击",Toast.LENGTH_LONG).show();
+            return;
+        }
+        isSubmit = true;
         mProgressHUD.setMessage("提交中...");
         mProgressHUD.show();
         List<D_BarCodeModel> list = new ArrayList<>();
@@ -256,6 +270,7 @@ public class ProcessReportInstockActivity extends Activity implements ScanListen
                 SPUtils.getServerPath() + define.ErpForAppServer,
                 define.SubmitScWorkCardBarCode2ProcessOutput,
                 map, result -> {
+                    isSubmit=false;
                     mProgressHUD.dismiss();
                     if (result != null) {
                         try {
@@ -288,25 +303,24 @@ public class ProcessReportInstockActivity extends Activity implements ScanListen
     }
 
 
-
     @Override
     public void CodeResult(String code) {
         LOG.e("返回码:" + code);
-        SU.Add(CDM,FBCM, code);
+        SU.Add(CDM, FBCM, code);
     }
 
     @Override
     public void GetBarCodeStatusResult(boolean ReturnType, Object ReturnMsg) {
         if (ReturnType) {
-            FBCM= (List<F_BarCodeModel>) ReturnMsg;
+            FBCM = (List<F_BarCodeModel>) ReturnMsg;
             if (FBCM.size() > 0) {
-                Toast.makeText(mActivity,"刷新数据("+FBCM.size()+")条",Toast.LENGTH_LONG).show();
-                if(CDM.size()>0){
+                Toast.makeText(mActivity, "刷新数据(" + FBCM.size() + ")条", Toast.LENGTH_LONG).show();
+                if (CDM.size() > 0) {
                     for (CodeDataModel codeDataModel : CDM) {
                         codeDataModel.setType(false);
                     }
                     for (CodeDataModel cdm : CDM) {
-                        for (F_BarCodeModel fbcm :FBCM ) {
+                        for (F_BarCodeModel fbcm : FBCM) {
                             if (cdm.getCode().equals(fbcm.getFBarCode())) {
                                 cdm.setType(true);
                             }
@@ -368,7 +382,6 @@ public class ProcessReportInstockActivity extends Activity implements ScanListen
     }
 
 
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -378,7 +391,7 @@ public class ProcessReportInstockActivity extends Activity implements ScanListen
     @Override
     protected void onResume() {
         super.onResume();
-        ScanReceiver.RegisterReceiver(this,this);
+        ScanReceiver.RegisterReceiver(this, this);
     }
 
     /*连续单击两次back键退出系统*/

@@ -114,11 +114,17 @@ public class ProductionReportActivity extends Activity implements ScanListener {
         B_Add.setOnClickListener(v -> SU.Add(CDM,FBCM, ET_Numbers.getText().toString().trim()));
         B_Clear.setOnClickListener(v -> SU.Clear());
         B_Submit.setOnClickListener(v -> {
-            List<D_BarCodeModel> list = new ArrayList<>();
-            for (CodeDataModel codeDataModel : CDM) {
-                list.add(new D_BarCodeModel(codeDataModel.getCode()));
+            if(SU.CheckList(CDM)){
+                List<D_BarCodeModel> list = new ArrayList<>();
+                for (CodeDataModel codeDataModel : CDM) {
+                    list.add(new D_BarCodeModel(codeDataModel.getCode()));
+                }
+                SU.GetReport(list, ScanUtil.BillTypeID_ProductionReport, false);
+            }else{
+                SU.ShowDialog(ScanUtil.ReturnType_Information, "提示", "请删除已入库单号");
             }
-            SU.GetReport(list, ScanUtil.BillTypeID_ProductionReport, false);
+
+
         });
     }
 

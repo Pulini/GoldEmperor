@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Process;
+import android.support.multidex.MultiDex;
 //import android.support.multidex.MultiDex;
 
 import com.goldemperor.R;
@@ -70,7 +71,8 @@ public class MyApplication extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-//        MultiDex.install(base);
+        MultiDex.install(this);
+
     }
     @Override
     public void onCreate() {

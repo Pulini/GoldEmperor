@@ -291,6 +291,7 @@ public class define {
     public static String tempuri = "http://tempuri.org/";
     public static String jindishoes = "http://www.jindishoes.com/";
     public static String ErpForAndroidStockServer = "ErpForAndroidStockServer.asmx";
+    public static String ErpForAndroidSever = "ErpForAndroidSever.asmx";
     public static String ErpForAppServer = "ErpForAppServer.asmx";
     public static String ErpPublicServer = "ErpPublicServer.asmx";
     public static String ErpForMesServer = "ErpForMesServer.asmx";
@@ -332,6 +333,9 @@ public class define {
     public static final String PrintAssestLabel = "PrintAssestLabel";//打印贴标
     public static final String AssestRegistrationClose = "AssestRegistrationClose";//入库关闭工单
     public static final String GetEmpAndLiableByEmpCode = "GetEmpAndLiableByEmpCode";
+    public static final String SearchUnnumberedProperty = "SearchUnnumberedProperty";
+    public static final String GetUnnumberedPropertyByEmpID = "GetUnnumberedPropertyByEmpID";
+    public static final String OpenFixedAssets = "OpenFixedAssets";
 
 
 }

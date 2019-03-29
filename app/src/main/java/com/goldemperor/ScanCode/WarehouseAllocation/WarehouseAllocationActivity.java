@@ -325,6 +325,7 @@ public class WarehouseAllocationActivity extends Activity implements ScanListene
             SU.ShowDialog(ScanUtil.ReturnType_Information, "提示", "请扫描调拨单条码");
             return;
         }
+
         if (FSCStockID.equals("") || FDCStockID.equals("")) {
             if (WLM.size() == 0) {
                 getWarehouseList();
@@ -333,13 +334,17 @@ public class WarehouseAllocationActivity extends Activity implements ScanListene
             }
             return;
         }
-        List<D_BarCodeModel> l = new ArrayList<>();
-        for (CodeDataModel codeDataModel : CDM) {
-            if (!codeDataModel.getCode().equals("")) {
-                l.add(new D_BarCodeModel(codeDataModel.getCode()));
+        if(SU.CheckList(CDM)){
+            List<D_BarCodeModel> l = new ArrayList<>();
+            for (CodeDataModel codeDataModel : CDM) {
+                if (!codeDataModel.getCode().equals("")) {
+                    l.add(new D_BarCodeModel(codeDataModel.getCode()));
+                }
             }
+            SU.GetReport(l, ScanUtil.BillTypeID_WarehouseAllocation, false);
+        }else{
+            SU.ShowDialog(ScanUtil.ReturnType_Information, "提示", "请删除已入库单号");
         }
-        SU.GetReport(l, ScanUtil.BillTypeID_WarehouseAllocation, false);
     }
 
 

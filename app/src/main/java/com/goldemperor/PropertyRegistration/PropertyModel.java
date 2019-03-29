@@ -8,20 +8,26 @@ package com.goldemperor.PropertyRegistration;
  * Remark：
  */
 public class PropertyModel {
-    //		"FInterID": 31914,
-    //		"FNumber": "",
-    //		"FName": "调音台",
-    //		"FModel": "",
-    //		"FbuyDate": "2019-01-18T00:00:00",
-    //		"FWritedate": "2019-01-21T10:51:41.86",
-    //		"FQty": 1.00,
-    //		"FStatus": "已审核",
-    //		"FLabelPrintQty": "未打印"
-    //		"FSAPCgOrderNo": SAP采购凭证号
+
+    //            "FInterID": 31931,
+    //            "FLabelPrintQty": 0,
+
+    //            "CustodianName": "潘卓旭",
+    //            "Faddress": "商品管理部",
+    //	            "FNumber": "A@123456",
+    //            "FName": "办公桌（经理）",
+    //            "FbuyDate": "2018-10-30 00:00:00",
+    //            "FWritedate": "2019-01-23 14:08:57",
+    //            "FProcessStatus": "审核中",
+    //            "FSAPCgOrderNo": null,
+    //            "FVisitedNum": 0
 
 
     int FInterID;
     int FLabelPrintQty;
+
+
+    int FVisitedNum;
 
     String CustodianName;
     String Faddress;
@@ -29,9 +35,16 @@ public class PropertyModel {
     String FName;
     String FbuyDate;
     String FWritedate;
-    String FStatus;
     String FProcessStatus;
     String FSAPCgOrderNo;
+
+    public int getFVisitedNum() {
+        return FVisitedNum;
+    }
+
+    public void setFVisitedNum(int FVisitedNum) {
+        this.FVisitedNum = FVisitedNum;
+    }
 
     public String getCustodianName() {
         return CustodianName;
@@ -74,7 +87,6 @@ public class PropertyModel {
     }
 
 
-
     public String getFNumber() {
         return FNumber;
     }
@@ -90,7 +102,6 @@ public class PropertyModel {
     public void setFName(String FName) {
         this.FName = FName;
     }
-
 
 
     public String getFbuyDate() {
@@ -109,13 +120,6 @@ public class PropertyModel {
         this.FWritedate = FWritedate;
     }
 
-    public String getFStatus() {
-        return FStatus;
-    }
-
-    public void setFStatus(String FStatus) {
-        this.FStatus = FStatus;
-    }
 
     public int getFLabelPrintQty() {
         return FLabelPrintQty;

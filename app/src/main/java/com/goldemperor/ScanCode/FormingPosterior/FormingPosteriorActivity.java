@@ -124,11 +124,15 @@ public class FormingPosteriorActivity extends Activity implements ScanListener {
             if (CDM.size() == 0) {
                 SU.ShowDialog(ScanUtil.ReturnType_Information, "提示", "没有可提交的单号");
             } else {
-                List<D_BarCodeModel> list = new ArrayList<>();
-                for (CodeDataModel codeDataModel : CDM) {
-                    list.add(new D_BarCodeModel(codeDataModel.getCode()));
+                if(SU.CheckList(CDM)){
+                    List<D_BarCodeModel> list = new ArrayList<>();
+                    for (CodeDataModel codeDataModel : CDM) {
+                        list.add(new D_BarCodeModel(codeDataModel.getCode()));
+                    }
+                    SU.GetReport(list, ScanUtil.BillTypeID_FormingPosterior, CB_Red.isChecked());
+                }else{
+                    SU.ShowDialog(ScanUtil.ReturnType_Information, "提示", "请删除已入库单号");
                 }
-                SU.GetReport(list, ScanUtil.BillTypeID_FormingPosterior, CB_Red.isChecked());
             }
         });
         RG_Type.setOnCheckedChangeListener((group, checkedId) -> {

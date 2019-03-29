@@ -359,6 +359,7 @@ public class PropertyRegistrationDetailsForPhoneActivity extends TakePhotoFragme
                 SPUtils.getServerPath() + define.ErpForAppServer,
                 define.GetAssestByFInterID,
                 map, result -> {
+                    OpenFixedAssets();
                     if (result != null) {
                         try {
                             result = URLDecoder.decode(result, "UTF-8");
@@ -386,6 +387,26 @@ public class PropertyRegistrationDetailsForPhoneActivity extends TakePhotoFragme
                     }
                 });
     }
+
+    private void OpenFixedAssets() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("FInterID", getIntent().getExtras().getInt("InterID") + "");
+        WebServiceUtils.WEBSERVER_NAMESPACE = define.tempuri;// 命名空间
+        WebServiceUtils.callWebService(
+                SPUtils.getServerPath() + define.ErpForAndroidSever,
+                define.OpenFixedAssets,
+                map, result -> {
+                    if (result != null) {
+                        try {
+                            result = URLDecoder.decode(result, "UTF-8");
+                            LOG.E("固定资产查看" + result);
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
 
     public void Submit() {
         String DataJson = CheckData();

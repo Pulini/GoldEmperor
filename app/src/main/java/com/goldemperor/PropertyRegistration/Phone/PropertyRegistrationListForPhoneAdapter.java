@@ -5,12 +5,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.goldemperor.PropertyRegistration.OnItemClickListener;
 import com.goldemperor.PropertyRegistration.PropertyModel;
 import com.goldemperor.R;
+import com.goldemperor.Utils.ClickProxy;
 import com.goldemperor.Widget.fancybuttons.FancyButton;
 
 import java.util.List;
@@ -31,8 +34,9 @@ public class PropertyRegistrationListForPhoneAdapter extends RecyclerView.Adapte
 
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
-        LinearLayout LL_BKG;
+        RelativeLayout RL_BKG;
         TextView TV_Number;
+        TextView TV_isCheck;
         TextView TV_CustodianName;
         TextView TV_Name;
         TextView TV_BuyDate;
@@ -45,7 +49,8 @@ public class PropertyRegistrationListForPhoneAdapter extends RecyclerView.Adapte
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            this.LL_BKG = itemView.findViewById(R.id.LL_BKG);
+            this.RL_BKG = itemView.findViewById(R.id.RL_BKG);
+            this.TV_isCheck = itemView.findViewById(R.id.TV_isCheck);
             this.TV_Number = itemView.findViewById(R.id.TV_Number);
             this.TV_CustodianName = itemView.findViewById(R.id.TV_CustodianName);
             this.TV_Name = itemView.findViewById(R.id.TV_Name);
@@ -81,17 +86,17 @@ public class PropertyRegistrationListForPhoneAdapter extends RecyclerView.Adapte
     @Override
     public void onBindViewHolder(PropertyRegistrationListForPhoneAdapter.MyViewHolder holder, int position) {
         PropertyModel am = data.get(position);
-        holder.LL_BKG.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        holder.RL_BKG.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
         if (position == 0 || position % 2 == 0) {
-            holder.LL_BKG.setBackgroundColor(Color.parseColor("#BCE6F8"));
+            holder.RL_BKG.setBackgroundColor(Color.parseColor("#BCE6F8"));
         } else {
-            holder.LL_BKG.setBackgroundColor(Color.parseColor("#ffffff"));
+            holder.RL_BKG.setBackgroundColor(Color.parseColor("#ffffff"));
         }
 
         if (OICL != null) {
-            holder.LL_BKG.setOnClickListener(v -> OICL.ItemClick(holder.getLayoutPosition()));
-            holder.FB_Close.setOnClickListener(v->OICL.CloseClick(holder.getLayoutPosition()));
-            holder.FB_Print.setOnClickListener(v->OICL.PrintClick(holder.getLayoutPosition()));
+            holder.RL_BKG.setOnClickListener(new ClickProxy(v -> OICL.ItemClick(holder.getLayoutPosition())));
+            holder.FB_Close.setOnClickListener(new ClickProxy(v->OICL.CloseClick(holder.getLayoutPosition())));
+            holder.FB_Print.setOnClickListener(new ClickProxy(v->OICL.PrintClick(holder.getLayoutPosition())));
         }
         holder.FB_Close.setEnabled(false);
         holder.FB_Print.setEnabled(false);
@@ -115,7 +120,13 @@ public class PropertyRegistrationListForPhoneAdapter extends RecyclerView.Adapte
             }
             holder.TV_Satus.setText(am.getFProcessStatus());
         }
-
+        if(am.getFVisitedNum()>0){
+            holder.TV_isCheck.setText("已查看");
+            holder.TV_isCheck.setTextColor(Color.parseColor("#220000ff"));
+        }else{
+            holder.TV_isCheck.setText("未查看");
+            holder.TV_isCheck.setTextColor(Color.parseColor("#22ff0000"));
+        }
     }
 
 

@@ -565,7 +565,7 @@ public class SuperDialog extends Dialog {
             final DialogMenuItem item = dialogMenuItemList.get(position);
             TextView menuItemView = new TextView(context);
             if(contentTextLayoutParams==null){
-                menuItemView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
+                menuItemView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             }else{
                 menuItemView.setLayoutParams(contentTextLayoutParams);
             }

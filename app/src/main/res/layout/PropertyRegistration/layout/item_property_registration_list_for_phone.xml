@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fancy="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/LL_BKG"
+    android:id="@+id/RL_BKG"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="145dp">
+
+    <TextView
+        android:id="@+id/TV_isCheck"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:padding="5dp"
+        android:textSize="110sp"
+        android:textColor="#220000ff"
+        android:text="已查看"
+        android:textStyle="bold"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="25dp"
         android:orientation="horizontal"
         android:paddingLeft="5dp"
+        android:gravity="center"
         android:paddingRight="5dp">
 
         <TextView
@@ -39,10 +51,12 @@
             android:textColor="#333333"
             android:textSize="17sp" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="25dp">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -52,7 +66,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="20dp"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp">
@@ -73,9 +88,11 @@
                     android:textColor="#333333"
                     android:textSize="14sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="20dp"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp">
@@ -96,9 +113,11 @@
                     android:textColor="#333333"
                     android:textSize="14sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="20dp"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp">
@@ -122,9 +141,11 @@
 
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="20dp"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp">
@@ -152,7 +173,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="20dp"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp">
@@ -176,7 +198,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="20dp"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp">
@@ -202,8 +225,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <com.goldemperor.Widget.fancybuttons.FancyButton
                 android:id="@+id/FB_Close"
@@ -217,14 +240,14 @@
                 fancy:fb_radius="3dp"
                 fancy:fb_text="入库确认"
                 fancy:fb_textColor="#FFFFFF"
-                fancy:fb_textSize="15sp"/>
+                fancy:fb_textSize="15sp" />
 
             <com.goldemperor.Widget.fancybuttons.FancyButton
                 android:id="@+id/FB_Print"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
                 android:layout_marginTop="10dp"
+                android:padding="5dp"
                 fancy:fb_borderColor="#FFFFFF"
                 fancy:fb_borderWidth="1dp"
                 fancy:fb_defaultColor="#00acfe"
@@ -236,4 +259,4 @@
 
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

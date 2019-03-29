@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -137,12 +138,12 @@ public class StaffWorkStatistics_GX_ListAdapter extends RecyclerView.Adapter<Rec
 
 
     private void setItem1(final RecyclerView.ViewHolder holder, StaffWorkStatistics_GX_Model sws) {
-        ((Item1ViewHolder) holder).LL_BKG.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utils.dp2px(50)));
+        ((Item1ViewHolder) holder).LL_BKG.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, Utils.dp2px(50)));
         ((Item1ViewHolder) holder).TV_FBillNO.setText(sws.getFItemNo());
     }
 
     private void setItem2(final RecyclerView.ViewHolder holder, StaffWorkStatistics_GX_Model sws) {
-        ((Item2ViewHolder) holder).LL_BKG.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, Utils.dp2px(45)));
+        ((Item2ViewHolder) holder).LL_BKG.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, Utils.dp2px(45)));
 
         if (sws.getFlevel() == 3) {
             ((Item2ViewHolder) holder).LL_BKG.setBackgroundColor(Color.parseColor("#ffffff"));
