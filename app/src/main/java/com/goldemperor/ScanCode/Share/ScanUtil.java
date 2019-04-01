@@ -237,10 +237,12 @@ public class ScanUtil {
         if(FBCM!=null){
             for (F_BarCodeModel f_barCodeModel : FBCM) {
                 if (f_barCodeModel.getFBarCode().equals(code)) {
+                    LOG.e("FBCM.code="+code);
                     isUsed = true;
                 }
             }
         }
+        LOG.e("isUsed="+isUsed);
         if(data.size()==0){
             data.add(new CodeDataModel(code,isUsed));
         }else{

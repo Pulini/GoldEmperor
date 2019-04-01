@@ -22,17 +22,20 @@ import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.goldemperor.PgdActivity.ProcessWorkCardPlanEntry;
 import com.goldemperor.R;
 import com.goldemperor.StaffWorkStatistics.StaffWorkStatisticsActivity;
+import com.goldemperor.Utils.HttpUtils;
 import com.goldemperor.Utils.LOG;
 import com.goldemperor.Utils.PdfUtil;
 import com.goldemperor.Utils.SPUtils;
 import com.goldemperor.Utils.WebServiceUtils;
 import com.goldemperor.Widget.NiceSpinner.NiceSpinner;
 import com.goldemperor.Widget.fancybuttons.FancyButton;
+import com.goldemperor.model.ProcessSendModel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
@@ -178,63 +181,61 @@ public class ProcessInformationActivity extends Activity implements OnPageChange
     private void getProcessPDF() {
         LL_Reading.setVisibility(View.VISIBLE);
         TV_Msg.setText("正在读取PDF文件...");
-        HashMap<String, String> map = new HashMap<>();
-        map.put("MoNo", MoNo);
-        map.put("ProcessFlowID", ProcessFlowID + "");
-        map.put("type", "pdf");
-        map.put("suitID", "1");
-        WebServiceUtils.WEBSERVER_NAMESPACE = define.tempuri;// 命名空间
-        WebServiceUtils.callWebService(
-                SPUtils.getServerPath() + define.ErpForAndroidStockServer,
-                define.GetPreviewFileByMoNo,
-                map,
-                new WebServiceUtils.WebServiceCallBack() {
-                    @Override
-                    public void callBack(String result) {
-                        if (result != null) {
-                            TV_Msg.setText("下载完成,正在转码...");
-                            try {
-                                result = URLDecoder.decode(result, "UTF-8");
-                                LOG.E("result=" + result);
-                                JSONObject jsonObject = new JSONObject(result);
-                                String ReturnType = jsonObject.getString("ReturnType");
-                                String ReturnMsg = jsonObject.getString("ReturnMsg");
-                                if ("success".equals(ReturnType)) {
-                                    PdfUtil.base64StringToPDF(ReturnMsg, new PdfUtil.Base64ToFileListener() {
-                                        @Override
-                                        public void OnFinish(File file) {
-                                            TV_Msg.setText("转码完成,启动PDF");
-                                            PDFV_ShowPDF.fromFile(file)
-                                                    .defaultPage(Page)
-                                                    .onPageChange(ProcessInformationActivity.this)
-                                                    .enableAnnotationRendering(true)
-                                                    .scrollHandle(new DefaultScrollHandle(mActivity))
-                                                    .spacing(10)
-//                                                    .pageFitPolicy(FitPolicy.BOTH)
-                                                    .load();
-                                        }
 
-                                        @Override
-                                        public void OnError(String msg) {
-                                            TV_Msg.setText("转码完失败:" + msg);
-                                        }
-                                    });
-                                } else {
-                                    TV_Msg.setText("获取数据失败:" + ReturnMsg);
+        RequestParams RP = new RequestParams(define.SERVER+define.PORT_5142+define.GetPreviewFileByMoNo);
+        RP.addQueryStringParameter("MoNo", MoNo);
+        RP.addQueryStringParameter("ProcessFlowID", ProcessFlowID+"");
+        RP.addQueryStringParameter("suitID", "1");
+        LOG.e("Map:" + RP.toJSONString());
+        HttpUtils.get(RP, (Finish, result) -> {
+            if (Finish.equals(HttpUtils.Success)) {
+                if (result != null) {
+                    TV_Msg.setText("下载完成,正在转码...");
+                    try {
+                        result = URLDecoder.decode(result, "UTF-8");
+                        LOG.E("callback:" + result);
+                        JSONObject jsonObject = new JSONObject(result);
+                        String ReturnType = jsonObject.getString("ReturnType");
+                        String ReturnMsg = jsonObject.getString("ReturnMsg");
+                        if ("success".equals(ReturnType)) {
+                            PdfUtil.base64StringToPDF(ReturnMsg, new PdfUtil.Base64ToFileListener() {
+                                @Override
+                                public void OnFinish(File file) {
+                                    TV_Msg.setText("转码完成,启动PDF");
+                                    PDFV_ShowPDF.fromFile(file)
+                                            .defaultPage(Page)
+                                            .onPageChange(ProcessInformationActivity.this)
+                                            .enableAnnotationRendering(true)
+                                            .scrollHandle(new DefaultScrollHandle(mActivity))
+                                            .spacing(10)
+//                                                    .pageFitPolicy(FitPolicy.BOTH)
+                                            .load();
                                 }
-                            } catch (JSONException e) {
-                                TV_Msg.setText("数据解析异常");
-                                e.printStackTrace();
-                            } catch (UnsupportedEncodingException e) {
-                                TV_Msg.setText("数据解码异常");
-                                e.printStackTrace();
-                            }
+
+                                @Override
+                                public void OnError(String msg) {
+                                    TV_Msg.setText("转码完失败:" + msg);
+                                }
+                            });
                         } else {
-                            TV_Msg.setText("暂无数据");
+                            TV_Msg.setText("获取数据失败:" + ReturnMsg);
                         }
-                        mHandler.postDelayed(() -> LL_Reading.setVisibility(View.GONE),1000);
+                    } catch (JSONException e) {
+                        TV_Msg.setText("数据解析异常");
+                        e.printStackTrace();
+                    } catch (UnsupportedEncodingException e) {
+                        TV_Msg.setText("数据解码异常");
+                        e.printStackTrace();
                     }
-                });
+                } else {
+                    TV_Msg.setText("暂无数据");
+                }
+                mHandler.postDelayed(() -> LL_Reading.setVisibility(View.GONE),1000);
+            } else {
+                TV_Msg.setText("暂无数据");
+            }
+        });
+
     }
 
     private static class data {

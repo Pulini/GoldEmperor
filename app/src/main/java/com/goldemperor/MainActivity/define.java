@@ -31,6 +31,7 @@ public class define {
     public static String PORT_8056 = ":8056/";//测试库
     public static String SERVER_XL = "http://192.168.101.233";//信利电脑测试库
     public static String PORT_8078 = ":8078/";//信利电脑测试库端口
+    public static String PORT_5142 = ":5142/";//PDF
 
 
     public static final String SubmitRequest = IP1718881 + "SubmitRequest";

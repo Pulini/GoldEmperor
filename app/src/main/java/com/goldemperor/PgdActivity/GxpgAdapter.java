@@ -136,7 +136,7 @@ public class GxpgAdapter extends RecyclerView.Adapter<GxpgAdapter.DefaultViewHol
         if (holder.getAdapterPosition() < gxpgActivity.sc_ProcessWorkCardEntryList.size()) {
 
             holder.tv_noReportednumber.setText(String.valueOf(gxpgActivity.sc_ProcessWorkCardEntryList.get(holder.getAdapterPosition()).getFqty()));
-            gxpgActivity.sc_ProcessWorkCardEntryList.get(position).setFpreschedulingqty( gxpgActivity.sc_ProcessWorkCardEntryList.get(position).getFpreschedulingqty());
+//            gxpgActivity.sc_ProcessWorkCardEntryList.get(position).setFpreschedulingqty( gxpgActivity.sc_ProcessWorkCardEntryList.get(position).getFpreschedulingqty());
             holder.edit_dispatchingnumber.setText( gxpgActivity.sc_ProcessWorkCardEntryList.get(position).getFpreschedulingqty()+"");
 
             holder.edit_dispatchingnumber.addTextChangedListener(new TextWatcher() {
