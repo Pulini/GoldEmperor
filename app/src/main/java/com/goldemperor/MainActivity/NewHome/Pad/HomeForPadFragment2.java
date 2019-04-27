@@ -112,14 +112,14 @@ public class HomeForPadFragment2 extends ViewPagerFragment implements HomeAdapte
 //            BD.add(new ButtonData("生产汇报", "1050501", R.drawable.btn_saoyisao, new Intent(mActivity,ProductionReportActivity.class)));
 //            BD.add(new ButtonData("仓库调拨", "1050601", R.drawable.btn_saoyisao, new Intent(mActivity, WarehouseAllocationActivity.class)));
 //
-        BD.add(new ButtonData("来料稽查", "", R.drawable.btn_material, new Intent(mActivity, StockCheckActivity.class)));
-        BD.add(new ButtonData("生产派工", "", R.drawable.btn_order, new Intent(mActivity, PgdActivity.class)));
-        BD.add(new ButtonData("工序计划派工", "", R.drawable.btn_set, new Intent(mActivity, ProcessSendActvity.class)));
-        BD.add(new ButtonData("工序汇报", "", R.drawable.btn_process, new Intent(mActivity, GxReport.class)));
+        BD.add(new ButtonData("来料稽查", "1051001", R.drawable.btn_material, new Intent(mActivity, StockCheckActivity.class)));
+        BD.add(new ButtonData("生产派工", "1051101", R.drawable.btn_order, new Intent(mActivity, PgdActivity.class)));
+        BD.add(new ButtonData("工序计划派工", "1051201", R.drawable.btn_set, new Intent(mActivity, ProcessSendActvity.class)));
+        BD.add(new ButtonData("工序汇报", "1051301", R.drawable.btn_process, new Intent(mActivity, GxReport.class)));
         BD.add(new ButtonData("工艺路线变更", "401040304", R.drawable.btn_process, new Intent(mActivity, GylxActivity.class)));
 //        BD.add(new ButtonData("工序汇报入库", "1050701", R.drawable.btn_process, new Intent(mActivity, ProcessReportInstockActivity.class)));
 
-        BD.add(new ButtonData("品质管理", "", R.drawable.btn_produce, new Intent(mActivity, com.goldemperor.PzActivity.PgdActivity.class)));
+        BD.add(new ButtonData("品质管理", "1051401", R.drawable.btn_produce, new Intent(mActivity, com.goldemperor.PzActivity.PgdActivity.class)));
         BD.add(new ButtonData("财产条码打印", "", R.drawable.btn_order, new Intent(mActivity, CCListActivity.class)));
         BD.add(new ButtonData("询价单审批", "", R.drawable.btn_process, new Intent(mActivity, com.goldemperor.XJChenk.XJListActivity.class)));
         BD.add(new ButtonData("员工计件明细", "303100101", R.drawable.btn_process, new Intent(mActivity, StaffWorkStatisticsActivity.class)));
