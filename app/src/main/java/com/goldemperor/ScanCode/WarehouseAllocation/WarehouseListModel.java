@@ -1,6 +1,5 @@
 package com.goldemperor.ScanCode.WarehouseAllocation;
 
-import com.contrarywind.interfaces.IPickerViewData;
 
 import java.util.List;
 
@@ -11,7 +10,7 @@ import java.util.List;
  * Github : https://github.com/Pulini
  * Remark：仓库调拨单 仓库列表数据模型
  */
-public class WarehouseListModel implements IPickerViewData {
+public class WarehouseListModel  {
     //"EntryList": [{
     //		"FItemID": 1,
     //		"FName": "金帝面料仓"
@@ -68,8 +67,5 @@ public class WarehouseListModel implements IPickerViewData {
             this.FName = FName;
         }
     }
-    @Override
-    public String getPickerViewText() {
-        return FName;
-    }
+
 }

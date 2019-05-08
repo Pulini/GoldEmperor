@@ -163,7 +163,7 @@ public class WarehouseAllocationActivity extends Activity implements ScanListene
         OPVWarehouse = new OptionsPickerBuilder(this, (options1, options2, options3, v) -> {
             LOG.e("options1=" + options1 + "options2=" + options2 + "options3=" + options3);
             //返回的分别是三个级别的选中位置
-            String tx = WLM.get(options1).getPickerViewText() + "——"
+            String tx = WLM.get(options1).getFName() + "——"
                     + WarehouseList2.get(options1).get(options2);
             if (isOut) {
                 TV_Out.setText(tx);

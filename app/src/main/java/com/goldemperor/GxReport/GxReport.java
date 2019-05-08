@@ -75,11 +75,8 @@ public class GxReport extends AppCompatActivity implements EasyPermissions.Permi
     /**
      * Item点击监听。
      */
-    private OnItemClickListener onItemClickListener = new OnItemClickListener() {
-        @Override
-        public void onItemClick(int position) {
+    private OnItemClickListener onItemClickListener = position -> {
 
-        }
     };
     /**
      * 菜单创建器。在Item要创建菜单的时候调用。
